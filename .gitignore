@@ -2,4 +2,5 @@
 *.log
 *.blg
 *.bbl
+*.out
 tex_files/main.pdf
