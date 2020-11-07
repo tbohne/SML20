@@ -57,7 +57,7 @@ especially in the task of semi-supervised node classificaton.\cite{xu2019topolog
 Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering.\cite{zhou2019graph}\newline
 In summary, GNNs are models to conduct deep learning with graph data.\newline
 
-\textbf{Motivation}\newline
+\subsection{Motivation}
 
 One of the most important types of models that contributed to the great success of deep learning are convolutional neural networks (CNNs).
 GNNs are motivated by CNNs which are capable of extracting and composing multi-scale localized spatial features
@@ -68,7 +68,7 @@ The other motivation comes from graph embedding, which learns to represent graph
 The authors also highlight that traditional machine learning approaches for graph analysis relied on hand-engineered features and were limited their
 inflexibility and high costs.\newline
 
-\textbf{Graph Neural Networks}\newline
+\subsection{Graph Neural Networks}
 
 In this section, the basic graph neural network model proposed by Scarselli et al. \cite{4700287} gets introduced
 based on the description in \cite{article}.\newline
@@ -82,6 +82,7 @@ $x_{1}$ is the input feature of $l_1$. $co[l_1]$ contains edges $l_{(1, 4)}, l_{
 l_4,$ and $l_6$.
 
 \begin{figure}[h]
+    \centering
     \includegraphics[width=0.4\textwidth]{img/graph.png}
     \caption{\textsc{Graph} \cite{goodfellow2015explaining}.}
     \label{fig:graph}
@@ -107,26 +108,15 @@ With the target information $t_v$ for node $v$, the loss can be written as:
 $loss = \sum_{i=1}^p (t_i - o)$
 where $p$ is the number of supervised nodes. The learning algorithm is based on a gradient-descent strategy.\newline
 
-The basic GNN model provides a first step towards incorparating neural networks
+The basic GNN model provides a first step towards incorporating neural networks
 into the graph domain, but has several limitations \cite{article} which are tackled in various variants
-of GNN of which some will be part of later chapters.\newline
+of GNN such as graph convolutional networks (GCNs).\newline
 
-\textbf{Graph Convolutional Networks}\newline
+\subsection{Robustness}
 
-GCNs aim to generalize convolutions to the graph domain. As CNNs have achieved great
-success in the area of deep learning, it is intuitive to defnie the convolution
-operation on graphs. There are several approaches that can be categorized in
-spectral approaches and spatial approaches.\newline
-
-//////////////////////////////////////////////////////
-
-However, there's one big issue which is subject to a rather new branch of research inside the field of GNNs which is the robustness of such models.
-There are several publications that analyze the robustness of GNNs to adversarial examples () and recently there came up first approaches to
-strengthen the robustness () or even to certify robustness w.r.t. a certain perturbation set.\newline
-
-Some of these works will be discussed in the later chapters of this paper.\newline
-
-\textbf{Why are GNNs or more precisely GCNs of relevance? - Motivation}\newline
+Besides the often demonstrated good performance, there is one big issue which is subject to a rather new branch of research inside the field of GNNs 
+which is the robustness of such models. There are several publications that analyze the robustness of GNNs to adversarial examples ()
+and recently there came up first approaches to strengthen the robustness () or even to certify robustness w.r.t. a certain perturbation set.\newline
 
 Recent advancements in deep neural networks for graph-structured data have led to state-of-the-art performance on recommender system benchmarks.\cite{Ying_2018}
 The authors describe a large-scale deep recommendation engine that they developed and deployed at a major tech company.
@@ -134,8 +124,8 @@ The GCN algorithm is trained on $7.5$ billion examples on a graph with $3$ billi
 This example illustrates the need for robust GNNs. Although these systems may be relatively rare in practical applications, especially at
 that scale, at the moment, their performance suggests that they will be soon. However, to be able to use such models in good conscience 
 in practical applications clearly requires a certain level of robustness.\newline
-
 The vulnerability to adversarial attacks has raised increasing concerns for applying GNNs in safety-critical applications. \cite{jin2020graph}\newline
+In the following chapters, we will discuss several approaches to analyze and strengthen the robustness of GNNs.\newline
 
 \textbf{The Problem with Adversarial Perturbations}\newline
 
@@ -144,6 +134,7 @@ The idea of such perturbations which is visualized in fig. \ref{fig:adversarial_
 cause an entirely different output of the model and therefore often misclassification.\newline
 
 \begin{figure}[h]
+    \centering
     \includegraphics[width=0.5\textwidth]{img/adversarial_example.png}
     \caption{\textsc{Demonstration of fast adversarial example} \cite{goodfellow2015explaining}.}
     \label{fig:adversarial_example}
@@ -160,10 +151,15 @@ Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbati
 misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.\newline
 
 \begin{figure}[h]
-    \includegraphics[width=0.5\textwidth]{img/adversarial_GNN.png}
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/adversarial_GNN.png}
     \caption{\textsc{Demonstration of fast adversarial example} \cite{Z_gner_2019}.}
     \label{fig:adversarial_GNN}
 \end{figure}
+
+\section{Literature Review}
+
+This section will provide an overview of the current state of research in the domain of robust GNNs.\newline
 
 Dai et al. \cite{dai2018adversarial} focus on adversarial attacks on graph structured data that fool the model by modifying the
 combinatorial structure of the data. They use synthetic and real-world data to show that a family of GNN models are vulnerable
@@ -177,19 +173,12 @@ adversarial attacks on the node's featueres and the graph structure. Their resul
 significantly drops even for only a few perturbations which clearly motivates reflections on the robustness of such models, especially
 when considering the practical applications.\newline
 
-\textbf{Attack Model}\newline
-
 So far, we talked about adversarial attacks as a quite vague concept. Zügner et al. \cite{zuegner2019adversarial}
 introduce them as small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker.
-They talk about three categories relevant when talking about the attack model:
-\begin{enumerate}
-    \item \textbf{Attacker's goal:} increase the misclassification rate of a node classification algorithm
-    \item \textbf{Attacker's knowledge about training data:} input graph, learning model, trained model parameters
-    \item \textbf{Attacker's capability:} adversarial attacks should be unnoticed 
-\end{enumerate}
-Those categories allow more precise considerations of a model's weaknesses and robustness and are later used to compare and interet results of 
-different approaches.\newline
-\cite{zuegner2019adversarial} confirms previous claims that small graph perturbations consistently lead to a strong decrease in performance for GCNs.\newline
+They talk about three categories relevant when talking about the attack model. Those categories are discussed in detail in section \ref{}.
+The categories allow more precise considerations of a model's weaknesses and robustness and are later used to compare and interpret results of 
+different approaches. Furthermore, they confirm previous claims that small graph perturbations consistently lead to a strong decrease 
+in performance for GCNs.\newline
 
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
 is how to defend them against such attacks. Bojchevski et al. \cite{bojchevski2019certifiable} present a first method for verifying certifiable
@@ -243,7 +232,15 @@ for certifying their robustness. They show how the problem can be expressed as a
 propose a branch-and-bound algorithm to obtain lower bounds on the global optimum. They decompose the problem into sub-problems that can
 be formulated as linear programs and therefore be solved using highly optimized LP-solvers (e.g. CPLEX).\newline
 
-\section{Literature Review}
+\section{Attack Model}
+
+TODO: Not yet sure where to put....
+
+\begin{enumerate}
+    \item \textbf{Attacker's goal:} increase the misclassification rate of a node classification algorithm
+    \item \textbf{Attacker's knowledge about training data:} input graph, learning model, trained model parameters
+    \item \textbf{Attacker's capability:} adversarial attacks should be unnoticed 
+\end{enumerate}
 
 \section{Methods}
 
