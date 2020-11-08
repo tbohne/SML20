@@ -53,11 +53,11 @@ from graph inputs. Those models are called graph neural networks (GNNs). Graphs 
 applications such as modeling physical systems, learning molecular fingerprints, controlling traffic networks, and recommending 
 friends in social networks.\cite{article}
 Therefore, it is reasonable to think about combining graphs as data structure with state-of-the art machine learning models.
-However, these tasks require dealing with non-Euclidean graph data that contains rich relational information betwenn elements and
-cannot be well handled by traditional deep learning models which usually work with data represented in the Eculidean domain, e.g. in the
+However, these tasks require dealing with non-Euclidean graph data that contains rich relational information between elements and
+cannot be well handled by traditional deep learning models which usually work with data represented in the Euclidean domain, e.g. in the
 fields of computer vision (images) or natural language processing (text).\cite{article}\newline
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. (add sources))
-especially in the task of semi-supervised node classificaton.\cite{xu2019topology}
+especially in the task of semi-supervised node classification.\cite{xu2019topology}
 Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering.\cite{zhou2019graph}\newline
 In summary, GNNs are models to conduct deep learning with graph data.\newline
 
@@ -173,7 +173,7 @@ Another approach for adversarial attacks on graph structured data is proposed by
 via graph convolutional networks.
 They claim that especially in domains where GNNs are used, e.g. the web, adversaries are common and that it is therefore important
 to investigate the robustness of such models. They study adversarial attacks on attributed graphs and distinguish between
-adversarial attacks on the node's featueres and the graph structure. Their results suggest that the accuracy of node classification
+adversarial attacks on the node's features and the graph structure. Their results suggest that the accuracy of node classification
 significantly drops even for only a few perturbations which clearly motivates reflections on the robustness of such models, especially
 when considering the practical applications.\newline
 So far, we talked about adversarial attacks as a quite vague concept. Zügner et al. \cite{zuegner2019adversarial}
@@ -238,8 +238,8 @@ which they extend to graph data.\newline
 
 One could divide the research in the field of robust GNNs roughly into three important phases.
 The first phase was to show that GNNs are indeed vulnerable to adversarial perturbations of the graph structure and the node attributes.
-Afterwards, in the second phase, several publicatons introduced defense mechanisms against such attacks or novel training procedures 
-to strenghten the robustness of the models in some scenarios. Only recently, the third phase began in which first approaches appeared
+Afterwards, in the second phase, several publications introduced defense mechanisms against such attacks or novel training procedures 
+to strengthen the robustness of the models in some scenarios. Only recently, the third phase began in which first approaches appeared
 that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about the (non-)robustness 
 of a model which is key to use them in safety-critical applications in the real world. Because of the relevance of the last phase which 
 is an important step in the process of bringing the convincing GNN models into the real world, the main focus of the following chapters
