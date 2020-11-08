@@ -39,10 +39,10 @@ TBD
 The intent of this paper is to provide a concise overview of the current state of research in the domain of graph (convolutional) neural networks
 with a focus on the robustness of these models. Since they have proven to be quite successful in various practical applications, 
 it is quite obvious that the robustness of such models is of relevance.
-After providing some motivation and background for graph neural networks (GNNs) and particularly graph convolutional networks (GCNs)
+After presenting some motivation and background for graph neural networks (GNNs) and particularly graph convolutional networks (GCNs)
 and their possible practical applications in section \ref{sec:background}, an overview of the current state of the literature is
-presented in section \ref{sec:literature}. Subsequently, the core ideas, methods, and results of the first works on certifiable
-robustness of GNNs are presented in the sections \ref{sec:paper_one}, \ref{sec:paper_two}, \ref{sec:paper_three}, and \ref{sec:paper_four}.
+provided in section \ref{sec:literature}. Subsequently, the core ideas, methods, and results of the first works on certifiable
+robustness of GNNs are introduced in section \ref{sec:main_section}.
 Finally, there is a conclusion and a brief outlook on possible future research in section \ref{sec:conclusion}.\newline
 
 \section{Background}
@@ -245,23 +245,26 @@ of a model which is key to use them in safety-critical applications in the real 
 is an important step in the process of bringing the convincing GNN models into the real world, the main focus of the following chapters
 will be on publications from that phase.
 
-\section{Robustness of graph neural networks based on PageRank}
+\section{Certifiable robustness of graph neural networks}
+\label{sec:main_section}
+
+\subsection{Robustness of graph neural networks based on PageRank}
 \label{sec:paper_one}
 
 TODO: Briefly explain idea and methods of \cite{bojchevski2019certifiable}\newline
 $\rightarrow$ Perhaps even leave out due to the restriction to PageRank
 
-\section{Robustness of GCNs with respect to perturbations of the node attributes}
+\subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
 
 TODO: Explain idea and methods of \cite{Z_gner_2019}
 
-\section{Robustness of GCNs with respect to perturbations of the graph structure}
+\subsection{Robustness of GCNs with respect to perturbations of the graph structure}
 \label{sec:paper_three}
 
 TODO: Explain idea and methods of \cite{10.1145/3394486.3403217}
 
-\section{Robustness guarantee of any GNN for node and graph classifications}
+\subsection{Robustness guarantee of any GNN for node and graph classifications}
 \label{sec:paper_four}
 
 TODO: Explain idea and methods of \cite{wang2020certified}
