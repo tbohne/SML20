@@ -74,46 +74,41 @@ to be rather inflexible and expensive.
 \subsection{Graph Neural Networks}
 
 In this section, the basic graph neural network model proposed by Scarselli et al. \cite{4700287} gets introduced
-based on the description in \cite{article}.\newline
-
+based on the description in \textit{'Introduction to graph neural networks'}\cite{article}.\newline
 The goal of a GNN is to learn a state embedding $h_v \in \mathbb{R}^S$ for each node that is used to produce an 
 output $o_v$, e.g. the distribution of the predicted node label.
 The original GNN model works with an undirected homogeneous graph where each node $v$ in the graph has its input features $x_v$
-as well as a set of edges $co[v]$ and neighbors $ne[v]$.\newline
-The authors illustrate the structure with the example in figure \ref{fig:graph}.
-$x_{1}$ is the input feature of $l_1$. $co[l_1]$ contains edges $l_{(1, 4)}, l_{(1, 6)}, l_{(1, 2)}$, and $l_{(3, 1)}$. $ne[l_1]$ contains nodes $l_2, l_3,
-l_4,$ and $l_6$.
+as well as a set of edges $co[v]$ and neighbors $ne[v]$. The authors illustrate the structure with the example in fig. \ref{fig:graph}
+where $x_{1}$ is the input feature of $l_1$, $co[l_1]$ contains the edges $l_{(1, 4)}, l_{(1, 6)}, l_{(1, 2)}$, and $l_{(3, 1)}$ and $ne[l_1]$
+contains nodes $l_2, l_3, l_4,$ and $l_6$.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{img/graph.png}
-    \caption{\textsc{Graph} \cite{goodfellow2015explaining}.}
+    \caption{Example of the graph based on Scarselli et al. \cite{article}.}
     \label{fig:graph}
 \end{figure}
 
-There are two important functions, $f$ updates the node state based on the input neighborhood and $g$ computes the output of a node.\newline
+There are two important functions, $f$ updates the node state based on the input neighborhood and $g$ computes the output of a node.
 Let $x$ be the input feature and $h$ the hidden state:
 \begin{itemize}
-    \item node embedding: $h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
-    \item output embedding: $o_v = g(h_v, x_v)$
+    \item \textbf{node embedding:} $h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
+    \item \textbf{output embedding:} $o_v = g(h_v, x_v)$
 \end{itemize}
 
 Usually, $h_v$ and $o_v$ are described in a more compact form as matrices of stacked states,
-outputs, and features:
+outputs, and features with $F$ and $G$ being the stacked versions of $f$ and $g$:
 \begin{itemize}
     \item $H = F(H, X)$
     \item $O = G(H, X_N)$
 \end{itemize}
-$F$ and $G$ are the stacked versions of $f$ and $g$.\newline
 
 The $t$-th iteration of $H$ is described as $H^{t + 1} = F(H^t, X)$.
-With the target information $t_v$ for node $v$, the loss can be written as:
-$loss = \sum_{i=1}^p (t_i - o)$
+Using the target information $t_v$ for node $v$, the loss can be written as $\sum_{i=1}^p (t_i - o)$
 where $p$ is the number of supervised nodes. The learning algorithm is based on a gradient-descent strategy.\newline
 
-The basic GNN model provides a first step towards incorporating neural networks
-into the graph domain, but has several limitations \cite{article} which are tackled in various variants
-of GNN such as graph convolutional networks (GCNs).\newline
+This basic GNN model provides a first step towards incorporating neural networks into the graph domain, 
+but has several limitations \cite{article} which are tackled in various variants of GNNs such as graph convolutional networks (GCNs).\newline
 
 \subsection{Robustness}
 
