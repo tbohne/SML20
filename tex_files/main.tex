@@ -85,7 +85,7 @@ contains nodes $l_2, l_3, l_4,$ and $l_6$.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{img/graph.png}
-    \caption{Example of the graph based on Scarselli et al. \cite{article}.}
+    \caption{Example of the graph based on Scarselli et al. \cite{article}}
     \label{fig:graph}
 \end{figure}
 
@@ -107,8 +107,11 @@ The $t$-th iteration of $H$ is described as $H^{t + 1} = F(H^t, X)$.
 Using the target information $t_v$ for node $v$, the loss can be written as $\sum_{i=1}^p (t_i - o)$
 where $p$ is the number of supervised nodes. The learning algorithm is based on a gradient-descent strategy.\newline
 
+\vfill
+\pagebreak
+
 This basic GNN model provides a first step towards incorporating neural networks into the graph domain, 
-but has several limitations \cite{article} which are tackled in various variants of GNNs such as graph convolutional networks (GCNs).\newline
+but has several limitations \cite{article} which are tackled in various variants of GNNs such as graph convolutional networks (GCNs).
 
 \subsection{Robustness}
 
@@ -123,35 +126,39 @@ that scale, at the moment, their performance suggests that they will be soon. Ho
 with a clear conscience in practical applications requires a certain degree of robustness.
 The vulnerability to adversarial attacks has raised increasing concerns for applying GNNs in safety-critical applications.\cite{jin2020graph}\newline
 
-\textbf{The Problem with Adversarial Perturbations}\newline
+\textbf{Adversarial Perturbations}\newline
 
 A well-studied problem of machine learning models in general is the sensitivity to adversarial perturbations.\cite{goodfellow2015explaining}
-The idea of such perturbations which is visualized in fig. \ref{fig:adversarial_example} is that slight changes to the input data
-cause an entirely different output of the model and therefore often misclassification.\newline
+The idea of such perturbations, which is visualized in fig. \ref{fig:adversarial_example}, is that slight changes to the input data
+cause an entirely different output of the model and therefore often misclassification.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/adversarial_example.png}
-    \caption{\textsc{Demonstration of fast adversarial example} \cite{goodfellow2015explaining}.}
+    \caption{Demonstration of fast adversarial example. \cite{goodfellow2015explaining}}
     \label{fig:adversarial_example}
 \end{figure}
 
 Goodfellow et al. \cite{goodfellow2015explaining} face that problem by adversarial training which means that they include adversarially 
-perturbed examples into the training procedure to strengthen the robustness of the models. They also introduced fast methods for generating 
-those adversarial examples.\newline
-
-Adversarial perturbations are not only a problem for 'classical' machine learning models, but also for GNNs.
+perturbed examples into the training procedure to strengthen the robustness of the models. They also introduce fast methods for generating 
+those adversarial examples such as displayed in fig. \ref{fig:adversarial_example}. By adding an imperceptibly small vector whose elements
+are equal to the sign of the elements of the gradient of the cost function with respect to the input, they can change GoogleNet's classification
+of the image.\cite{goodfellow2015explaining}\newline
+Adversarial perturbations are not only a problem for classical machine learning models, but also for GNNs.
 Recent works show that graph neural networks are highly non-robust with respect to adversarial attacks on both the graph
-structure and the node attributes, making their outcomes unreliable.\cite{Z_gner_2019}\newline
-Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations on the graph structure and node features lead to 
-misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.\newline
+structure and the node attributes, making their outcomes unreliable.\cite{Z_gner_2019}
+Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations to the graph structure and node features lead to 
+misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.4\textwidth]{img/adversarial_GNN.png}
-    \caption{\textsc{Demonstration of fast adversarial example} \cite{Z_gner_2019}.}
+    \includegraphics[width=0.35\textwidth]{img/adversarial_GNN.png}
+    \caption{Small perturbations of the graph structure and node features lead to misclassification of the target. \cite{Z_gner_2018}}
     \label{fig:adversarial_GNN}
 \end{figure}
+
+\vfill
+\pagebreak
 
 \section{Literature Review}
 \label{sec:literature}
