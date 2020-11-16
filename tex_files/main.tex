@@ -163,7 +163,18 @@ misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.
 \section{Literature Review}
 \label{sec:literature}
 
-This section will provide an overview of the current state of research in the domain of robust GNNs.\newline
+This section will provide an overview of the current state of research in the domain of robust GNNs which could be divided
+roughly into three important phases.
+The first phase was to show that GNNs are indeed vulnerable to adversarial perturbations of the graph structure and the node attributes (cf. \ref{sec:rev1}).
+Afterwards, in the second phase, several publications introduced defense mechanisms against such attacks or novel training procedures 
+to strengthen the robustness of the models in some scenarios (cf. \ref{sec:rev2}). Only recently, the third phase began in which first approaches appeared
+that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about the (non-)robustness 
+of a model which is key to use them in safety-critical applications in the real world (cf. \ref{sec:rev3}). Because of the relevance of the last phase, which 
+is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
+will be on publications from that phase.
+
+\subsection{Vulnerability of GNNs to adversarial perturbations}
+\label{sec:rev1}
 
 Dai et al. \cite{dai2018adversarial} focus on adversarial attacks on graph structured data that fool the model by modifying the
 combinatorial structure of the data. They use synthetic and real-world data to show that a family of GNN models is vulnerable
@@ -180,7 +191,13 @@ define them as small deliberate perturbations of data samples in order to achiev
 and propose three categories to be considered in the attack model. Those categories, that are discussed in detail in section \ref{},
 allow more precise considerations of a model's weaknesses and robustness and are later used to compare and interpret results of 
 different approaches. Furthermore, they confirm previous claims that small graph perturbations consistently lead to a strong decrease 
-in performance for GCNs.\newline
+in performance for GCNs.
+
+\vfill
+\pagebreak
+
+\subsection{Defense mechanisms}
+\label{sec:rev2}
 
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
 is how to defend them against such attacks. 
@@ -212,7 +229,10 @@ these properties and are able to show that the framework achieves significantly 
 defense methods.
 Finally, Wang et al. \cite{wang2019graphdefense} present with GraphDefense an algorithm to improve the robustness of GCNs
 against adversarial attacks on graph structures. Moreover, they discuss crucial characteristics of defense methods in general to improve 
-the robustness.\newline
+the robustness.
+
+\subsection{Certifiable Robustness}
+\label{sec:rev3}
 
 When considering safety-critical applications, it is not only required to be able to defend the system in some scenarios, but there
 have to be guarantees about the safety of the system.
@@ -232,20 +252,6 @@ be formulated as linear programs and therefore be solved using highly optimized 
 The first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation
 is provided by Wang et al.\cite{wang2020certified} Their approach is based on a recently developed technique called randomized smoothing,
 which they extend to graph data.
-
-\vfill
-\pagebreak
-
-\textbf{Summary}\newline
-
-One could divide the research in the field of robust GNNs roughly into three important phases.
-The first phase was to show that GNNs are indeed vulnerable to adversarial perturbations of the graph structure and the node attributes.
-Afterwards, in the second phase, several publications introduced defense mechanisms against such attacks or novel training procedures 
-to strengthen the robustness of the models in some scenarios. Only recently, the third phase began in which first approaches appeared
-that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about the (non-)robustness 
-of a model which is key to use them in safety-critical applications in the real world. Because of the relevance of the last phase, which 
-is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
-will be on publications from that phase.
 
 \section{Certifiable robustness of graph neural networks}
 \label{sec:main_section}
