@@ -262,10 +262,131 @@ which they extend to graph data.
 TODO: Briefly explain idea and methods of \cite{bojchevski2019certifiable}\newline
 $\rightarrow$ Perhaps even leave out due to the restriction to PageRank
 
+\vfill
+\pagebreak
+
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
 
-TODO: Explain idea and methods of \cite{Z_gner_2019}
+As seen in the previous sections, GNNs are highly non-robust with respect to adversarial attacks on the graph
+structure and the node attributes. In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described
+in which the authors propose a first method for provable (non-)robustness of graph convolutional networks with respect
+to perturbations of the node attributes.\newline
+They consider the case of binary node attributes and perturbations that are $L_0$-bounded. If a node has been certified
+with their method, it is guaranteed to be robust under any possible perturbation given the attack model. Likewise, they can
+certify non-robustness. The proposed semi-supervised training procedure that treats labeled and unlabeled nodes jointly,
+significantly improves the robustness of the GNN with only minimal effect on the predictive accuracy.
+As a core challenge, they identify that in a GNN, a node's prediction is also effected when perturbing other nodes in the graph
+which makes the space of possible perturbations large. The main question of the work is:
+\begin{quote}
+How to make sure that small changes to the input data do not have a dramatic effect to a GNN?
+\end{quote}
+
+\textbf{Certificates}\newline
+
+Given a trained GNN, the authors can give robustness certificates that state that a
+node is robust with regard to a certain space of perturbations. If the certificate
+holds, it is guaranteed that no perturbation in the considered space exists
+which will change the node's prediction. Furthermore, they provide non-robustness
+certificates realized by providing an adversarial example.\newline
+
+\textbf{Robust Training}\newline
+
+They propose a learning principle that improves the robustness of the GNN
+by making it less sensitive to perturbations while still ensuring high
+accuracy for node classification.\newline
+
+\textbf{Difference to existing work on provable robustness}\newline
+
+The authors describe the main difference in the fact that existing work on provable robustness for classical neural networks
+did not consider graphs with their relational dependencies. They have to deal with perturbations of multiple instances simultaneously.
+For this, they introduce a novel space of perturbations where the perturbation budget is constrained locally and globally.
+As mentioned before, the considered data domain is discrete (binary) and they work with $L_0$ constraints on the perturbation.
+They exploit a crucial aspect of semi-supervised learning by taking also the unlabeled nodes into account for robust training.\newline
+
+The key idea that they exploit is that they estimate the worst-case change in the predictions obtained by the GNN under
+the space of perturbations. If the worst possible change is small, the GNN is robust. Since the worst-case cannot be computed
+efficiently, they provide bounds on the value (conservatively) and they derive relaxations of the GNN and the perturbation space, 
+enabling efficient computation.\newline
+
+Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust. Using their robust training, 
+they can dramatically improve the robustness and therefore improve the reliability of GNNs.\newline
+
+For this work, the class of methods based on convex relaxations are of relevance. They construct a convex relaxation for computing 
+lower bounds on the worst-case margin achievable over all possible perturbations. The bound serves as a certificate of the robustness.
+Solving such convex optimization problems can often be done efficiently.\newline
+
+\textbf{Methods}\newline
+
+The first goal is to derive an efficient principle for robustness certificates. Given a trained GNN and a specific node $t$ under consideration,
+their goal is to provide a certificate which guarantees that the prediction made for $t$ will not change even if the data gets perturbed.
+If the certificate is provided, the prediction for this node is robust under any admissible perturbation.\newline
+
+The first key insight is that in a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood
+which allows them to reduce the entries that are required to compute the output for the target node $t$. That drastically improves the scalability
+by reducing the size of the neural network and potential perturbations.\newline
+
+Given that sliced version of the GNN, they define their actual task which is to verify whether no admissible perturbation changes the prediction
+of the target node $t$, formally:\newline
+
+Given a graph $G = (A, X)$, a target node $t$, and a GNN with parameters $\theta$. $A$ is the adjacency matrix and $X$ represents the nodes features.
+The sclided versions of $A$ and $X$ are denoted as $\dot{A}$ and $\dot{X}$. Let $y^*$ denote the class of node $t$ (given by ground truth or predicted).
+The worst case margin between classes $y^*$ and $y$ achievable under some set of admissible perturbations to the model attributes is given by\newline
+\begin{gather} 
+    m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \\
+    s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X})
+\end{gather}
+where $f_{\theta}^t(\dot{X}, \dot{A})$ denotes the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set of admissible perturbations
+to the node attributes.
+
+If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust w.r.t. node $t$ and $X_{q, Q}$. So, if the minimum is positive,
+there exists no adversarial example within the defined admissible perturbations that leads to the classifier changing its prediction to the other class.
+
+One important aspect, the authors emphasize, is that it's crucial to obtain certificates that reflect realistic attacks.
+They define the set of admissible perturbations by limiting the number of changes to the original attributes, they assume a perturbation
+budget $Q \in \mathbb{N}$ and measure the $L_0$ norm in the change to $\dot{X}$. Since in a graph setting, an adversary can attack the target node
+by also changing the node attributes of its $L-1$ hop neighborhood, $Q$ acts as global perturbation budget. The perturbations are also limited locally
+by a budget of $q$.
+
+Now there are two major obstacles in efficiently finding the minimum in \ref{}.
+First, the data domain is discrete which makes optimization often intractable. Secondly, the GNN ($f_{\theta}^t$) is nonconvex
+due to the nonlinear activation function in the neural network. The authors tackle those issues by efficiently computing lower bounds
+on the minimum of the original problem by performing relaxations of the neural network and the data domain.
+If a lower bound is positive, the classifier is robust w.r.t. the set of admissible perturbations.
+They are even able to obtain the optimal solution (perturbation) via the relaxation which allows them to effectively handle the discrete data domain.
+
+To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are many ways to achieve this
+in the literature and the authors follow one that leads to a linear objective function which is a lower bound on the minimum of the original problem.
+However, directly solving it is still intractable due to the discrete data domain.
+
+They are able to find the optimal solution in a tractable way. First, they find a suitable continuous convex relaxation of the discrete domain
+of possible adversarial examples and then they show that the relaxed problem has an optimal solution which is integral.
+The problem is now transformed into a linear problem since besides the linear objective function, now all constraints are also linear.
+The linear problem can be solved optimally in a tractable way. And they are even able to show that their solution to the LP is equal to
+the solution of the previous relaxation.
+
+While it's possible to solve LPs efficiently using highly optimized LP-solvers, the potentially large number of variables in a GNN makes
+this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution is a LB on the minimum of the primal problem.
+If they find any dual-feasible solution for which the objective function of the dual is positive, they know that the minimum of the primal problem
+has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set. The dual problem's specific form makes it
+amendable for easy optimization. Since it's not required to solve the dual problem optimally, any dual-feasible solution leads to a lower bound
+on the original problem, the computation of robustness certificates is extremely fast.
+
+In summary, by considering the dual program, they obtain robustness certificates if the obtained (dual) values are positive for every $y \neq y^*$.
+In contrast, by constructing the primal feasible perturbation, they obtain non-robustness certificates if the obtained (exact, primal) values
+are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.
+
+The computation of the bounds on the activations in the relaxed GNN can be read in the paper. Obtaining good upper and lower bounds is crucial
+to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. 
+All bounds can be computed highly efficiently and one can even backpropagate thorugh them which is an important aspect for the robust training.
+
+While being able to certify robustness of a given GNN by itself is extremely valuable for being able to trust the model's output in real world
+applications, it is also highly desirable to train classifiers that are certifiably robust to adversarial attacks.
+They use their findings to train robust GNNs.
+
+
+\vfill
+\pagebreak
 
 \subsection{Robustness of GCNs with respect to perturbations of the graph structure}
 \label{sec:paper_three}
