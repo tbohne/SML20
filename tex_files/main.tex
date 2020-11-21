@@ -301,20 +301,15 @@ accuracy for node classification.\newline
 The authors describe the main difference in the fact that existing work on provable robustness for classical neural networks
 did not consider graphs with their relational dependencies. They have to deal with perturbations of multiple instances simultaneously.
 For this, they introduce a novel space of perturbations where the perturbation budget is constrained locally and globally.
-As mentioned before, the considered data domain is discrete (binary) and they work with $L_0$ constraints on the perturbation.
 They exploit a crucial aspect of semi-supervised learning by taking also the unlabeled nodes into account for robust training.\newline
-
 The key idea that they exploit is that they estimate the worst-case change in the predictions obtained by the GNN under
 the space of perturbations. If the worst possible change is small, the GNN is robust. Since the worst-case cannot be computed
-efficiently, they provide bounds on the value (conservatively) and they derive relaxations of the GNN and the perturbation space, 
-enabling efficient computation.\newline
+efficiently, they provide bounds on the value and derive relaxations of the GNN and the perturbation space, 
+enabling efficient computation. Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust. 
+Using their robust training,  they can dramatically improve the robustness and therefore improve the reliability of GNNs.
 
-Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust. Using their robust training, 
-they can dramatically improve the robustness and therefore improve the reliability of GNNs.\newline
-
-For this work, the class of methods based on convex relaxations are of relevance. They construct a convex relaxation for computing 
-lower bounds on the worst-case margin achievable over all possible perturbations. The bound serves as a certificate of the robustness.
-Solving such convex optimization problems can often be done efficiently.\newline
+\vfill
+\pagebreak
 
 \textbf{Methods}\newline
 
