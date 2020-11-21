@@ -360,41 +360,45 @@ of possible adversarial examples and then they show that the relaxed problem has
 The problem is now transformed into a linear problem since besides the linear objective function, now all constraints are also linear.
 The linear problem can be solved optimally in a tractable way. And they are even able to show that their solution to the LP is equal to
 the solution of the previous relaxation. While it's possible to solve LPs efficiently using highly optimized LP-solvers, the potentially 
-large number of variables in a GNN makesthis approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
-is a LB on the minimum of the primal problem. If they find any dual-feasible solution for which the objective function of the dual is positive,
+large number of variables in a GNN makes this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
+is a lower bound on the minimum of the primal problem. If they find any dual-feasible solution for which the objective function of the dual is positive,
 they know that the minimum of the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set.
 The dual problem's specific form makes it amendable for easy optimization. Since it's not required to solve the dual problem optimally, 
 any dual-feasible solution leads to a lower bound on the original problem, the computation of robustness certificates is extremely fast.\newline
-
 In summary, by considering the dual program, they obtain robustness certificates if the obtained (dual) values are positive for every $y \neq y^*$.
 In contrast, by constructing the primal feasible perturbation, they obtain non-robustness certificates if the obtained (exact, primal) values
-are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.
+are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.\newline
 
-The computation of the bounds on the activations in the relaxed GNN can be read in the paper. Obtaining good upper and lower bounds is crucial
-to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. 
+Obtaining good upper and lower bounds is crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. 
 All bounds can be computed highly efficiently and one can even backpropagate thorugh them which is an important aspect for the robust training.
-
 While being able to certify robustness of a given GNN by itself is extremely valuable for being able to trust the model's output in real world
 applications, it is also highly desirable to train classifiers that are certifiably robust to adversarial attacks.
 They use their findings to train robust GNNs.\newline
 
-Recall: The value of the dual can be interpreted as lower bound on the margin between the two considered classes.\newline
-Shortcut: We denote with $p_{\theta}^t (y, \Omega^{\cdot})$ the $k$-dimensional vector containing the dual objective function values
+Recall: The value of the dual can be interpreted as lower bound on the margin between the two considered classes.
+We denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
 for any class $k$ compared to the given class $y$. Node $t$ with class $y_t^{\ast}$ is certifiably robust if $p_{\theta}^t < 0$ for all entries
 except the entry at $y_t^{\ast}$ which is always $0$. $\theta$ are the parameters for the GNN.\newline
 
-The training objective typically used to train GNNs for node classification:\newline
-$\min_{\theta} \sum_{t \in V_c} \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}, y_t^{\ast}))$ where $V_c$ is the set of labeled nodes, $\mathcal{L}$ is the
+The training objective typically used to train GNNs for node classification:
+\begin{gather}
+    \min_{\theta} \sum_{t \in \mathcal{V}_L} \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
+\end{gather}
+where $\mathcal{V}_L$ is the set of labeled nodes, $\mathcal{L}$ is the
 cross entropy function and $y_t^{\ast}$ is the known class label of node $t$.\newline
 
-To improve robustness for classical neural networks it has been proposed to instead optimize the robust cross entropy loss:\newline
-$\min_{\theta, \{\Omega^{t, k}\}_{t \in V_L, 1 \leq k \leq K}} \sum_{t \in V_c} \mathcal{L} (p_{\theta}^t (y_{\theta}^{\ast}, \Omega^{t_i}), y_t^{\ast})$
-which is an upper bound on the worst case loss achievable. We can omit optimizing over $\Omega$.\newline
-
+To improve robustness for classical neural networks, it has been proposed to instead optimize the robust cross entropy loss:
+\begin{gather}
+    \min_{\theta, \{\Omega^{t, k}\}_{t \in \mathcal{V}_L, 1 \leq k \leq K}} \sum_{t \in \mathcal{V}_L} \mathcal{L} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast})
+\end{gather}
+which is an upper bound on the worst case loss achievable. They also argue that they can omit optimizing over $\Omega$.
 One common issue with deep learning models is overconfidence, i.e. the models predicting effectively a probability of $1$ for one and $0$ for the other
-classes. To facilitate true robustness and not false certainty in our model's predictions, we propose an alternative robust loss that we refer to
-as robust hinge loss: $\mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}$. If the loss is $0$, the node $t$
-is certifiably robust.\newline
+classes. To facilitate true robustness and not false certainty in the model's predictions, they propose an alternative robust loss that they refer to
+as robust hinge loss:
+\begin{gather}
+    \mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}
+\end{gather}
+If the loss is $0$, the node $t$ is certifiably robust.\newline
 
 We can combine the robust hinge loss with standard cross entropy to obtain the following robust optimization problem:\newline
 $\min_{\theta, \Omega} \sum_{t \in V_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t_i}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, 
