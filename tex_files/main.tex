@@ -350,14 +350,13 @@ However, directly solving it is still intractable due to the discrete data domai
 \vfill
 \pagebreak
 
-The problem is now transformed into a linear problem since besides the linear objective function, now all constraints are also linear.
-The linear problem can be solved optimally in a tractable way. And they are even able to show that their solution to the LP is equal to
-the solution of the previous relaxation. While it's possible to solve LPs efficiently using highly optimized LP-solvers, the potentially 
-large number of variables in a GNN makes this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
+The problem is now transformed into a linear problem since besides the linear objective function, all constraints are linear as well.
+While it is possible to solve LPs efficiently using highly optimized LP-solvers, the potentially large number of variables in a GNN
+makes this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
 is a lower bound on the minimum of the primal problem. If they find any dual-feasible solution for which the objective function of the dual is positive,
 they know that the minimum of the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set.
 The dual problem's specific form makes it amendable for easy optimization. Since it's not required to solve the dual problem optimally, 
-any dual-feasible solution leads to a lower bound on the original problem, the computation of robustness certificates is extremely fast.\newline
+any dual-feasible solution leads to a lower bound on the original problem, the computation of robustness certificates is extremely fast.
 In summary, by considering the dual program, they obtain robustness certificates if the obtained (dual) values are positive for every $y \neq y^*$.
 In contrast, by constructing the primal feasible perturbation, they obtain non-robustness certificates if the obtained (exact, primal) values
 are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.\newline
@@ -367,6 +366,8 @@ All bounds can be computed highly efficiently and one can even backpropagate tho
 While being able to certify robustness of a given GNN by itself is extremely valuable for being able to trust the model's output in real world
 applications, it is also highly desirable to train classifiers that are certifiably robust to adversarial attacks.
 They use their findings to train robust GNNs.\newline
+
+\textbf{Robust Training}\newline
 
 Recall: The value of the dual can be interpreted as lower bound on the margin between the two considered classes.
 We denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
