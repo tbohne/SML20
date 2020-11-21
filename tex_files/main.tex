@@ -400,20 +400,29 @@ as robust hinge loss:
 \end{gather}
 If the loss is $0$, the node $t$ is certifiably robust.\newline
 
-We can combine the robust hinge loss with standard cross entropy to obtain the following robust optimization problem:\newline
-$\min_{\theta, \Omega} \sum_{t \in V_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t_i}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, 
-\dot{A}), y_t^{\ast})$\newline
+We can combine the robust hinge loss with standard cross entropy to obtain the following robust optimization problem:
+
+\begin{gather}
+\label{eq:2}
+    \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
+\end{gather}
 
 The cross entropy term is operating on the exact, non relaxed GNN, which is a strong advantage over the robust cross entropy loss that only uses the relaxed GNN.
 We are using the exact GNN model for the node prediction, while the relaxed GNN is only used to ensure robustness. If all nodes are robust, the term
-$\mathcal{\hat{L}}_M$ becomes $0$, thus, reducing to the standard cross-entropy loss on the exact GNN (with robustness guarantee).\newline
-
-\ref{} only improves robustness regarding the labeled nodes, we don't consider the unlabeled nodes. How to handle the semi-supervised setting
+$\mathcal{\hat{L}}_M$ becomes $0$, thus, reducing to the standard cross-entropy loss on the exact GNN (with robustness guarantee).
+\ref{eq:2} only improves robustness regarding the labeled nodes, we don't consider the unlabeled nodes. How to handle the semi-supervised setting
 which is prevalent in the graph domain, ensuring also robustness for the unlabeled nodes? Our robust hinge loss provides a natural way to
-incorporate these. The unlabeled nodes are used for robustness purposes only.\newline
+incorporate these. The unlabeled nodes are used for robustness purposes only.
+Overall, the final equation in \ref{eq:3} aims to correctly classify all labeled nodes using the exact GNN, while making sure that every node has at least a
+margin of $M_{\ast}$ from the decision boundary even under worst-case perturbations. By setting a smaller margin $M_2$ for the unlabeled nodes,
+we can train our classifier to be robust. Since the cross entropy term is unchanged, if the classifier is already robust, the robust hinge
+loss is $0$:
 
-Overall, the final equation aims to correctly classify all labeled nodes using the exact GNN, while making sure that every node hast at least a
-margin of $M_{\ast}$ from the decision boundary even under worst-case perturbations.\newline
+\begin{multline}
+\label{eq:3}
+    \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_{M_1} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast}) \\
+    + \sum_{t \in \mathcal{V} \backslash \mathcal{V}_L} \mathcal{\hat{L}}_{M_2} (p_{\theta}^t (\tilde{y}_t, \Omega^{t, \cdot}), \tilde{y}_t)
+\end{multline}
 
 Summary: When training the GNN, the lower and upper activation bounds are treated as a function of $\theta$, i.e. they are updated accordingly.
 Since the dual program and the upper / lower activation bounds are differentiable, we can train a robust GNN with gradient descent and standard
@@ -430,7 +439,7 @@ Two important observations:\newline
     \item The certificates are often very tight and the amount of nodes for which they cannot give a certificate is rather small
     \item GNNs trained traditionally are only certifiably robust up to very small perturbations
 \end{enumerate}
-In the experiments, the labeled nodes are on averagemore robust than the unlabeled nodes, which is not surprising given that the classifier
+In the experiments, the labeled nodes are on average more robust than the unlabeled nodes, which is not surprising given that the classifier
 was not trained using the labels of the latter.\newline
 Moreover, they analyze what contributes to certain nodes being more robust than others and see that neighborhood purity plays an important role there.
 Having many neighbors means a large surface for adversarial attacks. Nodes with low degree, in contrast, might be affected more strongly since each
