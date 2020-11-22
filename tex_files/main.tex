@@ -455,7 +455,125 @@ As future work, they already bridge to the next section which considers perturba
 \subsection{Robustness of GCNs with respect to perturbations of the graph structure}
 \label{sec:paper_three}
 
-TODO: Explain idea and methods of \cite{10.1145/3394486.3403217}
+As announced in the previous section, the next step is to consider perturbations of the graph structure,
+which means that the graph structure itself can be altered by an attacker.
+In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described in which the authors
+tackle this problem. They claim that these perturbations are especially challenging because they alter the message 
+passing scheme itself. The authors try to close the gap and propose the first method to certify robustness of GCNs under 
+perturbations of the graph structure. They show how this problem can be expressed as a jointly constrained 
+bilinear program - a challenging, yet well-studied class of problems - and propose a novel branch-and-bound 
+algorithm to obtain LBs on the global optimum. These LBs are significantly tighter and can certify up to twice 
+as many nodes compared to a standard linear relaxation.\newline
+
+They consider the realistic case where the attacker is allowed to insert new edges to reflect real-world
+conditions where new edges (links, likes, followers, ...) are cheap and easy to inject.
+A certificate issued by their method states that a node's prediction could not have been altered by edges potentially
+inserted by an attacker. There are three major challenges identified by the authors:
+\begin{enumerate}
+    \item Neural networks are in general nonconvex functions, which makes finding the optimal (worst-case)
+    perturbation intractable.
+    \item Enumerating and testing all adissible perturbations is intractable (grows exponentially with perturbation budget).
+    \item While the certificates from the previous section deal with what happens when the input is modified, here the
+    aim is to certify robustness for cases when the graph structure and therefore the way embeddings are propagated changes.
+    Therefore, the output could be computed from a different set of nodes.
+\end{enumerate}
+
+The first challenge is also a problem for traditional neural networks. The authors follow the approach they already used
+in the previous section which relies on a relaxation of the ReLU activation function.\newline
+The second challenge, on the other hand, requires new approaches. In the previous section, the binary attribute data
+was handled by a continuous relaxation, but the authors show that a standard continuous relaxaton is not well-suited
+for perturbations of the graph structure. Instead, they show how to bypass the problem by working directly on the 
+continuous-valued degree-normalized message passing matrix used by GCN.\newline
+The second completely unstudied question is how to deal with changes to the message passing matrix (challenge 3).
+The difficulty here is that  the message passing matrix is used at each layer - as opposed to the input features,
+which appear only in the first layer of the neural network. Thus, the ReLU relaxations no longer lead to convex (linear)
+constraints but become nonconvex. They show that the problem can be expressed as a jointly constrained bilinear program
+- "one of the most persistently difficult and recurrent nonconvex problems in mathematical programming".
+To solve this, they propose a novel B\&B algorithm that effectively exploits key insights to obtain LBs on 
+the worst-case change in a node's prediction. If positive, these LBs serve as robustness certificates, stating 
+that a node's prediction does not change under any admissible set of perturbations.
+
+\subsubsection{Robustness Certification for Graph Structure Perturbations}
+
+They consider the task of semi-supervised node classification in a single large graph with $D-$dimensional
+node features. Let $G = (A, X)$ be an attributed, unweighted graph, where $A \in \{0, 1\}^{N \times N}$ is the
+adjacency matrix and $X \in \mathbb{R}^{N \times D}$ are the nodes' features. Given a subset $V_L \subseteq V$ of 
+labeled nodes with class labels from $C = \{1, 2, ..., K\}$, the goal is to assign each node in $G$ to one class in $C$.\newline
+
+The message passing matrix that defines how the activations are propagated through the network can be obtained
+by a defined transformation to the adjacency matrix.\newline
+
+Just as in the previous section, $\theta$ summarizes the trainable weights of the GNN and is typically learned
+by minimizing the cross-entropy loss on the given labeled training nodes $V_L$. The output $H_{vc}^(L)$ is the probability
+of assigning node $c$ to class $c$.\newline
+
+To derive robustness certificates, the authors first set up the optimization problem they aim to solve, just
+as in section \ref{}. Assume an already trained GNN with weights $\theta$ as well as a potentially corrupted graph
+structure in form of an adjacency matrix $A$. The true unperturbed graph structure $A^{\ast}$ is not known, but $A$ is
+assumed to be reachable from $A^{\ast}$ via an admissible set of perturbations. They aim to certify robustness for a
+single target node $t$ at a time. Such a certificate guarantees that the prediction made for node $t$ cannot have been
+altered by the attacker.\newline
+
+Formally, the aim to solve the following problem.\newline
+Given a graph $G$ with adjacency matrix $A$, a target node $t$, and a GCN with parameters $\theta$. Let $y^{\ast}$
+denote the class of node $t$ (ground truth or predicted). The worst case margin between classes $y^{\ast}$ and $y$
+achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the graph structure is given by:
+
+\begin{gather}
+    m^t (y^{\ast}, y) := \min_{\tilde{A}} f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_y^{\ast}
+    - f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_y \\
+    s.t. \tilde{A} \in \mathcal{A}(A)
+\end{gather}
+
+If $m^t (y^{\ast}, y) > 0$ for all classes $y \neq y^{\ast}$, the neural network is certifiably robust w.r.t. node $t$
+and $\mathcal{A}$. If the minimum is positive, it means that there exists no adversarial example within the defined
+admissible perturbations that leads to the classifier changing its prediction to the other class $y$.
+Solving the above optimization problem is hard due to the $3$ challenges mentioned in \ref{}.
+Nevertheless, they can find LBs on the minimum of the original problem by:
+\begin{itemize}
+    \item optimizing over the continuous-valued message passing matrix $\mathcal{T}(A)$ instead of the binary
+    adjacency matrix $A$
+    \item performing relaxations of the activation functions in the neural network
+    \item expressing the proiblem as a jointly-constrained bilinear program and proposing a novel B\&B algorithm
+\end{itemize}
+Finally, if the LB is positive, the classifier is robust w.r.t. admissible perturbations.
+
+\vfill
+\pagebreak
+
+\textbf{Optimization over the graph structure}\newline
+
+Address challenge $2$ - how to efficiently optimize over the discrete graph structure.
+It's again important to set reasonable constraints to the perturbations the attacker can perform
+such that resulting certificates reflect realistic attacks.\newline
+For discrete data such as the graph structure $A$, a natural norm to measure distance is the number of perturbed
+elements, as measured by the non-convex $L_0$ norm. So, the idea is to translate the setup of the 2019 paper
+which introduces local and global $L_0$ constraints on the node attributes to graph structure perturbations.\newline
+Precisely, they allow the attacker to insert at most $q$ edges to any node $i$, and at most $Q \in \mathbb{N}$ edges
+across the whole graph.\newline
+They assume an attacker has potentially inserted edges to the unknown original graph structure $A^{\ast}$ to produce
+$A$ which means that $A^{\ast}$ must be reachable from $A$ by removing edges. They only consider undirected graphs
+and further assume that $q_i$ is smaller than node $i$'s degree, in order to precent singleton nodes.\newline
+
+The traditional approach to optimize over a discrete variable is to perform a continuous relaxation. However,
+recall from \ref{} that GCN uses a degree-normalized message passing matrix. Any optimization problem involving
+$\tilde{A}$ in the objective function is not convex in the variables $\tilde{A}_{ij}$ which means that a simple continuous
+relaxation does not leat to a tractable optimization problem.\newline
+Alternatively, optimize over the continuous-valued degree-normalized message passing matrix instead of the binary
+adjacency matrix $\tilde{A}$.\newline
+
+Denote the variable corresponding to the message passing matrix by $\hat{A}$. This has the benefits of avoiding
+to optimize over a discrete variable as well as bypassing the nonconvex degree-normalization procedure of GCN.
+Replace \ref{} by
+
+\begin{gather}
+    \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
+    - f_{\theta}^t (X, \hat{A})_y \\
+    s.t. \hat{A} \in \mathcal{\hat{A}}(A)
+\end{gather}
+
+
+
 
 \vfill
 \pagebreak
