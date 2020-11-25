@@ -511,6 +511,7 @@ Formally, they aim to solve the following problem.
 Let $y^{\ast}$ denote the class of node $t$ (ground truth or predicted). The worst case margin between classes $y^{\ast}$ and $y$
 achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the graph structure is given by:
 \begin{gather}
+\label{eq:4}
     m^t (y^{\ast}, y) := \min_{\tilde{A}} f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_{y^{\ast}}
     - f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_y \\
     s.t. \tilde{A} \in \mathcal{A}(A)
@@ -533,73 +534,52 @@ Finally, if the lower bound is positive, the classifier is robust with regard to
 
 \textbf{Optimization over the graph structure}\newline
 
-Address challenge $2$ - how to efficiently optimize over the discrete graph structure.
-It's again important to set reasonable constraints to the perturbations the attacker can perform
-such that resulting certificates reflect realistic attacks.\newline
+To be able to handle the second challenge mentioned in \ref{}, it is important to set reasonable constraints to 
+the perturbations the attacker can perform such that resulting certificates reflect realistic attacks.
 For discrete data such as the graph structure $A$, a natural norm to measure distance is the number of perturbed
-elements, as measured by the non-convex $L_0$ norm. So, the idea is to translate the setup of the 2019 paper
-which introduces local and global $L_0$ constraints on the node attributes to graph structure perturbations.\newline
-Precisely, they allow the attacker to insert at most $q$ edges to any node $i$, and at most $Q \in \mathbb{N}$ edges
-across the whole graph.\newline
+elements, as measured by the non-convex $L_0$ norm. 
+To do that, the authors translate the setup of their previous paper discussed in section \ref{sec:paper_two},
+which introduces local and global $L_0$ constraints on the node attributes, to graph structure perturbations.
+Precisely, they allow the attacker to insert at most $q \in \mathbb{N}$ edges to any node $i$, and at most $Q \in \mathbb{N}$ edges
+across the whole graph.
 They assume an attacker has potentially inserted edges to the unknown original graph structure $A^{\ast}$ to produce
-$A$ which means that $A^{\ast}$ must be reachable from $A$ by removing edges. They only consider undirected graphs
-and further assume that $q_i$ is smaller than node $i$'s degree, in order to precent singleton nodes.\newline
-
-The traditional approach to optimize over a discrete variable is to perform a continuous relaxation. However,
-recall from \ref{} that GCN uses a degree-normalized message passing matrix. Any optimization problem involving
+$A$ which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
+The traditional approach to optimize over a discrete variable is to perform a continuous relaxation. 
+However, GCNs use a degree-normalized message passing matrix. Any optimization problem involving
 $\tilde{A}$ in the objective function is not convex in the variables $\tilde{A}_{ij}$ which means that a simple continuous
-relaxation does not leat to a tractable optimization problem.\newline
-Alternatively, optimize over the continuous-valued degree-normalized message passing matrix instead of the binary
-adjacency matrix $\tilde{A}$.\newline
-
-Denote the variable corresponding to the message passing matrix by $\hat{A}$. This has the benefits of avoiding
-to optimize over a discrete variable as well as bypassing the nonconvex degree-normalization procedure of GCN.
-Replace \ref{} by
-
+relaxation does not leat to a tractable optimization problem. Alternatively, the authors propose to optimize over the 
+continuous-valued degree-normalized message passing matrix instead of the binary adjacency matrix $\tilde{A}$.
+They denote the variable corresponding to the message passing matrix by $\hat{A}$. This has the benefits of avoiding
+to optimize over a discrete variable as well as bypassing the nonconvex degree-normalization procedure of GCNs.
+\ref{eq:4} gets replaced by:
 \begin{gather}
+\label{eq:5}
     \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
     - f_{\theta}^t (X, \hat{A})_y \\
     s.t. \hat{A} \in \mathcal{\hat{A}}(A)
 \end{gather}
-
-Note that the neural network $f_{\theta}^t$ now directly takes as input the degree-normalized message-passing matrix instead
-of the $\mathcal{T}(A)$, i.e. we have absorbed the degree-normalization procedure into the optimization problem.\newline
-
-However, we now have to carefully design the set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
-on the perturbation budget and the graph at hand. It's crucial that $\mathcal{\hat{A}}(A) \supseteq \mathcal{T}(\mathcal{A}(A))$.
-$\mathcal{T}(\mathcal{A}(A))$ denotes the set of all degree-normalized message-passing matrices that are produced from adjacency matrices
-in $\mathcal{A}(A)$. In other words, any degree-normalized matrix that could be produced by first performing discrete perturbations to $A$
-and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.\newline
-
-In this case it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, i.e. the optimum of our modified optimization problem in
-\ref{} is a lower bound on the original problem's optimal value. If \ref{} leads to a positive value, we have a certificate.
-
-Clearly, instantiating $\mathcal{\hat{A}}(A)$ with all matrices $\hat{A} \in [0, 1]^{N \times N}$ fulfills this property; however, it leads
-to a very loose approximation. We would also like $\mathcal{\hat{A}} \backslash \mathcal{T}(\mathcal{A})$ to be as small as possible, meaning
-that any relaxations leading to $\mathcal{\hat{A}}$ are as tight as possible.
-
-In the following, we derive induced constraints that give rise to a valid and tight set of admissible message passing matrices $\mathcal{\hat{A}}$
-and are convex (enabling tractable optimization).
-
-So far, constraints on $\mathcal{\hat{A}}$. In this section, we construct a set of constraints on the message-passing matrix $\hat{A}$ that are
-induced by the local and global budgets on the change of the adjacency matrix. These constraints reflect necessary conditions every matrix from
-$\mathcal{T}(\mathcal{A})$ fulfills. Our search space over $\hat{A}$ can be restricted to a smaller domain. To enable efficient optimization,
-we further require these constraints to be linear as well as efficient to compute. They derive the constraints in detail \dots\newline
-
-Summary: The intersection of the linear induced constraints defined above describes a convex set $\mathcal{\hat{A}}(\mathcal{A})$ of admissible
-perturbed message-passing matrices $\hat{A}$.\newline
-
-By construction of the set $\mathcal{\hat{A}}(A)$, it holds:\newline
-$\mathcal{T}(\mathcal{A}(A)) \subseteq \mathcal{\hat{A}}(A)$, i.e. for $\tilde{A} \in \mathcal{A}(A)$ we have $\mathcal{T}(\tilde{A}) \in \mathcal{\tilde{A}}/A$.
-It follows that the optimal solution in \ref{} leads to a valid lower bound on the original problem in \ref{}.\newline
+The neural network $f_{\theta}^t$ now directly takes as input the degree-normalized message-passing matrix,
+which means that the degree-normalization procedure is now part of the optimization problem.\newline
+They carefully design the set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
+on the perturbation budget and the graph, because any degree-normalized matrix that could be produced by first performing discrete
+perturbations to $A$ and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.
+Then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, i.e. the optimum of the modified optimization problem in
+\ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.\newline
+The authors derive induced constraints that give rise to a valid and tight set of admissible message passing matrices $\mathcal{\hat{A}}$
+and are convex, which enables tractable optimization. To further enable efficient optimization, they require these constraints to be linear
+as well as efficient to compute. The set $\mathcal{\hat{A}}(A)$ is constructed in a way that $\mathcal{T}(\mathcal{A}(A)) \subseteq \mathcal{\hat{A}}(A)$,
+i.e. for $\tilde{A} \in \mathcal{A}(A)$ it holds that $\mathcal{T}(\tilde{A}) \in \mathcal{\hat{A}}(A)$.
+Therefore, the optimal solution in \ref{eq:5} leads to a valid lower bound for the original problem in \ref{eq:4}.\newline
 
 \textbf{Relaxation of the neural network}\newline
 
-The above constraints can be computed efficiently and form a convex set, thus the constraint in \ref{} can be efficiently handled.
-However, the objective function, which is based on the original neural network $f_{\theta}$, is challenging due to the nonlinearities (see challenge 1).
-Here we follow the relaxation approah from our 2019 paper. Under this relaxation, the output $H$ of the ReLU activation function in \ref{}
-is no longer deterministic, but instead treated as a variable. Four the convex relaxation described above we need valid lower and upper bounds
-on the pre-ReLU activations in the GNN (inspired by other paper).\newline
+As stated in the first challenge, the objective function, which is based on the original neural network $f_{\theta}$, is still challenging
+due to the nonlinearities. Here the authors follow the relaxation approach from section \ref{sec:paper_two}. Under this relaxation, 
+the output $H$ of the ReLU activation function is no longer deterministic, but treated as a variable. For the convex relaxation,
+valid lower and upper bounds on the pre-ReLU activations in the GNN are needed which are inspired by approaches from the literature.
+
+\vfill
+\pagebreak
 
 \textbf{Jointly constrained bilinear program}\newline
 
