@@ -265,42 +265,10 @@ propagation is provided by Bojchevski et al. \cite{bojchevski2019certifiable}. B
 their certificates can be efficiently computed. Additionally, they investigate robust training procedures that increase the number of certifiably
 robust nodes while maintaining or even improving the predictive accuracy. However, since their work is limited to a rather specific class of 
 graph models based on PageRank, not covering the highly important principle of GCNs, the approach will not be further discussed in this work.\newline
-
-The latest work on certifiable robustness of GNNs against adversarial structural perturbations is provided by Wang et al. \cite{wang2020certified}.
-The authors prove the first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation.
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Specifically, the 2019 paper of Züger et al. formulate the certified robustness of GNNs
-as a linear program. Moreover, they derive the certified robustness guarantee based on the dual form of the optimization problem.
-However, their work assumes the attacker perturbs the node features. The Bojchevski paper and the Zügner 2020 paper study certified robustness
-of GNNs against structural perturbation. However, their works are customized to a specific GNN.\newline
-
-In this work, the authors aim to bridge the gap. Specifically, they aim to provide certified robustness guarantees for any GNN classifier
-against structural perturbations for both node and graph classification.\newline
-
-Towards this goal, they leverage a recently developed technique called randomized smoothing, which can turn a classifier such as a GNN
-to a robust one via adding random noise to a testing example (e.g. a graph). A classifier is certifiably robust if it provably
-predicts the same label when the attacker adds / deletes at most $K$ edges in the graph.\newline
-
-Existing randomized smoothing methods are insufficient to certify robustness of GNNs. They assume testing examples are continuous data.
-However, graph structures are essentially binary data. They develop a randomized smoothing for binary data and leverage it to obtain
-certified robustness of GNNs against structural perturbation.\newline
-
-In summary, the authors prove the first certified robustness guarantee of any GNN against structural perturbation and show that the certified
-robustness guarantee is tight. The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.\newline
-
-Interesting future work includes 1) extending our method to certify robustness of GNNs against both node-feature
-and structural perturbations, and 2) incorporating the information of a given GNN to further improve the certified robustness guarantee.\newline
-
-Idea: Use this as conclusion of the chapter - focus was on the group that established the research branch - this is the current state - 
-what to do in the future? ....\newline
-
-After a slightly deeper look at the approaches of Zügner et al. providing robustness certificates for GCNs with respect to perturbations of the
-node attributes in section \ref{sec:paper_two} and the graph structure in \ref{sec:paper_three}, a short glance at the latest work on provable robustness
-for any GNN given by Wang et al. is provided in section \ref{sec:paper_four}.
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+After a slightly deeper consideration of the approaches of Zügner et al. providing first robustness certificates for GCNs with respect to 
+perturbations of the node attributes in section \ref{sec:paper_two} and the graph structure in \ref{sec:paper_three},
+a brief overview of the latest work on certifiable robustness of GNNs against adversarial structural perturbations is provided 
+in section \ref{sec:paper_four}.\newline
 
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
@@ -345,9 +313,6 @@ efficiently, they provide bounds on the value and derive relaxations of the GNN 
 enabling efficient computation. Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust. 
 Using their robust training, they can dramatically improve the robustness and therefore improve the reliability of GNNs.
 
-\vfill
-\pagebreak
-
 \subsubsection{Certifying the robustness of a given GNN}
 
 The first goal is to derive an efficient principle for robustness certificates. Given a trained GNN and a specific node $t$ under consideration,
@@ -386,9 +351,6 @@ To make the objective function convex, they have to find a convex relaxation of 
 in the literature and the authors follow one that leads to a linear objective function which is a lower bound on the minimum of the original problem.
 However, directly solving it is still intractable due to the discrete data domain.
 
-\vfill
-\pagebreak
-
 The problem is now transformed into a linear problem since besides the linear objective function, all constraints are linear as well.
 While it is possible to solve LPs efficiently using highly optimized LP-solvers, the potentially large number of variables in a GNN
 makes this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
@@ -411,7 +373,10 @@ They use their findings to train robust GNNs.\newline
 As seen, the value of the dual can be interpreted as lower bound on the margin between the two considered classes.
 They denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
 for any class $k$ compared to the given class $y$. Node $t$ with class $y_t^{\ast}$ is certifiably robust if $p_{\theta}^t < 0$ for all entries
-except the entry at $y_t^{\ast}$ which is always $0$.\newline
+except the entry at $y_t^{\ast}$ which is always $0$.
+
+\vfill
+\pagebreak
 
 The training objective typically used to train GNNs for node classification:
 \begin{gather}
@@ -430,9 +395,6 @@ robust loss that they refer to as robust hinge loss:
     \mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}
 \end{gather}
 If the loss is $0$, the node $t$ is certifiably robust.
-
-\vfill
-\pagebreak
 
 They then combine the robust hinge loss with standard cross entropy to obtain the following robust optimization problem:
 
@@ -478,9 +440,6 @@ Regarding the robust training, they can show that there method dramatically incr
 is robust when considering the $Q$ for which the model has been trained and the overall amount of nodes that can be certified is also 
 increased significantly. Even nodes for which they certified non-robustness before, become certifiably robust.
 The perhaps most important aspect is that the increased robustness comes at almost no loss in classification accuracy.
-
-\vfill
-\pagebreak
 
 \textbf{Conclusion}\newline
 
@@ -666,12 +625,30 @@ about the graph domain. The original problem is decomposed into sub-problems, wh
 highly optimized LP-solvers (e.g. CPLEX). The certification method is able to certify a large fraction of the nodes.
 The authors suggest that future work could explore training methods making direct use of the robustness goal.
 
-\vfill
-\pagebreak
+\subsection{Robustness guarantee of any GNN for node and graph classifications}
+\label{sec:paper_four}
+
+The latest work on certifiable robustness of GNNs against adversarial structural perturbations is provided by Wang et al. \cite{wang2020certified}.
+The authors prove the first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation.
+So, as the approaches of Zügner et al. (\ref{sec:paper_three}) and Bojchevski et al. \cite{bojchevski2019certifiable}, they study certifiable 
+robustness of GNNs against perturbations of the graph structure. In contrast to Bojchevski et al. and Zügner et al. who are working with specific GNNs,
+they aim to provide robustness guarantees for any GNN classifier for both node and graph classification. 
+Towards this goal, they leverage a recently developed technique called randomized smoothing, which can turn a classifier such as a GNN to 
+a robust one via adding random noise to a testing example (e.g. a graph). A classifier is certifiably robust if it provably predicts the
+same label when the attacker adds / deletes at most $K$ edges in the graph.\newline
+Existing randomized smoothing methods are insufficient to certify robustness of GNNs. They assume testing examples are continuous data.
+However, graph structures are essentially binary data. They develop a randomized smoothing for binary data and leverage it to obtain
+certified robustness of GNNs against structural perturbation.\newline
+In summary, the authors prove the first certified robustness guarantee of any GNN against structural perturbation and show that the certified
+robustness guarantee is tight. The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.\newline
 
 \section{Conclusion + Discussion + Outlook}
 \label{sec:conclusion}
 TBD
+
+WANG:
+Interesting future work includes 1) extending our method to certify robustness of GNNs against both node-feature
+and structural perturbations, and 2) incorporating the information of a given GNN to further improve the certified robustness guarantee.\newline
 
 \vfill
 \pagebreak
