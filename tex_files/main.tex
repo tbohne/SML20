@@ -527,10 +527,7 @@ Nevertheless, they are able to determine lower bounds on the minimum of the orig
     \item Performing relaxations of the activation functions in the neural network.
     \item Expressing the proiblem as a jointly-constrained bilinear program and proposing a branch-and-bound algorithm to solve it.
 \end{itemize}
-Finally, if the lower bound is positive, the classifier is robust with regard to admissible perturbations.
-
-\vfill
-\pagebreak
+Finally, if the lower bound is positive, the classifier is robust with regard to admissible perturbations.\newline
 
 \textbf{Optimization over the graph structure}\newline
 
@@ -576,102 +573,69 @@ Therefore, the optimal solution in \ref{eq:5} leads to a valid lower bound for t
 As stated in the first challenge, the objective function, which is based on the original neural network $f_{\theta}$, is still challenging
 due to the nonlinearities. Here the authors follow the relaxation approach from section \ref{sec:paper_two}. Under this relaxation, 
 the output $H$ of the ReLU activation function is no longer deterministic, but treated as a variable. For the convex relaxation,
-valid lower and upper bounds on the pre-ReLU activations in the GNN are needed which are inspired by approaches from the literature.
-
-\vfill
-\pagebreak
+valid lower and upper bounds on the pre-ReLU activations in the GNN are needed which are inspired by approaches from the literature.\newline
 
 \textbf{Jointly constrained bilinear program}\newline
 
-Using the relaxation from \ref{} and the constraints on the message passing matrix from \ref{} we can replace the objective function in \ref{}
-as:
+Using the relaxation for the neural network and the constraints on the message passing matrix, they are able to
+replace the objective function in \ref{eq:5} and end up with the following problem with bilinear objective function:
 \begin{gather}
-    \hat{H}_{ty^{\ast}}^L - \hat{H}_{ty}^L = \hat{H}_t^L \cdot c = \hat{A}_t H^{L-1} W^{L-1} c + b^{(L-1)^T} c
+    \tilde{m}^t (y^{\ast}, y) = \min_{\hat{A}, H^{(\cdot)}} \hat{A}_t H^{L-1} W^{L-1} c \\
+    s.t. H^{(\cdot)} \in \mathcal{Z}(A), \hat{A} \in \mathcal{\hat{A}}
 \end{gather}
-where $c = e_{y^{\ast}} - e_y$ is a $K$-dimensional constant vector with value $1$ at $y^{\ast}$, $-1$ at $y$ and $0$ else.
-Since $b^{(L-1)^T} c$ is constant this leads to the overall problem:
-\begin{gather}
-    \tilde{m}^t (y^{\ast}, y) = \min_{\hat{A}, H} \hat{A}_t H^{L-1} W^{L-1} c \\
-    s.t. H \in \mathcal{Z}(A), \hat{A} \in \mathcal{\hat{A}}
-\end{gather}
-Since we have the term $\hat{A}_t H^{L-1}$ in there, we have a bilinear objective function.\newline
-
 Afterwards, they bring it in a canonical form to simplify further analysis. They consider the special case
 of a GCN with two message passing steps ($L=3$) and subsequently show how to generalize that to $L>3$.
-The end up with the equivalent problem;
+They end up with the equivalent problem:
 \begin{gather}
+\label{eq:6}
     \min_{\hat{A}, z, H^2} \hat{A}_t z \\
     s.t. H^2 \in \mathcal{Z}(A), \hat{A} \in \mathcal{\hat{A}}(A), z = PH_{vec}^2
 \end{gather}
-
-Note that all constraints are linear. Furthermore, we can easily add the following constraint to the problem
-without changing its solution: $(\hat{A}_t, z) \in \Omega$ where
-\begin{gather}
-    \Omega = \{\}
-\end{gather}
-
-So far, it seems that this new constraint adds no benefit, but it indeed now opens the door for solving the problem.
-They are able to use the principle from another paper now which enables them to solve the jointly constrained
-bilinear optimization problem.\newline
-
-The idea is twofold:
-\begin{enumerate}
-    \item use the convex envelope of the objective function to compute lower bounds (extremely efficient to solve)
-    \item B\&B procedure to recursively subdivide the domain
-\end{enumerate}
+Now all constraints are linear and the authors add another artificial constraint that does not change the solution,
+but enables them to use the principle proposed in the literature which allows them so solve the jointly constrained 
+bilinear optimization problem. The idea is to use the convex envelope of the objective function to compute lower bounds 
+and to use a branch-and-bound procedure to recursively subdivide the domain.\newline
 
 \textbf{Improvements for graph certificates}\newline
 
-It's crucial to observe that we are actually not interested in finding the global solution of \ref{}, but we are only
-interested in its sign (positive or negative). Since in each iteration of the above approach we obtain increasingly accurate
-upper and lower bounds on the global solution, we can perform an early stopping.\newline
+It is important to note that it is not necessary to find the global solution of \ref{eq:6}, only its sign is of relevance.
+In each iteration, the upper and lower bounds become increasingly accurate and the idea is to stop as soon as possible.\newline
+If the lower bound is positive, they successfully certified robustness. If the upper bound is negative, no robustness certificate
+can be given for the instance, which does not imply that the classifier is not robust, it just can not be certified.
+They further improve the procedure by exploiting knowledge about the graph domain.\newline
 
-Stop if:
-\begin{itemize}
-    \item lower bound is positive $\textrightarrow$ successfully certified robustness
-    \item upper bound is negative $\textrightarrow$ we cannot certify robustness for this instance (does not imply that the classifier is not robust,
-    it only means that no robustness guarantee can be made)
-\end{itemize}
+\textbf{Summary}\newline
 
-Further improve the procedure by exploiting knowledge about the graph domain.\newline
-
-Our robustness certificates can be generalized to arbitrary number of message passing steps ($L>3$).
-
-Summary: We have rephrased our problem of certifying robustness of GCN under perturbations of the graph structure
-as a jointly constrained bilinear program. While the BLP is not convex, we can use B\&B to get increasingly accurate
-lower and upper bounds on the global optimum. Our improved B\&B algo combined with early stopping when either the upper or
-lower bound crosses zero leads to an efficient procedure for robustness certification.\newline
+The authors rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
+as a jointly constrained bilinear program. While this problem is not convex, they can use a branch-and-bound procedure to get increasingly
+accurate upper and lower bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
+and therefore have an efficient way of robustness certification.\newline
 
 \textbf{Experiments}
 
-The authors provide an experimental evalauation of their approaches on the widely used and publicly available datasets \textit{CORA-ML}
-, \textit{CITESEER}, and \textit{PUBMED}. On each dataset they train a GCN with two message-passing steps ($L=3$) with hidden dimensions $32$,
-using $10 \%$ of the labels during training.\newline
-
-The provided the first method for certified robustness of GCN under perturbations of the graph structure. To evaluate the method on different
-severities of perturbations, they use three different local $q$ and global $Q$ perturbation budgets. Their method can certify robustness,
-but not non-robustness. Obtaining the true number of non-robust nodes requires a brute-force search over the set of all possible perturbations
-and is therefore intractable. However, they obtain an estimate (LB) on the number of non-robust nodes by also performing gradient-based 
-adversarial attacks with these budgets. The general trend they observe is that increasing the perturbation budget leads to the fraction of certifiably
-robust nodes decreasing, while on the other hand the share of non-robust nodes increases. Surprisingly, on all datasets more than $5\%$ of the nodes can change 
-their predicted class label even when only a single edge removed, indicating that standard GCN is highly nonrobust. That suggests that robust training on
-a different objective (robustness to attribute perturbations) also has a beneficial effect on the robustness w.r.t. graph structure perturbations.
-FOr the vast majority of nodes we have a clear decision (robust / non-robust).\newline
-
+As in section \ref{sec:paper_two}, the authors provide an experimental evalauation of their approaches on the widely used and publicly available 
+datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED}.
+To evaluate the method on different severities of perturbations, they use three different local $q$ and global $Q$ perturbation budgets. 
+Their method can certify robustness, but not non-robustness. Obtaining the true number of non-robust nodes requires a brute-force search over 
+the set of all possible perturbations and is therefore intractable. However, they obtain an estimate on the number of non-robust nodes by also 
+performing gradient-based adversarial attacks with these budgets. The general trend they observe is that increasing the perturbation budget leads 
+to the fraction of certifiably robust nodes decreasing, while on the other hand the share of non-robust nodes increases. 
+Surprisingly, on all datasets more than $5\%$ of the nodes can change their predicted class label even when only a single edge is removed, 
+indicating that standard GCNs are highly nonrobust. That suggests that robust training on a different objective (robustness to attribute perturbations)
+also has a beneficial effect on the robustness with regard to graph structure perturbations. For the vast majority of nodes they come to a clear 
+decision (robust / non-robust).\newline
 A standard defense against attacks is adversaral training, i.e. including adversarially perturbed examples into the training.
-In the setting here, this corresponds to randomly dropping edges during training. We see that none of the roubst training procedures
-consistently improves upon standard training, except the robust training for robustness w.r.t. feature perturbations proposed in the 2019 paper.
-Hence, we conclude that standard adversarial training does not lead to higher robustness.\newline
-
-Future work could explore training methods making direct use of robustness goal.\newline
+In the setting here, this corresponds to randomly dropping edges during training. The authors observe that none of the roubst training procedures
+consistently improves upon standard training, except the training for robustness with regard to feature perturbations proposed
+in section \ref{sec:paper_two}. Hence, they conclude that standard adversarial training does not lead to higher robustness.\newline
 
 \textbf{Conclusion}\newline
 
-We present the first method for certifiable robustness of GCN under structure perturbations. We show how to frame this problem as a jointly-constrained
-bilinear program, and propose a B\&B procedure that makes use of knowledge about the graph domain. Our procedure decomposes the original problem into
-sub-problems, which are in turn linear programs and can be solved using highly optimized LP-solvers (e.g. CPLEX). Our certification method is able to certify
-a large fraction of the nodes.
-
+The authors presented a first method for certifiable robustness of GCNs under structure perturbations. 
+They frame the problem as a jointly-constrained bilinear program, and propose a branch-and-bound procedure that makes use of knowledge
+about the graph domain. The original problem is decomposed into sub-problems, which are in turn linear programs and can be solved using
+highly optimized LP-solvers (e.g. CPLEX). The certification method is able to certify a large fraction of the nodes.
+The authors suggest that future work could explore training methods making direct use of the robustness goal.
 
 \vfill
 \pagebreak
