@@ -111,7 +111,20 @@ where $p$ is the number of supervised nodes. The learning algorithm is based on 
 \pagebreak
 
 This basic GNN model provides a first step towards incorporating neural networks into the graph domain, 
-but has several limitations \cite{article} which are tackled in various variants of GNNs such as graph convolutional networks (GCNs).
+but has several limitations \cite{article} which are tackled in various variants of GNNs such as graph convolutional networks (GCNs).\newline
+
+\textbf{Graph Convolutional Networks}\newline
+
+The property that defines the different variants of GNNs is typically the aggregator to gather information from each node's neighbors
+and specific updaters to update the node's hidden states. \cite{zhou2019graph} In general, there is a certain functional evaluation of
+a node's feature together with the featuers of its neighbors (convolution). The results are then the input for the neural network.
+A simple schematic representation of a deep GCN is depicted in figure \ref{fig:gcn}.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.45\textwidth]{img/gcn.png}
+    \caption{Multi-layer GCN. \cite{kipf2016semi}}
+    \label{fig:gcn}
+\end{figure}
 
 \subsection{Robustness}
 
@@ -157,9 +170,6 @@ misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.
     \label{fig:adversarial_GNN}
 \end{figure}
 
-\vfill
-\pagebreak
-
 \section{Literature Review}
 \label{sec:literature}
 
@@ -192,9 +202,6 @@ and propose three categories to be considered in the attack model. Those categor
 allow more precise considerations of a model's weaknesses and robustness and are later used to compare and interpret results of 
 different approaches. Furthermore, they confirm previous claims that small graph perturbations consistently lead to a strong decrease 
 in performance for GCNs.
-
-\vfill
-\pagebreak
 
 \subsection{Defense mechanisms}
 \label{sec:rev2}
@@ -286,9 +293,6 @@ which makes the space of possible perturbations large. The main question of the 
 How to make sure that small changes to the input data do not have a dramatic effect to a GNN?
 \end{quote}
 
-\vfill
-\pagebreak
-
 \textbf{Certificates}\newline
 
 Given a trained GNN, the authors can give robustness certificates that state that a
@@ -360,7 +364,10 @@ The dual problem's specific form makes it amendable for easy optimization. Since
 any dual-feasible solution leads to a lower bound on the original problem, the computation of robustness certificates is extremely fast.
 In summary, by considering the dual program, they obtain robustness certificates if the obtained (dual) values are positive for every $y \neq y^*$.
 In contrast, by constructing the primal feasible perturbation, they obtain non-robustness certificates if the obtained (exact, primal) values
-are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.\newline
+are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.
+
+\vfill
+\pagebreak
 
 Obtaining good upper and lower bounds is crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. 
 All bounds can be computed highly efficiently and one can even backpropagate thorugh them which is an important aspect for the robust training.
@@ -374,9 +381,6 @@ As seen, the value of the dual can be interpreted as lower bound on the margin b
 They denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
 for any class $k$ compared to the given class $y$. Node $t$ with class $y_t^{\ast}$ is certifiably robust if $p_{\theta}^t < 0$ for all entries
 except the entry at $y_t^{\ast}$ which is always $0$.
-
-\vfill
-\pagebreak
 
 The training objective typically used to train GNNs for node classification:
 \begin{gather}
@@ -642,6 +646,9 @@ certified robustness of GNNs against structural perturbation.\newline
 In summary, the authors prove the first certified robustness guarantee of any GNN against structural perturbation and show that the certified
 robustness guarantee is tight. The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.\newline
 
+\vfill
+\pagebreak
+
 \section{Conclusion + Discussion + Outlook}
 \label{sec:conclusion}
 TBD
@@ -649,6 +656,9 @@ TBD
 WANG:
 Interesting future work includes 1) extending our method to certify robustness of GNNs against both node-feature
 and structural perturbations, and 2) incorporating the information of a given GNN to further improve the certified robustness guarantee.\newline
+
+ZÜGNER 2020:
+The authors suggest that future work could explore training methods making direct use of the robustness goal.
 
 \vfill
 \pagebreak
