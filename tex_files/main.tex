@@ -467,14 +467,20 @@ In the work, the realistic case where an attacker is allowed to insert new edges
 applications where new edges such as likes or follows in social media are cheap and easy to inject. A certificate issued by their method 
 states that a node's prediction could not have been altered by edges potentially inserted by an attacker. 
 There are three major challenges identified by the authors:
-\begin{enumerate}
-    \item Neural networks are in general nonconvex functions, which makes finding the optimal (worst-case)
-    perturbation intractable.
-    \item Enumerating and testing all admissible perturbations is intractable (grows exponentially with the perturbation budget).
-    \item While the certificates of the approach in section \ref{sec:paper_two} deal with what happens when the input is modified, here the
-    aim is to certify robustness for cases where the graph structure and therefore the way embeddings are propagated, changes.
-    Therefore, the output could be computed from a different set of nodes.
-\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \begin{enumerate}
+        \item Neural networks are in general nonconvex functions, which makes finding the optimal (worst-case)
+        perturbation intractable.
+        \item Enumerating and testing all admissible perturbations is intractable (grows exponentially with the perturbation budget).
+        \item While the certificates of the approach in section \ref{sec:paper_two} deal with what happens when the input is modified, here the
+        aim is to certify robustness for cases where the graph structure and therefore the way embeddings are propagated, changes.
+        Therefore, the output could be computed from a different set of nodes.
+    \end{enumerate}
+    \caption{Major challenges to be solved.}
+    \label{fig:challenges}
+\end{figure}
 
 The first challenge is also a problem for traditional neural networks and the authors follow the approach they already used
 in section \ref{sec:paper_two} which relies on a relaxation of the ReLU activation function.
@@ -519,19 +525,19 @@ achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the gr
 If $m^t (y^{\ast}, y) > 0$ for all classes $y \neq y^{\ast}$, the neural network is certifiably robust with regard to node $t$
 and $\mathcal{A}$. If the minimum is positive, it means that there exists no adversarial example within the defined
 admissible perturbations that leads to the classifier changing its prediction to the other class $y$.
-Solving the above optimization problem is hard due to the three challenges mentioned in \ref{}.
+Solving the above optimization problem is hard due to the three challenges mentioned in \ref{fig:challenges}.
 Nevertheless, they are able to determine lower bounds on the minimum of the original problem by:
 \begin{itemize}
     \item Optimizing over the continuous-valued message passing matrix $\mathcal{T}(A)$ instead of the binary
     adjacency matrix $A$.
     \item Performing relaxations of the activation functions in the neural network.
-    \item Expressing the proiblem as a jointly-constrained bilinear program and proposing a branch-and-bound algorithm to solve it.
+    \item Expressing the problem as a jointly-constrained bilinear program and proposing a branch-and-bound algorithm to solve it.
 \end{itemize}
 Finally, if the lower bound is positive, the classifier is robust with regard to admissible perturbations.\newline
 
 \textbf{Optimization over the graph structure}\newline
 
-To be able to handle the second challenge mentioned in \ref{}, it is important to set reasonable constraints to 
+To be able to handle the second challenge mentioned in \ref{fig:challenges}, it is important to set reasonable constraints to 
 the perturbations the attacker can perform such that resulting certificates reflect realistic attacks.
 For discrete data such as the graph structure $A$, a natural norm to measure distance is the number of perturbed
 elements, as measured by the non-convex $L_0$ norm. 
@@ -571,7 +577,7 @@ Therefore, the optimal solution in \ref{eq:5} leads to a valid lower bound for t
 \textbf{Relaxation of the neural network}\newline
 
 As stated in the first challenge, the objective function, which is based on the original neural network $f_{\theta}$, is still challenging
-due to the nonlinearities. Here the authors follow the relaxation approach from section \ref{sec:paper_two}. Under this relaxation, 
+due to the nonlinearities. The authors follow the relaxation approach from section \ref{sec:paper_two}. Under this relaxation, 
 the output $H$ of the ReLU activation function is no longer deterministic, but treated as a variable. For the convex relaxation,
 valid lower and upper bounds on the pre-ReLU activations in the GNN are needed which are inspired by approaches from the literature.\newline
 
@@ -609,9 +615,9 @@ They further improve the procedure by exploiting knowledge about the graph domai
 The authors rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
 as a jointly constrained bilinear program. While this problem is not convex, they can use a branch-and-bound procedure to get increasingly
 accurate upper and lower bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
-and therefore have an efficient way of robustness certification.\newline
+and therefore have an efficient way of robustness certification.
 
-\textbf{Experiments}
+\subsubsection{Experimental Evaluation and Conclusion}
 
 As in section \ref{sec:paper_two}, the authors provide an experimental evalauation of their approaches on the widely used and publicly available 
 datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED}.
@@ -628,8 +634,6 @@ A standard defense against attacks is adversaral training, i.e. including advers
 In the setting here, this corresponds to randomly dropping edges during training. The authors observe that none of the roubst training procedures
 consistently improves upon standard training, except the training for robustness with regard to feature perturbations proposed
 in section \ref{sec:paper_two}. Hence, they conclude that standard adversarial training does not lead to higher robustness.\newline
-
-\textbf{Conclusion}\newline
 
 The authors presented a first method for certifiable robustness of GCNs under structure perturbations. 
 They frame the problem as a jointly-constrained bilinear program, and propose a branch-and-bound procedure that makes use of knowledge
