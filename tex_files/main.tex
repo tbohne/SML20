@@ -256,20 +256,56 @@ which they extend to graph data.
 \section{Certifiable robustness of graph neural networks}
 \label{sec:main_section}
 
-\subsection{Robustness of GNNs based on PageRank}
-\label{sec:paper_one}
+As seen in the previous sections, GNNs are highly non-robust with respect to adversarial attacks on the graph
+structure and the node attributes. This section will provide an overview of the very important and only recently started 
+third phase of research in the domain of robust GNNs which aims to give provable guarantees about the (non-)robustness of a model 
+which is key to use them in safety-critical applications in the real world.\newline
+The first work on verifying certifiable (non-)robustness to graph perturbations for a general class of models that includes GNNs and label/feature
+propagation is provided by Bojchevski et al. \cite{bojchevski2019certifiable}. By exploiting connections to PageRank and Markov decision processes,
+their certificates can be efficiently computed. Additionally, they investigate robust training procedures that increase the number of certifiably
+robust nodes while maintaining or even improving the predictive accuracy. However, since their work is limited to a rather specific class of 
+graph models based on PageRank, not covering the highly important principle of GCNs, the approach will not be further discussed in this work.\newline
 
-TODO: Briefly explain idea and methods of \cite{bojchevski2019certifiable}\newline
-$\rightarrow$ Perhaps even leave out due to the restriction to PageRank
+The latest work on certifiable robustness of GNNs against adversarial structural perturbations is provided by Wang et al. \cite{wang2020certified}.
+The authors prove the first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation.
 
-\vfill
-\pagebreak
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+Specifically, the 2019 paper of Züger et al. formulate the certified robustness of GNNs
+as a linear program. Moreover, they derive the certified robustness guarantee based on the dual form of the optimization problem.
+However, their work assumes the attacker perturbs the node features. The Bojchevski paper and the Zügner 2020 paper study certified robustness
+of GNNs against structural perturbation. However, their works are customized to a specific GNN.\newline
+
+In this work, the authors aim to bridge the gap. Specifically, they aim to provide certified robustness guarantees for any GNN classifier
+against structural perturbations for both node and graph classification.\newline
+
+Towards this goal, they leverage a recently developed technique called randomized smoothing, which can turn a classifier such as a GNN
+to a robust one via adding random noise to a testing example (e.g. a graph). A classifier is certifiably robust if it provably
+predicts the same label when the attacker adds / deletes at most $K$ edges in the graph.\newline
+
+Existing randomized smoothing methods are insufficient to certify robustness of GNNs. They assume testing examples are continuous data.
+However, graph structures are essentially binary data. They develop a randomized smoothing for binary data and leverage it to obtain
+certified robustness of GNNs against structural perturbation.\newline
+
+In summary, the authors prove the first certified robustness guarantee of any GNN against structural perturbation and show that the certified
+robustness guarantee is tight. The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.\newline
+
+Interesting future work includes 1) extending our method to certify robustness of GNNs against both node-feature
+and structural perturbations, and 2) incorporating the information of a given GNN to further improve the certified robustness guarantee.\newline
+
+Idea: Use this as conclusion of the chapter - focus was on the group that established the research branch - this is the current state - 
+what to do in the future? ....\newline
+
+After a slightly deeper look at the approaches of Zügner et al. providing robustness certificates for GCNs with respect to perturbations of the
+node attributes in section \ref{sec:paper_two} and the graph structure in \ref{sec:paper_three}, a short glance at the latest work on provable robustness
+for any GNN given by Wang et al. is provided in section \ref{sec:paper_four}.
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
 
-As seen in the previous sections, GNNs are highly non-robust with respect to adversarial attacks on the graph
-structure and the node attributes. In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described
+In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described
 in which the authors propose a first method for provable (non-)robustness of graph convolutional networks with respect
 to perturbations of the node attributes.\newline
 They consider the case of binary node attributes and perturbations that are $L_0$-bounded. If a node has been certified
@@ -281,6 +317,9 @@ which makes the space of possible perturbations large. The main question of the 
 \begin{quote}
 How to make sure that small changes to the input data do not have a dramatic effect to a GNN?
 \end{quote}
+
+\vfill
+\pagebreak
 
 \textbf{Certificates}\newline
 
@@ -629,11 +668,6 @@ The authors suggest that future work could explore training methods making direc
 
 \vfill
 \pagebreak
-
-\subsection{Robustness guarantee of any GNN for node and graph classifications}
-\label{sec:paper_four}
-
-TODO: Explain idea and methods of \cite{wang2020certified}
 
 \section{Conclusion + Discussion + Outlook}
 \label{sec:conclusion}
