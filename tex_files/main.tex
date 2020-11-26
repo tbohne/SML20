@@ -520,7 +520,7 @@ achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the gr
 \label{eq:4}
     m^t (y^{\ast}, y) := \min_{\tilde{A}} f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_{y^{\ast}}
     - f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_y \\
-    s.t. \tilde{A} \in \mathcal{A}(A)
+    s.t. \tilde{A} \in \mathcal{A}(A) \nonumber
 \end{gather}
 If $m^t (y^{\ast}, y) > 0$ for all classes $y \neq y^{\ast}$, the neural network is certifiably robust with regard to node $t$
 and $\mathcal{A}$. If the minimum is positive, it means that there exists no adversarial example within the defined
@@ -548,27 +548,25 @@ across the whole graph.
 They assume an attacker has potentially inserted edges to the unknown original graph structure $A^{\ast}$ to produce
 $A$ which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
 The traditional approach to optimize over a discrete variable is to perform a continuous relaxation. 
-However, GCNs use a degree-normalized message passing matrix. Any optimization problem involving
-$\tilde{A}$ in the objective function is not convex in the variables $\tilde{A}_{ij}$ which means that a simple continuous
-relaxation does not leat to a tractable optimization problem. Alternatively, the authors propose to optimize over the 
-continuous-valued degree-normalized message passing matrix instead of the binary adjacency matrix $\tilde{A}$.
-They denote the variable corresponding to the message passing matrix by $\hat{A}$. This has the benefits of avoiding
+However, any optimization problem involving $\tilde{A}$ in the objective function is not convex in the variables $\tilde{A}_{ij}$ 
+which means that a simple continuous relaxation does not leat to a tractable optimization problem. Alternatively, 
+the authors propose to optimize over the continuous-valued degree-normalized message-passing matrix instead of the binary adjacency matrix $\tilde{A}$.
+They denote the variable corresponding to the message-passing matrix by $\hat{A}$. This has the benefits of avoiding
 to optimize over a discrete variable as well as bypassing the nonconvex degree-normalization procedure of GCNs.
-\ref{eq:4} gets replaced by:
+The optimization problem in \ref{eq:4} gets replaced by:
 \begin{gather}
 \label{eq:5}
     \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
     - f_{\theta}^t (X, \hat{A})_y \\
-    s.t. \hat{A} \in \mathcal{\hat{A}}(A)
+    s.t. \hat{A} \in \mathcal{\hat{A}}(A) \nonumber
 \end{gather}
-The neural network $f_{\theta}^t$ now directly takes as input the degree-normalized message-passing matrix,
-which means that the degree-normalization procedure is now part of the optimization problem.\newline
-They carefully design the set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
+The neural network $f_{\theta}^t$ now directly takes as input the degree-normalized message-passing matrix.
+They carefully design the set of admissible degree-normalized message-passing matrices $\mathcal{\hat{A}}(A)$ based
 on the perturbation budget and the graph, because any degree-normalized matrix that could be produced by first performing discrete
 perturbations to $A$ and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.
 Then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, i.e. the optimum of the modified optimization problem in
-\ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.\newline
-The authors derive induced constraints that give rise to a valid and tight set of admissible message passing matrices $\mathcal{\hat{A}}$
+\ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.
+The authors derive constraints that give rise to a valid and tight set of admissible message-passing matrices $\mathcal{\hat{A}}$
 and are convex, which enables tractable optimization. To further enable efficient optimization, they require these constraints to be linear
 as well as efficient to compute. The set $\mathcal{\hat{A}}(A)$ is constructed in a way that $\mathcal{T}(\mathcal{A}(A)) \subseteq \mathcal{\hat{A}}(A)$,
 i.e. for $\tilde{A} \in \mathcal{A}(A)$ it holds that $\mathcal{T}(\tilde{A}) \in \mathcal{\hat{A}}(A)$.
@@ -583,29 +581,17 @@ valid lower and upper bounds on the pre-ReLU activations in the GNN are needed w
 
 \textbf{Jointly constrained bilinear program}\newline
 
-Using the relaxation for the neural network and the constraints on the message passing matrix, they are able to
-replace the objective function in \ref{eq:5} and end up with the following problem with bilinear objective function:
-\begin{gather}
-    \tilde{m}^t (y^{\ast}, y) = \min_{\hat{A}, H^{(\cdot)}} \hat{A}_t H^{L-1} W^{L-1} c \\
-    s.t. H^{(\cdot)} \in \mathcal{Z}(A), \hat{A} \in \mathcal{\hat{A}}
-\end{gather}
-Afterwards, they bring it in a canonical form to simplify further analysis. They consider the special case
-of a GCN with two message passing steps ($L=3$) and subsequently show how to generalize that to $L>3$.
-They end up with the equivalent problem:
-\begin{gather}
-\label{eq:6}
-    \min_{\hat{A}, z, H^2} \hat{A}_t z \\
-    s.t. H^2 \in \mathcal{Z}(A), \hat{A} \in \mathcal{\hat{A}}(A), z = PH_{vec}^2
-\end{gather}
-Now all constraints are linear and the authors add another artificial constraint that does not change the solution,
-but enables them to use the principle proposed in the literature which allows them so solve the jointly constrained 
+Using the relaxation for the neural network and the constraints on the message-passing matrix, they are able to
+rephrase the objective function in \ref{eq:5} as a bilinear objective function.
+Afterwards, the authors add another artificial constraint that does not change the solution, but enables them to use 
+a principle proposed in the literature which allows them so solve the jointly constrained 
 bilinear optimization problem. The idea is to use the convex envelope of the objective function to compute lower bounds 
-and to use a branch-and-bound procedure to recursively subdivide the domain.\newline
+and to apply a branch-and-bound procedure to recursively subdivide the domain.\newline
 
 \textbf{Improvements for graph certificates}\newline
 
-It is important to note that it is not necessary to find the global solution of \ref{eq:6}, only its sign is of relevance.
-In each iteration, the upper and lower bounds become increasingly accurate and the idea is to stop as soon as possible.\newline
+It is important to note that it is not necessary to find the global solution of the bilinear problem, only its sign is of relevance.
+In each iteration, the upper and lower bounds become increasingly accurate and the idea is to stop as soon as possible.
 If the lower bound is positive, they successfully certified robustness. If the upper bound is negative, no robustness certificate
 can be given for the instance, which does not imply that the classifier is not robust, it just can not be certified.
 They further improve the procedure by exploiting knowledge about the graph domain.\newline
