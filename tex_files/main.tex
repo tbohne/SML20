@@ -211,7 +211,7 @@ perturbations consistently lead to a strong decrease in performance for GCNs.
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
 is how to defend them against such attacks. 
 Direct extension of defense algorithms for classical neural networks based on adversarial samples meets with immediate challenge because
-computing the adversarial network costs substantially. \cite{Jin2020} The authors propose to address this issue by perturbing the latent 
+computing the adversarial network costs substantially. \cite{Jin2020} Jin et al. propose to address this issue by perturbing the latent 
 representations in GCNs, which not only increases efficiency because there is no need to generate adversarial networks, but also attains 
 improved robustness and accuracy. They apply their framework of latent adversarial training on graphs to node classification,
 link prediction, and recommender systems and are able to confirm superior robustness in experiments.
@@ -224,7 +224,7 @@ Instead of representing  nodes as vectors, they adopt Gaussian distributions as 
 convolutional layer which allows the model to automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions.
 Moreover, to remedy the propagation of adversarial attacks in GCNs, they propose a variance-based attention mechanism, i.e. assigning different
 weights to node neighborhoods according to their variances when performing convolutions. Their experimental evaluation suggests that
-the method can effectively improve the robustness of GCNs.\newline
+the method can effectively improve the robustness of GCNs.
 Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen2020} and is based on the idea that
 edge manipulations play a key role in graph adversarial attacks. They design a biased graph-sampling scheme to drop graph connections
 such that random, sparse and deformed subgraphs are constructed for training which mitigates the sensitivity 
