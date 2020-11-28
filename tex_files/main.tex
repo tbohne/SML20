@@ -184,6 +184,9 @@ of a model, which is key to use them in safety-critical applications in the real
 which is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
 will be on publications from that phase.
 
+\vfill
+\pagebreak
+
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
 
@@ -194,15 +197,13 @@ Another approach for adversarial attacks on graph structured data is proposed by
 via graph convolutional networks.
 The authors claim that especially in domains where GNNs are used, e.g. the web, adversaries are common and that it is therefore important
 to investigate the robustness of such models. They study adversarial attacks on attributed graphs and distinguish between
-adversarial attacks on the node's features and the graph structure. Their results suggest that the accuracy of node classification
+adversarial attacks on the node's features and the graph structure. The results suggest that the accuracy of node classification
 significantly drops even for only a few perturbations which clearly motivates reflections on the robustness of such models, especially
 when considering practical applications.
 So far, adversarial attacks were introduced as a quite vague concept. Zügner et al. \cite{zuegner2019adversarial}
 define them as small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker
-and propose three categories to be considered in the attack model. Those categories, that are discussed in detail in section \ref{},
-allow more precise considerations of a model's weaknesses and robustness and are later used to compare and interpret results of 
-different approaches. Furthermore, they confirm previous claims that small graph perturbations consistently lead to a strong decrease 
-in performance for GCNs.
+and propose different categories to be considered in the attack model. Furthermore, they confirm previous claims that small graph 
+perturbations consistently lead to a strong decrease in performance for GCNs.
 
 \subsection{Defense mechanisms}
 \label{sec:rev2}
