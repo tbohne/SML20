@@ -113,10 +113,13 @@ but has several limitations \cite{article} which are tackled in numerous variant
 
 \textbf{Graph Convolutional Networks}\newline
 
-The property that defines the different variants of GNNs is typically the aggregator to gather information from each node's neighbors
-and specific updaters to update the node's hidden states. \cite{zhou2019graph} In general, there is a certain functional evaluation of
-a node's feature together with the featuers of its neighbors (convolution). The results are then the input for the neural network.
-A simple schematic representation of a deep GCN is depicted in figure \ref{fig:gcn}.
+The properties that define the different variants of GNNs are typically the aggregator to gather information from each node's neighbors
+and a specific updater to update the node's hidden states. \cite{zhou2019graph} In general, there is a certain functional evaluation of
+a node's features together with the featuers of its neighbors (convolution). The results are then the input for the neural network.
+GCN approaches are often categorized as spectral or spatial approaches. Spectral approaches
+work with a spectral representation of the graph and the convolution operation is defined in the Fourier domain by 
+computing the eigendecomposition of the graph Laplacian. \cite{zhou2019graph}
+A simple schematic representation of a deep GCN is depicted in fig. \ref{fig:gcn}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.45\textwidth]{img/gcn.png}
