@@ -266,18 +266,19 @@ which they extend to graph data.
 \label{sec:main_section}
 
 As seen in the previous sections, GNNs are highly non-robust with respect to adversarial attacks on the graph
-structure and the node attributes. This section will provide an overview of the very important and only recently started 
-third phase of research in the domain of robust GNNs which aims to give provable guarantees about the (non-)robustness of a model 
-which is key to use them in safety-critical applications in the real world.\newline
+structure and the node attributes. This section will provide an overview of the crucial and only recently started 
+third phase of research in the domain of robust GNNs, which aims to give provable guarantees about the (non-)robustness of a model.
+Only such guarantees enable the use of GNNs in safety-critical real-world applications.\newline
 The first work on verifying certifiable (non-)robustness to graph perturbations for a general class of models that includes GNNs and label/feature
 propagation is provided by Bojchevski et al. \cite{bojchevski2019certifiable}. By exploiting connections to PageRank and Markov decision processes,
 their certificates can be efficiently computed. Additionally, they investigate robust training procedures that increase the number of certifiably
 robust nodes while maintaining or even improving the predictive accuracy. However, since their work is limited to a rather specific class of 
-graph models based on PageRank, not covering the highly important principle of GCNs, the approach will not be further discussed in this work.\newline
-After a slightly deeper consideration of the approaches of Zügner et al. providing first robustness certificates for GCNs with respect to 
-perturbations of the node attributes in section \ref{sec:paper_two} and the graph structure in \ref{sec:paper_three},
+graph models based on PageRank, not covering the highly important principle of GCNs \cite{10.1145/3394486.3403217}, the approach will not be further 
+discussed in this work.\newline
+After a somewhat deeper consideration of the approaches of Zügner et al., providing first robustness certificates for GCNs with respect to 
+perturbations of the node attributes in section \ref{sec:paper_two} and the graph structure in section \ref{sec:paper_three},
 a brief overview of the latest work on certifiable robustness of GNNs against adversarial structural perturbations is provided 
-in section \ref{sec:paper_four}.\newline
+in section \ref{sec:paper_four}.
 
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
