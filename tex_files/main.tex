@@ -255,7 +255,7 @@ perturbations of the node attributes. If a node has been certified with their me
 possible perturbation given the attack model. Likewise, they can certify non-robustness and present a robust semi-supervised training
 procedure which improves the robustness with only minimal effect on the predictive accuracy.
 Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the problem of GCNs under perturbation of the graph structure and introduce a method
-for certifying their robustness. They show how the problem can be expressed as a well-studied jointly constrained bilinear program and
+for certifying their robustness. The authors show how the problem can be expressed as a jointly constrained bilinear program and
 present a branch-and-bound algorithm to obtain lower bounds on the global optimum. The problem gets decomposed into sub-problems that can
 be formulated as linear programs and therefore be solved using highly optimized LP-solvers (e.g. CPLEX).
 The first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation
