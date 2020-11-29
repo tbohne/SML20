@@ -283,17 +283,20 @@ in section \ref{sec:paper_four}.
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
 
-In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described
+In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described,
 in which the authors propose a first method for provable (non-)robustness of graph convolutional networks with respect
-to perturbations of the node attributes.\newline
-They consider the case of binary node attributes and perturbations that are $L_0$-bounded. If a node has been certified
-with their method, it is guaranteed to be robust under any possible perturbation given the attack model. Likewise, they can
-certify non-robustness. The proposed semi-supervised training procedure that treats labeled and unlabeled nodes jointly,
-significantly improves the robustness of the GNN with only minimal effect on the predictive accuracy.
+to perturbations of the node attributes. If a node has been certified with their method, it is guaranteed to be robust under any possible 
+perturbation given the attack model. Likewise, they can certify non-robustness. The proposed semi-supervised training procedure that treats 
+labeled and unlabeled nodes jointly, significantly improves the robustness of a GNN with only minimal effect on the predictive accuracy.
 As a core challenge, the authors identify that in a GNN, a node's prediction is also effected when perturbing other nodes in the graph
-which makes the space of possible perturbations large. The main question of the work is:
+which makes the space of possible perturbations large. Accordingly, the perturbation budget is constrained locally and globally.
+The main idea is to estimate the worst-case change in the prediction obtained by the GNN under the given space of perturbations.
+If that change is small, the GNN is considered to be robust. To be able to compute the worst-case change efficiently,
+the authors provide bounds on the value and derive relaxations of the GNN and the perturbation space. 
+Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust
+and that using their robust training, the robustness can be improved dramatically. The main question of the work is:
 \begin{quote}
-How to make sure that small changes to the input data do not have a dramatic effect to a GNN?
+    \emph{"How to make sure that small changes to the input data do not have a dramatic effect to a GNN?"}
 \end{quote}
 
 \textbf{Certificates}\newline
@@ -301,24 +304,13 @@ How to make sure that small changes to the input data do not have a dramatic eff
 Given a trained GNN, the authors can give robustness certificates that state that a
 node is robust with regard to a certain space of perturbations. If the certificate
 holds, it is guaranteed that no perturbation in the considered space exists
-which will change the node's prediction. Furthermore, they provide non-robustness
+which will change the node's prediction. Furthermore, they supply non-robustness
 certificates realized by providing adversarial examples.\newline
 
 \textbf{Robust Training}\newline
 
 Besides the certification technique, a learning principle which improves the robustness of a GNN
 by making it less sensitive to perturbations while still ensuring high accuracy for node classification, is proposed.\newline
-
-\textbf{Difference to existing work on provable robustness}\newline
-
-The authors describe the main difference in the fact that existing work on provable robustness for classical neural networks
-does not consider graphs with their relational dependencies which lead to perturbations of multiple instances simultaneously.
-For this, they introduce a novel space of perturbations where the perturbation budget is constrained locally and globally.
-The key idea that they exploit is that they estimate the worst-case change in the predictions obtained by the GNN under
-the space of perturbations. If the worst possible change is small, the GNN is robust. Since the worst-case cannot be computed
-efficiently, they provide bounds on the value and derive relaxations of the GNN and the perturbation space, 
-enabling efficient computation. Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust. 
-Using their robust training, they can dramatically improve the robustness and therefore improve the reliability of GNNs.
 
 \subsubsection{Certifying the robustness of a given GNN}
 
