@@ -320,10 +320,7 @@ If the certificate is provided, the prediction for this node is robust under any
 In a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood
 which allows them to reduce the entries that are required to compute the output for the target node $t$. That drastically improves the scalability
 by reducing the size of the neural network and potential perturbations. Given that sliced version of the GNN, they define their actual
-task which is to verify whether no admissible perturbation changes the prediction of the target node $t$.
-
-\vfill
-\pagebreak
+task which is to verify whether no admissible perturbation changes the prediction of the target node $t$.\newline
 
 Given a graph $G = (A, X)$, a target node $t$, and a GNN with parameters $\theta$. $A$ is the adjacency matrix and $X$ represents the features of the nodes.
 The sliced versions of $A$ and $X$ are denoted as $\dot{A}$ and $\dot{X}$. $y^*$ denotes the class of node $t$ given by ground truth or predicted.
@@ -338,42 +335,36 @@ of admissible perturbations to the model attributes is given by
 \begin{gather} 
 \label{eq:1}
     m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \\
-    s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X})
+    s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X}) \nonumber
 \end{gather}
 where $f_{\theta}^t(\tilde{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
 of admissible perturbations to the node attributes.
-If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust with regard to node $t$ and $X_{q, Q}$. 
-Thus, if the minimum is positive, there exists no adversarial example within the admissible perturbations that leads 
-to the classifier changing its prediction to the other class.\newline
-
+If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust with regard to node $t$ and perturbations $X_{q, Q}$,
+which means that there is no adversarial example within the admissible set of perturbations that causes a prediction change.\newline
 The authors identify two major obstacles in efficiently finding the minimum in \ref{eq:1}.
 First, the data domain is discrete which makes optimization often intractable. Second, the GNN ($f_{\theta}^t$) is nonconvex
 due to the nonlinear activation function in the neural network. They tackle those issues by efficiently computing lower bounds
-on the minimum of the original problem by performing relaxations of the neural network and the data domain.
-If a lower bound is positive, the classifier is robust w.r.t. the set of admissible perturbations.
-To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are many ways to achieve this
+on the minimum of the original problem via relaxations of the neural network and the data domain.
+The idea is that if a lower bound is positive, the classifier is robust with regard to the set of admissible perturbations.
+To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are several ways to achieve this
 in the literature and the authors follow one that leads to a linear objective function which is a lower bound on the minimum of the original problem.
-However, directly solving it is still intractable due to the discrete data domain.
+Although they end up with a linear problem (all constraints are linear as well) which can be solved using highly optimized LP-solvers,
+the potentially large number of variables in a GNN that would reduce the efficiency, lets them consider a different approach.
+They consider the dual of the LP, because any dual-feasible solution is a lower bound on the minimum of the primal problem
+and if they are able to find a dual-feasible solution for which the objective function of the dual is positive,
+they know that the minimum of the primal problem has to be positive as well, guaranteeing robustness of the GNN with regard to any perturbation in the set.
+This approach enables them to compute robustness certificates very efficiently since it is not required to solve the dual problem optimally.\newline
+In summary, by considering the dual program, robustness certificates can be obtained if the dual values are positive for every $y \neq y^*$.
+Non-robustness certificates, on the other hand, can be constructed by the primal feasible perturbation if the primal values are negative for
+one $y \neq y^*$. For some nodes, neither of these certificates can be given. The authors highlight that obtaining good upper and lower bounds is 
+crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. Futhermore, the bounds can 
+be used for backpropagation which is an important aspect for robust training.\newline
 
-The problem is now transformed into a linear problem since besides the linear objective function, all constraints are linear as well.
-While it is possible to solve LPs efficiently using highly optimized LP-solvers, the potentially large number of variables in a GNN
-makes this approach rather slow. Alternatively, they consider the dual of the LP. Any dual-feasible solution 
-is a lower bound on the minimum of the primal problem. If they find any dual-feasible solution for which the objective function of the dual is positive,
-they know that the minimum of the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set.
-The dual problem's specific form makes it amendable for easy optimization. Since it's not required to solve the dual problem optimally, 
-any dual-feasible solution leads to a lower bound on the original problem, the computation of robustness certificates is extremely fast.
-In summary, by considering the dual program, they obtain robustness certificates if the obtained (dual) values are positive for every $y \neq y^*$.
-In contrast, by constructing the primal feasible perturbation, they obtain non-robustness certificates if the obtained (exact, primal) values
-are negative for one $y \neq y^*$. For some nodes, neither of these certificates can be given.
+The certification of robustness for given GNNs is of course extremely useful for practical applications, but the next step would be to
+train classifiers that are certifiably robust to adversarial attacks which will be considered in the following section.
 
 \vfill
 \pagebreak
-
-Obtaining good upper and lower bounds is crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. 
-All bounds can be computed highly efficiently and one can even backpropagate thorugh them which is an important aspect for the robust training.
-While being able to certify robustness of a given GNN by itself is extremely valuable for being able to trust the model's output in real world
-applications, it is also highly desirable to train classifiers that are certifiably robust to adversarial attacks.
-They use their findings to train robust GNNs.\newline
 
 \subsubsection{Robust Training}
 
