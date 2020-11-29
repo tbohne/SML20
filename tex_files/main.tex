@@ -314,28 +314,33 @@ by making it less sensitive to perturbations while still ensuring high accuracy 
 
 \subsubsection{Certifying the robustness of a given GNN}
 
-The first goal is to derive an efficient principle for robustness certificates. Given a trained GNN and a specific node $t$ under consideration,
-their goal is to provide a certificate which guarantees that the prediction made for $t$ will not change even if the data gets perturbed.
-If the certificate is provided, the prediction for this node is robust under any admissible perturbation.\newline
+The first step is to derive an efficient principle for robustness certificates. Given a trained GNN and a specific node $t$ under consideration,
+the author's goal is to provide a certificate which guarantees that the prediction made for $t$ will not change when the data gets perturbed.
+If the certificate is provided, the prediction for this node is robust under any admissible perturbation.
 In a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood
 which allows them to reduce the entries that are required to compute the output for the target node $t$. That drastically improves the scalability
 by reducing the size of the neural network and potential perturbations. Given that sliced version of the GNN, they define their actual
-task which is to verify whether no admissible perturbation changes the prediction of the target node $t$.\newline
+task which is to verify whether no admissible perturbation changes the prediction of the target node $t$.
 
-Given a graph $G = (A, X)$, a target node $t$, and a GNN with parameters $\theta$. $A$ is the adjacency matrix and $X$ represents the nodes' features.
+\vfill
+\pagebreak
+
+Given a graph $G = (A, X)$, a target node $t$, and a GNN with parameters $\theta$. $A$ is the adjacency matrix and $X$ represents the features of the nodes.
 The sliced versions of $A$ and $X$ are denoted as $\dot{A}$ and $\dot{X}$. $y^*$ denotes the class of node $t$ given by ground truth or predicted.
 One important aspect, the authors emphasize, is that it is crucial to obtain certificates that reflect realistic attacks.
 They define the set of admissible perturbations by limiting the number of changes to the original attributes with a perturbation
-budget $Q \in \mathbb{N}$ and measure the $L_0$ norm in the change to $\dot{X}$. Since in a graph setting, an adversary can attack the target node
-by also changing the node attributes of its $L-1$ hop neighborhood, $Q$ acts as global perturbation budget. The perturbations are also limited locally
-by a budget of $q$. The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under some set
+budget and measure the $L_0$ norm in the change to $\dot{X}$. 
+The perturbations are limited locally as well as globally, because in a graph setting, a node can not only be directly attacked by changing
+its attributes, but also indirectly by changing the node attributes of its $L-1$ hop neighborhood.
+Therefore, the authors introduce a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$.
+The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under some set
 of admissible perturbations to the model attributes is given by
 \begin{gather} 
 \label{eq:1}
     m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \\
     s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X})
 \end{gather}
-where $f_{\theta}^t(\dot{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
+where $f_{\theta}^t(\tilde{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
 of admissible perturbations to the node attributes.
 If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust with regard to node $t$ and $X_{q, Q}$. 
 Thus, if the minimum is positive, there exists no adversarial example within the admissible perturbations that leads 
