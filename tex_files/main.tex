@@ -571,11 +571,11 @@ in the GNN are needed, which are inspired by approaches from the literature.\new
 
 \textbf{Jointly constrained bilinear program}\newline
 
-Using the relaxation for the neural network and the constraints on the message-passing matrix, they are able to
-rephrase the objective function in \ref{eq:5} as a bilinear objective function.
-Afterwards, the authors add another artificial constraint that does not change the solution, but enables them to use 
-a principle proposed in the literature which allows them so solve the jointly constrained 
-bilinear optimization problem. The idea is to use the convex envelope of the objective function to compute lower bounds 
+Using the relaxation of the neural network and the constraints on the message passing matrix, the authors are able to
+rephrase the objective function \ref{eq:5} as a bilinear objective function.
+Afterwards, they add another artificial constraint that does not change the solution, but enables them to use 
+a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem. 
+The idea is to use the convex envelope of the objective function to compute lower bounds 
 and to apply a branch-and-bound procedure to recursively subdivide the domain.\newline
 
 \textbf{Improvements for graph certificates}\newline
