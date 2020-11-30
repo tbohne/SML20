@@ -577,26 +577,23 @@ Afterwards, they add another artificial constraint that does not change the solu
 a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem. 
 The idea is to use the convex envelope of the objective function to compute lower bounds 
 and to apply a branch-and-bound procedure to recursively subdivide the domain.\newline
-
-\textbf{Improvements for graph certificates}\newline
-
-It is important to note that it is not necessary to find the global solution of the bilinear problem, only its sign is of relevance.
-In each iteration, the upper and lower bounds become increasingly accurate and the idea is to stop as soon as possible.
-If the lower bound is positive, they successfully certified robustness. If the upper bound is negative, no robustness certificate
-can be given for the instance, which does not imply that the classifier is not robust, it just can not be certified.
-They further improve the procedure by exploiting knowledge about the graph domain.\newline
+The authors highlight that it is not necessary to find the global solution of the bilinear problem, 
+only its sign is of relevance. In each iteration, the upper and lower bounds become increasingly accurate and the idea is to 
+stop as soon as possible. If the lower bound is positive, they successfully certified robustness. If the upper bound is negative, 
+no robustness certificate can be given for the instance, which does not imply that the classifier is not robust, 
+it just can not be certified. They further improve the procedure by exploiting knowledge about the graph domain.\newline
 
 \textbf{Summary}\newline
 
-The authors rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
-as a jointly constrained bilinear program. While this problem is not convex, they can use a branch-and-bound procedure to get increasingly
-accurate upper and lower bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
+The work rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
+as a jointly constrained bilinear program. While this problem is not convex, the authors can use a branch-and-bound procedure to get increasingly
+accurate bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
 and therefore have an efficient way of robustness certification.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
-As in section \ref{sec:paper_two}, the authors provide an experimental evalauation of their approaches on the widely used and publicly available 
-datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED}.
+As in their previous paper presented in section \ref{sec:paper_two}, an experimental evalauation of the approaches on the commonly used
+datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED} is provided.
 To evaluate the method on different severities of perturbations, they use three different local $q$ and global $Q$ perturbation budgets. 
 Their method can certify robustness, but not non-robustness. Obtaining the true number of non-robust nodes requires a brute-force search over 
 the set of all possible perturbations and is therefore intractable. However, they obtain an estimate on the number of non-robust nodes by also 
