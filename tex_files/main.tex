@@ -564,10 +564,10 @@ Therefore, an optimal solution for \ref{eq:5} leads to a valid lower bound for t
 
 \textbf{Relaxation of the neural network}\newline
 
-As stated in the first challenge, the objective function, which is based on the original neural network $f_{\theta}$, is still challenging
-due to the nonlinearities. The authors follow the relaxation approach from section \ref{sec:paper_two}. Under this relaxation, 
-the output $H$ of the ReLU activation function is no longer deterministic, but treated as a variable. For the convex relaxation,
-valid lower and upper bounds on the pre-ReLU activations in the GNN are needed which are inspired by approaches from the literature.\newline
+As stated in the first challenge in fig. \ref{fig:challenges}, the objective function is hard due to the non-convexity. The authors follow the relaxation approach 
+from section \ref{sec:paper_two}, which causes the output $H$ of the ReLU activation function to no longer be deterministic, 
+but treated as a variable. For the convex relaxation, they state that valid lower and upper bounds on the pre-ReLU activations 
+in the GNN are needed, which are inspired by approaches from the literature.\newline
 
 \textbf{Jointly constrained bilinear program}\newline
 
