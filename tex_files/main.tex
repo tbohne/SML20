@@ -369,53 +369,50 @@ train classifiers that are certifiably robust to adversarial attacks which will 
 \subsubsection{Robust Training}
 
 As seen, the value of the dual can be interpreted as lower bound on the margin between the two considered classes.
-They denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
+The authors denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
 for any class $k$ compared to the given class $y$. Node $t$ with class $y_t^{\ast}$ is certifiably robust if $p_{\theta}^t < 0$ for all entries
-except the entry at $y_t^{\ast}$ which is always $0$.
-
-The training objective typically used to train GNNs for node classification:
+except the entry at $y_t^{\ast}$ which is always $0$. A starting point for a training objective is the following typical objective 
+to train GNNs for node classification:
 \begin{gather}
     \min_{\theta} \sum_{t \in \mathcal{V}_L} \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
 where $\mathcal{V}_L$ is the set of labeled nodes, $\mathcal{L}$ is the
-cross entropy function and $y_t^{\ast}$ is the known class label of node $t$.
-To improve robustness for classical neural networks, it has been proposed to instead optimize the robust cross entropy loss:
+cross entropy function and $y_t^{\ast}$ denotes the known class label of node $t$.
+It is only a starting point, because they instead refer to the so-called robust cross entropy loss objective from the literature,
+which improves the robustness of classical neural networks:
 \begin{gather}
+\label{eq:between}
     \min_{\theta, \{\Omega^{t, k}\}_{t \in \mathcal{V}_L, 1 \leq k \leq K}} \sum_{t \in \mathcal{V}_L} \mathcal{L} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast})
 \end{gather}
-which is an upper bound on the worst case loss achievable. They also argue that they can omit optimizing over $\Omega$.
-To overcome the common issue of overconfidence in deep learning models and to facilitate true robustness, they propose an alternative
-robust loss that they refer to as robust hinge loss:
+\ref{eq:between} is an upper bound on the worst case loss achievable. To overcome the common issue of overconfidence in deep learning 
+models and to facilitate true robustness, the authors propose an alternative robust loss that they refer to as robust hinge loss:
 \begin{gather}
+\label{eq:between_2}
     \mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}
 \end{gather}
-If the loss is $0$, the node $t$ is certifiably robust.
-
-They then combine the robust hinge loss with standard cross entropy to obtain the following robust optimization problem:
-
+If the loss in \ref{eq:between_2} is $0$, the node $t$ is certifiably robust and guaranteeing a margin of at least $M$ to the decision boundary.
+Then the robust hinge loss gets combined with standard cross entropy to obtain the following robust optimization problem:
 \begin{gather}
 \label{eq:2}
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
-
 The advantage compared to the robust cross entropy loss is that the cross entropy term is operating on the exact, non-relaxed GNN.
 The authors keep using the exact GNN model for the node prediction, while the relaxed GNN is only used to ensure robustness. 
 In case every node is robust, the term $\mathcal{\hat{L}}_M$ becomes $0$ and reduces the whole term to the standard cross-entropy loss 
 on the exact GNN.\newline
-The optimization problem \ref{eq:2} only improves robustness regarding the labeled nodes.
+The optimization problem \ref{eq:2} only improves robustness regarding the labeled nodes $\mathcal{V}_L$.
 To handle the semi-supervised setting ensuring also robustness for the unlabeled nodes, they extend the robust hinge loss
-as depicted in \ref{eq:3}. The unlabeled nodes are used for robustness purposes only. \ref{eq:3} aims to correctly classify all labeled 
-nodes using the exact GNN, while making sure that every node has at least a margin of $M_{\ast}$ from the decision boundary even under
-worst-case perturbations. By setting a smaller margin $M_2$ for the unlabeled nodes, they can train their classifier to be robust.
-
+as depicted in \ref{eq:3}. The unlabeled nodes are used for robustness purposes only. 
+\ref{eq:3} is based on the idea to use the exact GNN to correctly classify all labeled nodes and simultaneously ensuring that
+every node has at least a margin of $M$ from the decision boundary even under worst-case perturbations.
+By setting a smaller margin $M_2$ for the unlabeled nodes, they can train their classifier to be robust.
 \begin{multline}
 \label{eq:3}
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_{M_1} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast}) \\
     + \sum_{t \in \mathcal{V} \backslash \mathcal{V}_L} \mathcal{\hat{L}}_{M_2} (p_{\theta}^t (\tilde{y}_t, \Omega^{t, \cdot}), \tilde{y}_t)
 \end{multline}
-
-Since the dual program and the lower and upper activation bounds are differentiable, a robust GNN can be trained with gradient descent 
-and standard deep learning libraries.
+The authors conclude that since the dual program and the lower and upper activation bounds are differentiable, a robust GNN can be 
+trained with gradient descent and standard deep learning libraries.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
