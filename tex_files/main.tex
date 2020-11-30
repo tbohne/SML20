@@ -529,40 +529,38 @@ which is the case if the lower bound is positive.\newline
 
 \textbf{Optimization over the graph structure}\newline
 
-To be able to handle the second challenge mentioned in \ref{fig:challenges}, it is important to set reasonable constraints to 
-the perturbations the attacker can perform such that resulting certificates reflect realistic attacks.
-For discrete data such as the graph structure $A$, a natural norm to measure distance is the number of perturbed
-elements, as measured by the non-convex $L_0$ norm. 
-To do that, the authors translate the setup of their previous paper discussed in section \ref{sec:paper_two},
-which introduces local and global $L_0$ constraints on the node attributes, to graph structure perturbations.
-Precisely, they allow the attacker to insert at most $q \in \mathbb{N}$ edges to any node $i$, and at most $Q \in \mathbb{N}$ edges
-across the whole graph.
-They assume an attacker has potentially inserted edges to the unknown original graph structure $A^{\ast}$ to produce
-$A$ which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
-The traditional approach to optimize over a discrete variable is to perform a continuous relaxation. 
-However, any optimization problem involving $\tilde{A}$ in the objective function is not convex in the variables $\tilde{A}_{ij}$ 
-which means that a simple continuous relaxation does not leat to a tractable optimization problem. Alternatively, 
-the authors propose to optimize over the continuous-valued degree-normalized message-passing matrix instead of the binary adjacency matrix $\tilde{A}$.
-They denote the variable corresponding to the message-passing matrix by $\hat{A}$. This has the benefits of avoiding
-to optimize over a discrete variable as well as bypassing the nonconvex degree-normalization procedure of GCNs.
-The optimization problem in \ref{eq:4} gets replaced by:
+To be able to handle the second challenge mentioned in \ref{fig:challenges}, the authors set reasonable constraints to 
+the perturbations an attacker can perform such that resulting certificates reflect realistic attacks.
+As a norm to measure distance for the discrete graph structure $A$, they use the number of perturbed elements
+measured by the non-convex $L_0$ norm. To do that, the setup of the previous paper discussed in section \ref{sec:paper_two},
+which introduces local and global $L_0$ constraints on the node attributes, gets translated to graph structure perturbations.
+Precisely, they allow the attacker to insert at most $q_i \in \mathbb{N}$ edges to a node $i$, and at most $Q \in \mathbb{N}$ edges
+across the whole graph. The authors assume an attacker has potentially inserted edges to the unknown original graph 
+structure $A^{\ast}$ to produce $A$, which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
+A traditional approach to optimize over intractable discrete variables is to perform a continuous relaxation.
+However, as the authors claim, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
+in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not leat to a tractable optimization problem.
+Alternatively, it is proposed to optimize over the continuous-valued degree normalized message passing matrix instead of the binary 
+adjacency matrix $\tilde{A}$. They denote the variable corresponding to the message passing matrix by $\hat{A}$. 
+As a result, they replace the optimization problem in \ref{eq:4} by the following problem, which not only avoids optimization over
+a discrete variable, but also the nonconvex degree normalization procedure.
 \begin{gather}
 \label{eq:5}
     \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
     - f_{\theta}^t (X, \hat{A})_y \\
     s.t. \hat{A} \in \mathcal{\hat{A}}(A) \nonumber
 \end{gather}
-The neural network $f_{\theta}^t$ now directly takes as input the degree-normalized message-passing matrix.
-They carefully design the set of admissible degree-normalized message-passing matrices $\mathcal{\hat{A}}(A)$ based
+The neural network $f_{\theta}^t$ in objective \ref{eq:5} directly takes the message passing matrix $\hat{A}$ as input.
+The authors carefully design the set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
 on the perturbation budget and the graph, because any degree-normalized matrix that could be produced by first performing discrete
 perturbations to $A$ and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.
-Then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, i.e. the optimum of the modified optimization problem in
+Only then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, which means that the optimum of the modified optimization problem in
 \ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.
-The authors derive constraints that give rise to a valid and tight set of admissible message-passing matrices $\mathcal{\hat{A}}$
-and are convex, which enables tractable optimization. To further enable efficient optimization, they require these constraints to be linear
+The authors derive constraints to generate a valid and tight set of admissible message passing matrices $\mathcal{\hat{A}}$.
+Those are convex to enable tractable optimization. To further enable efficient optimization, they require the constraints to be linear
 as well as efficient to compute. The set $\mathcal{\hat{A}}(A)$ is constructed in a way that $\mathcal{T}(\mathcal{A}(A)) \subseteq \mathcal{\hat{A}}(A)$,
 i.e. for $\tilde{A} \in \mathcal{A}(A)$ it holds that $\mathcal{T}(\tilde{A}) \in \mathcal{\hat{A}}(A)$.
-Therefore, the optimal solution in \ref{eq:5} leads to a valid lower bound for the original problem in \ref{eq:4}.\newline
+Therefore, an optimal solution for \ref{eq:5} leads to a valid lower bound for the original objective \ref{eq:4}.\newline
 
 \textbf{Relaxation of the neural network}\newline
 
