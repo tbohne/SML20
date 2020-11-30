@@ -491,11 +491,11 @@ change under any admissible perturbation.
 
 The considered task is semi-supervised node classification in a graph with $D-$dimensional
 node features. Let $G = (A, X)$ be an attributed, unweighted graph, where $A \in \{0, 1\}^{N \times N}$ is the
-adjacency matrix and $X \in \mathbb{R}^{N \times D}$ the nodes' features. Given a subset $V_L \subseteq V$ of 
+adjacency matrix and $X \in \mathbb{R}^{N \times D}$ are the features of the nodes. Given a subset $V_L \subseteq V$ of 
 labeled nodes with class labels from $C = \{1, 2, ..., K\}$, the goal is to assign each node in $G$ to one class in $C$.
 The message passing matrix that defines how the activations are propagated through the network can be obtained
 by a defined transformation $\mathcal{T}(A)$ to the adjacency matrix. Just as in the previous section, $\theta$ summarizes the trainable weights of 
-the GNN and is typically learned by minimizing the cross-entropy loss on the given labeled training nodes $V_L$. The output 
+the GNN and is typically learned by minimizing the cross entropy loss on the labeled training nodes $V_L$. The output 
 $H_{vc}^{(L)}$ is the probability of assigning node $v$ to class $c$.\newline
 
 To derive robustness certificates, the authors first set up the optimization problem they aim to solve, just
@@ -503,7 +503,7 @@ as in section \ref{sec:paper_two}. They assume an already trained GNN with weigh
 structure in form of an adjacency matrix $A$. The unperturbed graph structure $A^{\ast}$ is not known, but $A$ is
 assumed to be reachable from $A^{\ast}$ via an admissible set of perturbations. 
 The idea is to certify robustness for a single target node $t$ at a time which guarantees that the prediction
-made for node $t$ cannot have been altered by the attacker.\newline
+made for node $t$ cannot have been altered by the attacker.
 Formally, they aim to solve the following problem.
 Let $y^{\ast}$ denote the class of node $t$ (ground truth or predicted). The worst case margin between classes $y^{\ast}$ and $y$
 achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the graph structure is given by:
@@ -514,17 +514,18 @@ achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the gr
     s.t. \tilde{A} \in \mathcal{A}(A) \nonumber
 \end{gather}
 If $m^t (y^{\ast}, y) > 0$ for all classes $y \neq y^{\ast}$, the neural network is certifiably robust with regard to node $t$
-and $\mathcal{A}$. If the minimum is positive, it means that there exists no adversarial example within the defined
-admissible perturbations that leads to the classifier changing its prediction to the other class $y$.
-Solving the above optimization problem is hard due to the three challenges mentioned in \ref{fig:challenges}.
-Nevertheless, they are able to determine lower bounds on the minimum of the original problem by:
+and a set of admissible perturbations $\mathcal{A}$. Therefore, just as in section \ref{sec:paper_two}, if the minimum is positive, 
+it means that there exists no adversarial example within the defined admissible perturbations that leads to the classifier changing its 
+prediction to the other class $y$. Solving the optimization problem in \ref{eq:4} is hard due to the three challenges mentioned in fig. \ref{fig:challenges}.
+Nevertheless, the authors are able to determine lower bounds on the minimum of the original problem by:
 \begin{itemize}
     \item Optimizing over the continuous-valued message passing matrix $\mathcal{T}(A)$ instead of the binary
     adjacency matrix $A$.
     \item Performing relaxations of the activation functions in the neural network.
     \item Expressing the problem as a jointly-constrained bilinear program and proposing a branch-and-bound algorithm to solve it.
 \end{itemize}
-Finally, if the lower bound is positive, the classifier is robust with regard to admissible perturbations.\newline
+Those lower bounds enable them to decide whether the classifier is robust with regard to admissible perturbations,
+which is the case if the lower bound is positive.\newline
 
 \textbf{Optimization over the graph structure}\newline
 
