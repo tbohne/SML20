@@ -592,27 +592,29 @@ and therefore have an efficient way of robustness certification.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
-As in their previous paper presented in section \ref{sec:paper_two}, an experimental evalauation of the approaches on the commonly used
+As in the previous paper presented in section \ref{sec:paper_two}, an experimental evaluation of the approaches on the commonly used
 datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED} is provided.
-To evaluate the method on different severities of perturbations, they use three different local $q$ and global $Q$ perturbation budgets. 
-Their method can certify robustness, but not non-robustness. Obtaining the true number of non-robust nodes requires a brute-force search over 
-the set of all possible perturbations and is therefore intractable. However, they obtain an estimate on the number of non-robust nodes by also 
-performing gradient-based adversarial attacks with these budgets. The general trend they observe is that increasing the perturbation budget leads 
-to the fraction of certifiably robust nodes decreasing, while on the other hand the share of non-robust nodes increases. 
-Surprisingly, on all datasets more than $5\%$ of the nodes can change their predicted class label even when only a single edge is removed, 
-indicating that standard GCNs are highly nonrobust. That suggests that robust training on a different objective (robustness to attribute perturbations)
-also has a beneficial effect on the robustness with regard to graph structure perturbations. For the vast majority of nodes they come to a clear 
-decision (robust / non-robust).\newline
-A standard defense against attacks is adversaral training, i.e. including adversarially perturbed examples into the training.
-In the setting here, this corresponds to randomly dropping edges during training. The authors observe that none of the roubst training procedures
-consistently improves upon standard training, except the training for robustness with regard to feature perturbations proposed
-in section \ref{sec:paper_two}. Hence, they conclude that standard adversarial training does not lead to higher robustness.\newline
+To evaluate the method on different severities of perturbations, the authors use three different local ($q$) and global ($Q$) perturbation budgets. 
+Their method can certify robustness, but not non-robustness. Although obtaining the number of non-robust nodes is intractable, they
+are able to provide an estimate on the number of non-robust nodes by performing gradient-based adversarial attacks with the budgets.
+The general trend they observe is that increasing the budget decreases the number of certifiably robust nodes and increases
+the number of non-robust nodes.
 
-The authors presented a first method for certifiable robustness of GCNs under structure perturbations. 
-They frame the problem as a jointly-constrained bilinear program, and propose a branch-and-bound procedure that makes use of knowledge
-about the graph domain. The original problem is decomposed into sub-problems, which are in turn linear programs and can be solved using
-highly optimized LP-solvers (e.g. CPLEX). The certification method is able to certify a large fraction of the nodes.
-The authors suggest that future work could explore training methods making direct use of the robustness goal.
+\vfill
+\pagebreak
+
+The results show that on all datasets more than $5\%$ of the nodes can change their predicted class label even when only a single 
+edge is removed, which the authors interpret as a clear indication for the fact that standard GCNs are highly nonrobust.
+For a vast majority of nodes they come to a clear decision of robustness / non-robustness.\newline
+Another very crucial observation that is given is that 'classical' adversarial training procedures such as including adversarially
+perturbed examples into the training do not improve upon standard training. Only the training for robustness with regard to feature
+perturbations that is considered in section \ref{sec:paper_two} is able to do so. They conclude that standard adversarial training does not 
+lead to higher robustness which confirms the relevance of the work.\newline
+In summary, the authors present a first method for certifiable robustness of GCNs under perturbations of the graph structure.
+The problem is framed as a jointly-constrained bilinear program and a branch-and-bound algorithm is presented that makes 
+use of knowledge about the graph domain and decomposes it into sub-problems.
+These sub-problems are linear programs that can be solved using highly optimized LP-solvers (e.g. CPLEX).
+Finally, the presented certification method is able to certify a large fraction of the nodes.
 
 \subsection{Robustness guarantee of any GNN for node and graph classifications}
 \label{sec:paper_four}
