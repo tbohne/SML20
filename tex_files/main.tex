@@ -416,30 +416,29 @@ trained with gradient descent and standard deep learning libraries.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
-The authors provide an experimental evalauation of their approaches on the widely used and publicly available datasets \textit{CORA-ML}
-, \textit{CITESEER}, and \textit{PUBMED}. First, they evaluate the robustness of traditionally trained GNNs using their certification method and
-afterwards, they show that the robust training procedure dramatically improves the GNN's robustness while sacrificing
-only minimal accuracy on the unlabeled nodes. Two important observations are:
+The work ends with an experimental evaluation of the approaches on the common datasets \textit{CORA-ML}, 
+\textit{CITESEER}, and \textit{PUBMED}. First, the robustness of traditionally trained GNNs is evaluated using the presented
+certification method and afterwards, it is shown that the robust training procedure dramatically improves the robustness 
+of GNNs while sacrificing only minimal accuracy on the unlabeled nodes. On average, the labeled nodes are more robust than the unlabeleld
+ones, which is not surprising. The authors highlight two important observations:
 \begin{enumerate}
-    \item The certificates are often very tight and the amount of nodes for which they cannot give a certificate is rather small.
+    \item The certificates are often very tight and the amount of nodes for which no certificate can be given is rather small.
     \item GNNs trained traditionally are only certifiably robust up to very small perturbations.
 \end{enumerate}
-Unsurprisingly, the labeled nodes are on average more robust than the unlabeled nodes. Moreover, they analyze what contributes to certain
-nodes being more robust than others and see that neighborhood purity plays an important role. Having many neighbors means a large 
-surface for adversarial attacks. In contrast, nodes with low degree might be affected more strongly since each node in its neighborhood
-has a larger influence.\newline
-Regarding the robust training, they can show that there method dramatically increases the number of robust nodes. Almost every node
+Moreover, they analyze what contributes to certain nodes being more robust than others and see that neighborhood purity plays an important role.
+They claim that having many neighbors means a large surface for adversarial attacks while nodes with low degree might be affected more strongly 
+since each node in its neighborhood has a larger influence.\newline
+Regarding the robust training, they can show that their method dramatically increases the number of robust nodes. Almost every node
 is robust when considering the $Q$ for which the model has been trained and the overall amount of nodes that can be certified is also 
-increased significantly. Even nodes for which they certified non-robustness before, become certifiably robust.
-The perhaps most important aspect is that the increased robustness comes at almost no loss in classification accuracy.
+increased significantly. Even nodes for which they certified non-robustness before, become certifiably robust.\newline
 
 \textbf{Conclusion}\newline
 
 The presented approaches were the first on certifying robustness of GNNs, considering perturbations of the node attributes.
-By relaxing the GNN and considering the dual, the authors realized an efficient computation of the certificates.
+By relaxing the GNN and considering the dual, the authors realize an efficient computation of the certificates.
 The experimental results indicate the tightness of the certificates since for most nodes a certificate can be given.
 They show that traditionally trained GNNs are non-robust and that using the presented robust training method strengthens the robustness.
-All this is achieved with only a minor effect on the classification accuracy. 
+The perhaps most important aspect is that the increased robustness comes at almost no loss in classification accuracy.
 As future work, they already bridge to the next section which considers perturbations of the graph structure.
 
 \subsection{Robustness of GCNs with respect to perturbations of the graph structure}
