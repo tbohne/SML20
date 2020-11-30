@@ -184,9 +184,6 @@ of a model, which is key to use them in safety-critical applications in the real
 which is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
 will be on publications from that phase.
 
-\vfill
-\pagebreak
-
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
 
@@ -363,9 +360,6 @@ be used for backpropagation which is an important aspect for robust training.\ne
 The certification of robustness for given GNNs is of course extremely useful for practical applications, but the next step would be to
 train classifiers that are certifiably robust to adversarial attacks which will be considered in the following section.
 
-\vfill
-\pagebreak
-
 \subsubsection{Robust Training}
 
 As seen, the value of the dual can be interpreted as lower bound on the margin between the two considered classes.
@@ -453,12 +447,23 @@ After showing how this problem can be expressed as a jointly constrained bilinea
 algorithm to obtain lower bounds on the global optimum. Since these lower bounds are significantly tighter, they are able to
 certify up to twice as many nodes compared to a standard linear relaxation.
 In the work, the realistic case where an attacker is allowed to insert new edges is considered to reflect real-world
-applications where new edges such as likes or follows in social media are cheap and easy to inject. A certificate issued by their method 
-states that a node's prediction could not have been altered by edges potentially inserted by an attacker. 
-There are three major challenges identified by the authors:
+applications in which new edges such as likes or follows in social media are cheap and easy to inject. 
+The high-level idea, which is visualized in fig. \ref{fig:high_level}, is that there is a clean graph that is reachable by removing
+these adversaries that could have changed the model's prediction.
+A certificate issued by their method states that a node's prediction could not have been altered by edges potentially
+inserted by an attacker. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/high_level_graph_pert.png}
+    \caption{High-level idea of Zügner et al. \cite{10.1145/3394486.3403217}}
+    \label{fig:high_level}
+\end{figure}
 
 \vfill
 \pagebreak
+
+There are three major challenges identified by the authors:
 
 \begin{figure}[h]
     \centering
@@ -632,10 +637,7 @@ they assume testing examples to be continuous although graphs are binary data st
 They develop a randomized smoothing approach for binary data and thereby enable certified robustness for GNNs against structural perturbation.\newline
 In summary, the authors prove the first certified robustness guarantee of any GNN against perturbations of the graph structure
 and show that the certified robustness guarantee is tight. 
-The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.\newline
-
-\vfill
-\pagebreak
+The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.
 
 \section{Conclusion + Discussion + Outlook}
 \label{sec:conclusion}
