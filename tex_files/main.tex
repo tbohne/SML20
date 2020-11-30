@@ -457,6 +457,9 @@ applications where new edges such as likes or follows in social media are cheap 
 states that a node's prediction could not have been altered by edges potentially inserted by an attacker. 
 There are three major challenges identified by the authors:
 
+\vfill
+\pagebreak
+
 \begin{figure}[h]
     \centering
     \begin{enumerate}
@@ -470,20 +473,19 @@ There are three major challenges identified by the authors:
     \caption{Major challenges to be solved.}
     \label{fig:challenges}
 \end{figure}
-
 The first challenge is also a problem for traditional neural networks and the authors follow the approach they already used
-in section \ref{sec:paper_two} which relies on a relaxation of the ReLU activation function.
+in section \ref{sec:paper_two}, which relies on a relaxation of the ReLU activation function.
 The second challenge, on the other hand, requires new approaches. 
 The binary attribute data in section \ref{sec:paper_two} was handled by a continuous relaxation which is, as the authors show,
 not appropriate when considering perturbations of the graph structure. Instead, they directly work on the 
 continuous-valued degree-normalized message passing matrix used by GCNs.
 Another unstudied question is posed by the third challenge and requires a way to deal with changes to the message passing matrix.
-The difficulty here is that the message passing matrix is used at each layer, as opposed to the input features,
-which appear only in the first layer of the neural network. Thus, the ReLU relaxations no longer lead to convex (linear)
+The authors see the difficulty here in the fact that the message passing matrix is used at each layer, as opposed to the input features,
+which appear only in the first layer of the neural network, which means that the ReLU relaxations no longer lead to convex (linear)
 constraints but become nonconvex. It is shown that the problem can be expressed as a jointly constrained bilinear program
 which can be used to obtain lower bounds on the worst-case change in a node's prediction by a novel branch-and-bound algorithm.
-If positive, these lower bounds serve as robustness certificates, stating that a node's prediction does not change under any 
-admissible perturbation.
+These lower bounds can be used as robustness certificates if they are positive, which means that the prediction of a node will not
+change under any admissible perturbation.
 
 \subsubsection{Robustness Certification for Graph Structure Perturbations}
 
