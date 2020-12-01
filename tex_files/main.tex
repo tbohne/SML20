@@ -284,11 +284,11 @@ in section \ref{sec:paper_four}.
 \label{sec:paper_two}
 
 In this section, the approach of Zügner et al. \cite{Zuegner_2019} will be described,
-in which the authors propose a first method for provable (non-)robustness of graph convolutional networks with respect
-to perturbations of the node attributes. If a node has been certified with their method, it is guaranteed to be robust under any possible 
-perturbation given the attack model. Likewise, they can certify non-robustness. The proposed semi-supervised training procedure that treats 
+in which a first method for provable (non-)robustness of graph convolutional networks with respect
+to perturbations of the node attributes is proposed. If a node has been certified with the method, it is guaranteed to be robust under any possible 
+perturbation given the attack model. Likewise, non-robustness can be certified. The proposed semi-supervised training procedure that treats 
 labeled and unlabeled nodes jointly, significantly improves the robustness of a GNN with only minimal effect on the predictive accuracy.
-As a core challenge, the authors identify that in a GNN, a node's prediction is also effected when perturbing other nodes in the graph
+As a core challenge, it is identified that in a GNN, a node's prediction is also affected when perturbing other nodes in the graph
 which makes the space of possible perturbations large. Accordingly, the perturbation budget is constrained locally and globally.
 The main idea is to estimate the worst-case change in the prediction obtained by the GNN under the given space of perturbations.
 If that change is small, the GNN is considered to be robust. To be able to compute the worst-case change efficiently,
@@ -329,7 +329,7 @@ They define the set of admissible perturbations by limiting the number of change
 budget and measure the $L_0$ norm in the change to $\dot{X}$. 
 The perturbations are limited locally as well as globally, because in a graph setting, a node can not only be directly attacked by changing
 its attributes, but also indirectly by changing the node attributes of its $L-1$ hop neighborhood.
-Therefore, the authors introduce a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$.
+Therefore, a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$ gets introduced.
 The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under some set
 of admissible perturbations to the model attributes is given by
 \begin{gather} 
