@@ -43,23 +43,23 @@ Finally, there is a conclusion and a brief outlook on possible future research i
 A currently very active research area inside the field of machine learning, or more precisely deep learning, considers models to learn
 from graph inputs. Those models are called graph neural networks (GNNs). Graphs are useful data structures in complex real-life
 applications such as modeling physical systems, learning molecular fingerprints, controlling traffic networks, and recommending 
-friends in social networks.\cite{article}
+friends in social networks.\cite{Liu_2020}
 Therefore, it is reasonable to think about combining graphs as data structures with state-of-the-art machine learning models.
 However, these tasks require dealing with non-Euclidean graph data that contains rich relational information between elements and
 cannot be well handled by traditional deep learning models which usually work with data represented in the Euclidean domain, e.g. in the
-fields of computer vision (images) or natural language processing (text).\cite{article}
+fields of computer vision (images) or natural language processing (text).\cite{Liu_2020}
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. \cite{NIPS2015_f9be311e},
 \cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification.\cite{xu2019topology}
-Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering.\cite{zhou2019graph}
+Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering.\cite{Zhou_2019}
 In summary, GNNs are models to conduct deep learning with graph data.
 
 \subsection{Motivation}
 
 One of the most successful types of models in the field of deep learning is the convolutional neural network (CNN).
 GNNs are motivated by CNNs which are capable of extracting and composing multi-scale localized spatial features
-for features of high representational power, but can only operate on Euclidean data like images and text.\cite{article}
+for features of high representational power, but can only operate on Euclidean data like images and text.\cite{Liu_2020}
 Thus, the idea is to generalize CNNs to graphs.\newline
-Another motivation comes from graph embedding, which learns to represent graph nodes, edges, or subgraphs in low-dimensional vectors.\cite{article}
+Another motivation comes from graph embedding, which learns to represent graph nodes, edges, or subgraphs in low-dimensional vectors.\cite{Liu_2020}
 Liu et al. also highlight that traditional machine learning approaches for graph analysis rely on hand-engineered features which causes them
 to be rather inflexible and expensive.
 
@@ -68,8 +68,8 @@ to be rather inflexible and expensive.
 
 \subsection{Graph Neural Networks}
 
-In this section, the basic graph neural network model proposed by Scarselli et al. \cite{4700287} gets introduced
-based on the description in \textit{'Introduction to graph neural networks'}\cite{article}.
+In this section, the basic graph neural network model proposed by Scarselli et al. \cite{Scarselli_2009} gets introduced
+based on the description in \textit{'Introduction to graph neural networks'}\cite{Liu_2020}.
 The goal of a GNN is to learn a state embedding $h_v \in \mathbb{R}^S$ for each node that is used to produce an 
 output $o_v$, e.g. the distribution of the predicted node label.
 The original GNN model works with an undirected homogeneous graph where each node $v$ in the graph has its input features $x_v$
@@ -80,7 +80,7 @@ $ne[l_1]$ contains the nodes $\{l_2, l_3, l_4, l_6\}$.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.4\textwidth]{img/graph.png}
-    \caption{Example of the graph based on Scarselli et al. \cite{article}}
+    \caption{Example of the graph based on Scarselli et al. \cite{Liu_2020}}
     \label{fig:graph}
 \end{figure}
 
@@ -109,21 +109,21 @@ where $p$ is the number of supervised nodes. The learning algorithm is based on 
 \pagebreak
 
 This basic GNN model provides a first step towards incorporating neural networks into the graph domain, 
-but has several limitations \cite{article} which are tackled in numerous variants of GNNs such as graph convolutional networks (GCNs).\newline
+but has several limitations \cite{Liu_2020} which are tackled in numerous variants of GNNs such as graph convolutional networks (GCNs).\newline
 
 \textbf{Graph Convolutional Networks}\newline
 
 The properties that define the different variants of GNNs are typically the aggregator to gather information from each node's neighbors
-and a specific updater to update the node's hidden states. \cite{zhou2019graph} In general, there is a certain functional evaluation of
+and a specific updater to update the node's hidden states. \cite{Zhou_2019} In general, there is a certain functional evaluation of
 a node's features together with the featuers of its neighbors (convolution). The results are then the input for the neural network.
 GCN approaches are often categorized as spectral or spatial approaches. Spectral approaches
 work with a spectral representation of the graph and the convolution operation is defined in the Fourier domain by 
-computing the eigendecomposition of the graph Laplacian. \cite{zhou2019graph}
+computing the eigendecomposition of the graph Laplacian. \cite{Zhou_2019}
 A simple schematic representation of a deep GCN is depicted in fig. \ref{fig:gcn}.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.45\textwidth]{img/gcn.png}
-    \caption{Multi-layer GCN. \cite{kipf2016semi}}
+    \caption{Multi-layer GCN. \cite{Kipf_2016}}
     \label{fig:gcn}
 \end{figure}
 
@@ -138,36 +138,36 @@ Ying et al. describe a large-scale deep recommendation engine that they develope
 This example illustrates the need for robust GNNs. Although these systems may be relatively rare in practical applications, especially at
 that scale, at the moment, their performance suggests that that will change soon. However, in order to be able to use such models
 with a clear conscience in practical applications requires a certain degree of robustness.
-The vulnerability to adversarial attacks has raised increasing concerns for applying GNNs in safety-critical applications.\cite{jin2020graph}\newline
+The vulnerability to adversarial attacks has raised increasing concerns for applying GNNs in safety-critical applications.\cite{Jin_2020_Graph}\newline
 
 \textbf{Adversarial Perturbations}\newline
 
-A well-studied problem of machine learning models in general is the sensitivity to adversarial perturbations.\cite{goodfellow2015explaining}
+A well-studied problem of machine learning models in general is the sensitivity to adversarial perturbations.\cite{Goodfellow_2015}
 The idea of such perturbations, which is visualized in fig. \ref{fig:adversarial_example}, is that slight changes to the input data
 cause an entirely different output of the model and therefore often misclassification.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/adversarial_example.png}
-    \caption{Demonstration of a fast adversarial example. \cite{goodfellow2015explaining}}
+    \caption{Demonstration of a fast adversarial example. \cite{Goodfellow_2015}}
     \label{fig:adversarial_example}
 \end{figure}
 
-Goodfellow et al. \cite{goodfellow2015explaining} face that problem by adversarial training which means that they include adversarially 
+Goodfellow et al. \cite{Goodfellow_2015} face that problem by adversarial training which means that they include adversarially 
 perturbed examples into the training procedure to strengthen the robustness of the models. They also introduce fast methods for generating 
 those adversarial examples such as displayed in fig. \ref{fig:adversarial_example}. By adding an imperceptibly small vector whose elements
 are equal to the sign of the elements of the gradient of the cost function with respect to the input, they can change GoogleNet's classification
-of the image.\cite{goodfellow2015explaining}\newline
+of the image.\cite{Goodfellow_2015}\newline
 Adversarial perturbations are not only a problem for classical machine learning models, but also for GNNs.
 Recent works show that graph neural networks are highly non-robust with respect to adversarial attacks on both the graph
-structure and the node attributes, making their outcomes unreliable.\cite{Z_gner_2019}
+structure and the node attributes, making their outcomes unreliable.\cite{Zuegner_2019}
 Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations to the graph structure and node features lead to 
 misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.35\textwidth]{img/adversarial_GNN.png}
-    \caption{Small perturbations of the graph structure and node features lead to misclassification of the target. \cite{Z_gner_2018}}
+    \caption{Small perturbations of the graph structure and node features lead to misclassification of the target. \cite{Zuegner_2018}}
     \label{fig:adversarial_GNN}
 \end{figure}
 
@@ -190,10 +190,10 @@ will be on publications from that phase.
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
 
-Dai et al. \cite{dai2018adversarial} focus on adversarial attacks on graph structured data that fool the model by modifying the
+Dai et al. \cite{Dai_2018} focus on adversarial attacks on graph structured data that fool the model by modifying the
 combinatorial structure of the data. They use synthetic and real-world data to show that a family of GNN models is vulnerable
 to these attacks in both graph-level and node-level classification tasks.
-Another approach for adversarial attacks on graph structured data is proposed by Zügner et al. \cite{Z_gner_2018} who focus on node classification
+Another approach for adversarial attacks on graph structured data is proposed by Zügner et al. \cite{Zuegner_2018} who focus on node classification
 via graph convolutional networks.
 The authors claim that especially in domains where GNNs are used, e.g. the web, adversaries are common and that it is therefore important
 to investigate the robustness of such models. They study adversarial attacks on attributed graphs and distinguish between
@@ -211,7 +211,7 @@ perturbations consistently lead to a strong decrease in performance for GCNs.
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
 is how to defend them against such attacks. 
 Direct extension of defense algorithms for classical neural networks based on adversarial samples meets with immediate challenge because
-computing the adversarial network costs substantially. \cite{Jin2020} Jin et al. propose to address this issue by perturbing the latent 
+computing the adversarial network costs substantially. \cite{Jin_2020} Jin et al. propose to address this issue by perturbing the latent 
 representations in GCNs, which not only increases efficiency because there is no need to generate adversarial networks, but also attains 
 improved robustness and accuracy. They apply their framework of latent adversarial training on graphs to node classification,
 link prediction, and recommender systems and are able to confirm superior robustness in experiments.
@@ -225,18 +225,18 @@ convolutional layer which allows the model to automatically absorb the effects o
 Moreover, to remedy the propagation of adversarial attacks in GCNs, they propose a variance-based attention mechanism, i.e. assigning different
 weights to node neighborhoods according to their variances when performing convolutions. Their experimental evaluation suggests that
 the method can effectively improve the robustness of GCNs.
-Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen2020} and is based on the idea that
+Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen_2020} and is based on the idea that
 edge manipulations play a key role in graph adversarial attacks. They design a biased graph-sampling scheme to drop graph connections
 such that random, sparse and deformed subgraphs are constructed for training which mitigates the sensitivity 
 to edge manipulations, and thus enhances the robustness of the models. Their experimental results validate the effectiveness 
 against adversarial attacks.
-The idea, the approach of Jin et al \cite{jin2020graph} is based on, is to defend adversarial attacks by cleaning up the perturbed graph.
+The idea, the approach of Jin et al \cite{Jin_2020_Graph} is based on, is to defend adversarial attacks by cleaning up the perturbed graph.
 The authors state that real-world graphs share some intrinsic properties as they are often low-rank, sparse, and the features of two adjacent
 nodes tend to be similar and that adversarial attacks are likely to violate these properties.
 They introduce the framework Pro-GNN, which can jointly learn a structural graph and a robust GNN model from the perturbed graph guided by
 these properties and are able to show that the framework achieves significantly better performance compared with state-of-the-art 
 defense methods.
-Finally, Wang et al. \cite{wang2019graphdefense} present with GraphDefense an algorithm to improve the robustness of GCNs
+Finally, Wang et al. \cite{Wang_2019} present with GraphDefense an algorithm to improve the robustness of GCNs
 against adversarial attacks on graph structures. Moreover, they discuss crucial characteristics of defense methods in general to improve 
 the robustness.
 
@@ -250,7 +250,7 @@ Bojchevski et al. \cite{bojchevski2019certifiable} present a first method for ve
 training procedures that increase the number of certifiably robust nodes while maintaining or even improving the predictive accuracy.
 However, their work is limited to a specific class of graph models based on PageRank, not covering the highly important principle of graph convolutional
 networks. \cite{10.1145/3394486.3403217}
-Zügner et al. \cite{Z_gner_2019} propose a first method for certifiable (non-)robustness of GCNs with respect to 
+Zügner et al. \cite{Zuegner_2019} propose a first method for certifiable (non-)robustness of GCNs with respect to 
 perturbations of the node attributes. If a node has been certified with their method, it is guaranteed to be robust under any
 possible perturbation given the attack model. Likewise, they can certify non-robustness and present a robust semi-supervised training
 procedure which improves the robustness with only minimal effect on the predictive accuracy.
@@ -259,7 +259,7 @@ for certifying their robustness. The authors show how the problem can be express
 present a branch-and-bound algorithm to obtain lower bounds on the global optimum. The problem gets decomposed into sub-problems that can
 be formulated as linear programs and therefore be solved using highly optimized LP-solvers (e.g. CPLEX).
 The first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation
-is provided by Wang et al.\cite{wang2020certified} Their approach is based on a recently developed technique called randomized smoothing,
+is provided by Wang et al.\cite{Wang_2020} Their approach is based on a recently developed technique called randomized smoothing,
 which they extend to graph data.
 
 \section{Certifiable robustness of graph neural networks}
@@ -283,7 +283,7 @@ in section \ref{sec:paper_four}.
 \subsection{Robustness of GCNs with respect to perturbations of the node attributes}
 \label{sec:paper_two}
 
-In this section, the approach of Zügner et al. \cite{Z_gner_2019} will be described,
+In this section, the approach of Zügner et al. \cite{Zuegner_2019} will be described,
 in which the authors propose a first method for provable (non-)robustness of graph convolutional networks with respect
 to perturbations of the node attributes. If a node has been certified with their method, it is guaranteed to be robust under any possible 
 perturbation given the attack model. Likewise, they can certify non-robustness. The proposed semi-supervised training procedure that treats 
@@ -348,14 +348,14 @@ perturbations to the node attributes that lead to a negative margin.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/before_pert.png}
-    \caption{Before perturbation \cite{Z_gner_2019}}
+    \caption{Before perturbation \cite{Zuegner_2019}}
     \label{fig:before_pert}
 \end{figure}
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/after_pert.png}
-    \caption{After perturbation \cite{Z_gner_2019}}
+    \caption{After perturbation \cite{Zuegner_2019}}
     \label{fig:after_pert}
 \end{figure}
 
@@ -639,7 +639,7 @@ Finally, the presented certification method is able to certify a large fraction 
 \subsection{Robustness guarantee of any GNN for node and graph classifications}
 \label{sec:paper_four}
 
-The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{wang2020certified}.
+The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}.
 The authors prove the first certified robustness guarantee of any GNN for both node and graph classifications.
 Like the approaches of Zügner et al. \cite{10.1145/3394486.3403217} and Bojchevski et al. \cite{bojchevski2019certifiable}, they study certifiable 
 robustness of GNNs against perturbations of the graph structure. In contrast to to the previous papers described in section \ref{sec:paper_two}
@@ -676,7 +676,7 @@ section \ref{sec:paper_four} to certify robustness of GNNs against both node att
 Moreover, they plan to incorporate the information of a given GNN to further improve the certified robustness guarantee.\newline
 On a less concrete level, it would also be interesting to find out what makes perturbations harmful and therefore
 truly develop an understanding of the underlying patterns.
-The approach of Jin et al. \cite{jin2020graph} goes in this direction in a way, although they are not considering certifiable robustness.
+The approach of Jin et al. \cite{Jin_2020_Graph} goes in this direction in a way, although they are not considering certifiable robustness.
 Their work is rather belonging to the second phase, dealing with mitigations, as they propose a framework which learns a structural graph and 
 a robust GNN model from a perturbed graph and enables a reasonable defense method in some scenarios.
 Nonetheless, they highlight an important observation which is that real-world graphs share some intrinsic properties and that adversarial 
