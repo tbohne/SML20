@@ -115,7 +115,7 @@ but has several limitations \cite{Liu_2020} which are tackled in numerous varian
 
 The properties that define the different variants of GNNs are typically the aggregator to gather information from each node's neighbors
 and a specific updater to update the node's hidden states. \cite{Zhou_2019} In general, there is a certain functional evaluation of
-a node's features together with the featuers of its neighbors (convolution). The results are then the input for the neural network.
+a node's features together with the features of its neighbors (convolution). The results are then the input for the neural network.
 GCN approaches are often categorized as spectral or spatial approaches. Spectral approaches
 work with a spectral representation of the graph and the convolution operation is defined in the Fourier domain by 
 computing the eigendecomposition of the graph Laplacian. \cite{Zhou_2019}
@@ -375,7 +375,7 @@ This approach enables them to compute robustness certificates very efficiently s
 In summary, by considering the dual program, robustness certificates can be obtained if the dual values are positive for every $y \neq y^*$.
 Non-robustness certificates, on the other hand, can be constructed by the primal feasible perturbation if the primal values are negative for
 one $y \neq y^*$. For some nodes, neither of these certificates can be given. The authors highlight that obtaining good upper and lower bounds is 
-crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. Futhermore, the bounds can 
+crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. Furthermore, the bounds can 
 be used for backpropagation which is an important aspect for robust training.\newline
 
 The certification of robustness for given GNNs is of course extremely useful for practical applications, but the next step would be to
@@ -434,7 +434,7 @@ trained with gradient descent and standard deep learning libraries.
 The work ends with an experimental evaluation of the approaches on the common datasets \textit{CORA-ML}, 
 \textit{CITESEER}, and \textit{PUBMED}. First, the robustness of traditionally trained GNNs is evaluated using the presented
 certification method and afterwards, it is shown that the robust training procedure dramatically improves the robustness 
-of GNNs while sacrificing only minimal accuracy on the unlabeled nodes. On average, the labeled nodes are more robust than the unlabeleld
+of GNNs while sacrificing only minimal accuracy on the unlabeled nodes. On average, the labeled nodes are more robust than the unlabeled
 ones, which is not surprising. The authors highlight two important observations:
 \begin{enumerate}
     \item The certificates are often very tight and the amount of nodes for which no certificate can be given is rather small.
@@ -562,7 +562,7 @@ across the whole graph. The authors assume an attacker has potentially inserted 
 structure $A^{\ast}$ to produce $A$, which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
 A traditional approach to optimize over intractable discrete variables is to perform a continuous relaxation.
 However, as the authors claim, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
-in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not leat to a tractable optimization problem.
+in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not lead to a tractable optimization problem.
 Alternatively, it is proposed to optimize over the continuous-valued degree normalized message passing matrix instead of the binary 
 adjacency matrix $\tilde{A}$. They denote the variable corresponding to the message passing matrix by $\hat{A}$. 
 As a result, they replace the optimization problem in \ref{eq:4} by the following problem, which not only avoids optimization over
@@ -645,7 +645,7 @@ Like the approaches of Zügner et al. \cite{10.1145/3394486.3403217} and Bojchev
 robustness of GNNs against perturbations of the graph structure. In contrast to to the previous papers described in section \ref{sec:paper_two}
 and \ref{sec:paper_three} which deal with specific GNNs, they aim to provide robustness guarantees for any GNN classifier.
 To achieve that, they make use of a recently proposed technique called randomized smoothing, which can turn a classifier such as a GNN to 
-a robust one via adding random noise to a testing example auch as a graph. A classifier is considered to be certifiably robust in their method
+a robust one via adding random noise to a testing example such as a graph. A classifier is considered to be certifiably robust in their method
 if it provably predicts the same label when the attacker adds or deletes at most $K$ edges in the graph.\newline
 The authors claim that existing randomized smoothing methods are insufficient to certify robustness of GNNs since
 they assume testing examples to be continuous although graphs are binary data structures.
