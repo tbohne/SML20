@@ -337,7 +337,25 @@ of admissible perturbations to the model attributes is given by
 where $f_{\theta}^t(\tilde{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
 of admissible perturbations to the node attributes.
 If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust with regard to node $t$ and perturbations $X_{q, Q}$,
-which means that there is no adversarial example within the admissible set of perturbations that causes a prediction change.\newline
+which means that there is no adversarial example within the admissible set of perturbations that causes a prediction change.
+The high-level idea of considering the classification margin is depicted in the following figures.
+Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and fig. \ref{fig:after_pert} introduces two
+perturbations to the node attributes that lead to a negative margin.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/before_pert.png}
+    \caption{Before perturbation \cite{Z_gner_2019}}
+    \label{fig:before_pert}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/after_pert.png}
+    \caption{After perturbation \cite{Z_gner_2019}}
+    \label{fig:after_pert}
+\end{figure}
+
 The authors identify two major obstacles in efficiently finding the minimum in \ref{eq:1}.
 First, the data domain is discrete which makes optimization often intractable. Second, the GNN ($f_{\theta}^t$) is nonconvex
 due to the nonlinear activation function in the neural network. They tackle those issues by efficiently computing lower bounds
