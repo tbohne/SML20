@@ -361,8 +361,7 @@ First, the data domain is discrete which makes optimization often intractable. S
 due to the nonlinear activation function in the neural network. They tackle those issues by efficiently computing lower bounds
 on the minimum of the original problem via relaxations of the neural network and the data domain.
 The idea is that if a lower bound is positive, the classifier is robust with regard to the set of admissible perturbations.
-To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are several ways to achieve this
-in the literature and the authors follow one that leads to a linear objective function which is a lower bound on the minimum of the original problem.
+To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are several ways to achieve this in the literature and the followed one leads to a linear objective function which is a lower bound on the minimum of the original problem.
 Although they end up with a linear problem (all constraints are linear as well) which can be solved using highly optimized LP-solvers,
 the potentially large number of variables in a GNN that would reduce the efficiency, lets them consider a different approach.
 They consider the dual of the LP, because any dual-feasible solution is a lower bound on the minimum of the primal problem
@@ -423,7 +422,7 @@ By setting a smaller margin $M_2$ for the unlabeled nodes, they can train their 
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_{M_1} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast}) \\
     + \sum_{t \in \mathcal{V} \backslash \mathcal{V}_L} \mathcal{\hat{L}}_{M_2} (p_{\theta}^t (\tilde{y}_t, \Omega^{t, \cdot}), \tilde{y}_t)
 \end{multline}
-The authors conclude that since the dual program and the lower and upper activation bounds are differentiable, a robust GNN can be 
+It is concluded that since the dual program and the lower and upper activation bounds are differentiable, a robust GNN can be 
 trained with gradient descent and standard deep learning libraries.
 
 \subsubsection{Experimental Evaluation and Conclusion}
@@ -432,7 +431,7 @@ The work ends with an experimental evaluation of the approaches on the common da
 \textit{CITESEER}, and \textit{PUBMED}. First, the robustness of traditionally trained GNNs is evaluated using the presented
 certification method and afterwards, it is shown that the robust training procedure dramatically improves the robustness 
 of GNNs while sacrificing only minimal accuracy on the unlabeled nodes. On average, the labeled nodes are more robust than the unlabeled
-ones, which is not surprising. The authors highlight two important observations:
+ones, which is not surprising. Two important observations are highlighted:
 \begin{enumerate}
     \item The certificates are often very tight and the amount of nodes for which no certificate can be given is rather small.
     \item GNNs trained traditionally are only certifiably robust up to very small perturbations.
@@ -458,8 +457,8 @@ As future work, they already bridge to the next section which considers perturba
 
 As announced in the previous section, the next step is to consider perturbations of the graph structure,
 which means that the graph structure itself can be altered by an attacker.
-In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described in which the authors
-tackle the problem of certifiable robustness of GCNs under perturbations of the graph structure. They claim that these perturbations 
+In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described in which the
+problem of certifiable robustness of GCNs under perturbations of the graph structure is tackled. It is claimed that these perturbations 
 are particularly challenging because they alter the message passing scheme itself.
 After showing how this problem can be expressed as a jointly constrained bilinear program, the authors propose a novel branch-and-bound
 algorithm to obtain lower bounds on the global optimum. Since these lower bounds are significantly tighter, they are able to
@@ -493,14 +492,14 @@ There are three major challenges identified by the authors:
     \label{fig:challenges}
 \end{figure}
 
-The first challenge is also a problem for traditional neural networks and the authors follow the approach they already used
-in section \ref{sec:paper_two}, which relies on a relaxation of the ReLU activation function.
+The first challenge is also a problem for traditional neural networks and the approach already used
+in section \ref{sec:paper_two}, which relies on a relaxation of the ReLU activation function, is applied again.
 The second challenge, on the other hand, requires new approaches. 
 The binary attribute data in section \ref{sec:paper_two} was handled by a continuous relaxation which is, as the authors show,
 not appropriate when considering perturbations of the graph structure. Instead, they directly work on the 
 continuous-valued degree-normalized message passing matrix used by GCNs.
 Another unstudied question is posed by the third challenge and requires a way to deal with changes to the message passing matrix.
-The authors see the difficulty here in the fact that the message passing matrix is used at each layer, as opposed to the input features,
+The difficulty here is seen in the fact that the message passing matrix is used at each layer, as opposed to the input features,
 which appear only in the first layer of the neural network, which means that the ReLU relaxations no longer lead to convex (linear)
 constraints but become nonconvex. It is shown that the problem can be expressed as a jointly constrained bilinear program
 which can be used to obtain lower bounds on the worst-case change in a node's prediction by a novel branch-and-bound algorithm.
@@ -558,10 +557,10 @@ As a norm to measure distance for the discrete graph structure $A$, they use the
 measured by the non-convex $L_0$ norm. To do that, the setup of the previous paper discussed in section \ref{sec:paper_two},
 which introduces local and global $L_0$ constraints on the node attributes, gets translated to graph structure perturbations.
 Precisely, they allow the attacker to insert at most $q_i \in \mathbb{N}$ edges to a node $i$, and at most $Q \in \mathbb{N}$ edges
-across the whole graph. The authors assume an attacker has potentially inserted edges to the unknown original graph 
+across the whole graph. It is assumed that an attacker has potentially inserted edges to the unknown original graph 
 structure $A^{\ast}$ to produce $A$, which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
 A traditional approach to optimize over intractable discrete variables is to perform a continuous relaxation.
-However, as the authors claim, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
+However, as claimed in the work, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
 in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not lead to a tractable optimization problem.
 Alternatively, it is proposed to optimize over the continuous-valued degree normalized message passing matrix instead of the binary 
 adjacency matrix $\tilde{A}$. They denote the variable corresponding to the message passing matrix by $\hat{A}$. 
@@ -574,8 +573,8 @@ a discrete variable, but also the nonconvex degree normalization procedure.
     s.t. \hat{A} \in \mathcal{\hat{A}}(A) \nonumber
 \end{gather}
 The neural network $f_{\theta}^t$ in objective \ref{eq:5} directly takes the message passing matrix $\hat{A}$ as input.
-The authors carefully design the set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
-on the perturbation budget and the graph, because any degree-normalized matrix that could be produced by first performing discrete
+The set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
+on the perturbation budget and the graph is designed carefully, because any degree-normalized matrix that could be produced by first performing discrete
 perturbations to $A$ and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.
 Only then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, which means that the optimum of the modified optimization problem in
 \ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.
@@ -600,11 +599,11 @@ Afterwards, they add another artificial constraint that does not change the solu
 a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem. 
 The idea is to use the convex envelope of the objective function to compute lower bounds 
 and to apply a branch-and-bound procedure to recursively subdivide the domain.\newline
-The authors highlight that it is not necessary to find the global solution of the bilinear problem, 
+It is highlighted that it is not necessary to find the global solution of the bilinear problem, 
 only its sign is of relevance. In each iteration, the upper and lower bounds become increasingly accurate and the idea is to 
-stop as soon as possible. If the lower bound is positive, they successfully certified robustness. If the upper bound is negative, 
+stop as soon as possible. If the lower bound is positive, robustness has been successfully certified. If the upper bound is negative, 
 no robustness certificate can be given for the instance, which does not imply that the classifier is not robust, 
-it just can not be certified. They further improve the procedure by exploiting knowledge about the graph domain.\newline
+it just can not be certified. The procedure is further improved by exploiting knowledge about the graph domain.\newline
 
 \textbf{Summary}\newline
 
@@ -617,10 +616,10 @@ and therefore have an efficient way of robustness certification.
 
 As in the previous paper presented in section \ref{sec:paper_two}, an experimental evaluation of the approaches on the commonly used
 datasets \textit{CORA-ML}, \textit{CITESEER}, and \textit{PUBMED} is provided.
-To evaluate the method on different severities of perturbations, the authors use three different local ($q$) and global ($Q$) perturbation budgets. 
-Their method can certify robustness, but not non-robustness. Although obtaining the number of non-robust nodes is intractable, they
+To evaluate the method on different severities of perturbations, three different local ($q$) and global ($Q$) perturbation budgets are used. 
+The method can certify robustness, but not non-robustness. Although obtaining the number of non-robust nodes is intractable, they
 are able to provide an estimate on the number of non-robust nodes by performing gradient-based adversarial attacks with the budgets.
-The general trend they observe is that increasing the budget decreases the number of certifiably robust nodes and increases
+The general trend that is observed is that increasing the budget decreases the number of certifiably robust nodes and increases
 the number of non-robust nodes.
 
 The results show that on all datasets more than $5\%$ of the nodes can change their predicted class label even when only a single 
@@ -639,8 +638,8 @@ Finally, the presented certification method is able to certify a large fraction 
 \subsection{Robustness guarantee of any GNN for node and graph classifications}
 \label{sec:paper_four}
 
-The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}.
-The authors prove the first certified robustness guarantee of any GNN for both node and graph classifications.
+The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}
+who prove the first certified robustness guarantee of any GNN for both node and graph classifications.
 Like the approaches of Zügner et al. \cite{10.1145/3394486.3403217} and Bojchevski et al. \cite{bojchevski2019certifiable}, they study certifiable 
 robustness of GNNs against perturbations of the graph structure. In contrast to to the previous papers described in section \ref{sec:paper_two}
 and \ref{sec:paper_three} which deal with specific GNNs, they aim to provide robustness guarantees for any GNN classifier.
@@ -648,10 +647,10 @@ To achieve that, they make use of a recently proposed technique called randomize
 a robust one via adding random noise to a testing example such as a graph. A classifier is considered to be certifiably robust in their method
 if it provably predicts the same label when the attacker adds or deletes at most $K$ edges in the graph.\newline
 The authors claim that existing randomized smoothing methods are insufficient to certify robustness of GNNs since
-they assume testing examples to be continuous although graphs are binary data structures.
+these approaches assume testing examples to be continuous although graphs are binary data structures.
 They develop a randomized smoothing approach for binary data and thereby enable certified robustness for GNNs against structural perturbation.\newline
-In summary, the authors prove the first certified robustness guarantee of any GNN against perturbations of the graph structure
-and show that the certified robustness guarantee is tight. 
+In summary, the first certified robustness guarantee for any GNN against perturbations of the graph structure is proven
+and it is shown that the certified robustness guarantee is tight.
 The approach is empirically evaluated for both node and graph classification on multiple benchmark datasets.
 
 \section{Conclusion}
