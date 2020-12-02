@@ -1,20 +1,66 @@
-@article{Zuegner_2019,
-   title={Certifiable Robustness and Robust Training for Graph Convolutional Networks},
-   ISBN={9781450362016},
-   url={http://dx.doi.org/10.1145/3292500.3330905},
-   DOI={10.1145/3292500.3330905},
-   journal={Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-   publisher={ACM},
-   author={Zügner, Daniel and Günnemann, Stephan},
-   year={2019},
-   month={Jul}
+@inproceedings{Zuegner_2019,
+      title={Certifiable Robustness and Robust Training for Graph Convolutional Networks},
+      author={Z{\"u}gner, Daniel and G{\"u}nnemann, Stephan},
+      booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \&\#38; Data Mining},
+      year={2019},
+      publisher = {ACM},
+      address = {New York, NY, USA},
+      location = {Anchorage, United States},
+}
+
+@article{Zuegner_2018,
+      title={Adversarial Attacks on Neural Networks for Graph Data},
+      ISBN={9781450355520},
+      url={http://dx.doi.org/10.1145/3219819.3220078},
+      DOI={10.1145/3219819.3220078},
+      journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      publisher={ACM},
+      author={Zügner, Daniel and Akbarnejad, Amir and Günnemann, Stephan},
+      year={2018},
+      month={Jul}
+}
+
+@misc{zuegner2019adversarial,
+      title={Adversarial Attacks on Graph Neural Networks via Meta Learning}, 
+      author={Daniel Zügner and Stephan Günnemann},
+      year={2019},
+      eprint={1902.08412},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@misc{bojchevski2019certifiable,
+      title={Certifiable Robustness to Graph Perturbations}, 
+      author={Aleksandar Bojchevski and Stephan Günnemann},
+      year={2019},
+      eprint={1910.14356},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+@inproceedings{10.1145/3394486.3403217,
+      author = {Z\"{u}gner, Daniel and G\"{u}nnemann, Stephan},
+      title = {Certifiable Robustness of Graph Convolutional Networks under Structure Perturbations},
+      year = {2020},
+      isbn = {9781450379984},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3394486.3403217},
+      doi = {10.1145/3394486.3403217},
+      abstract = {Recent works show that message-passing neural networks (MPNNs) can be fooled by adversarial attacks on both the node attributes and the graph structure. Since MPNNs are currently being rapidly adopted in real-world applications, it is thus crucial to improve their reliablility and robustness. While there has been progress on robustness certification of MPNNs under perturbation of the node attributes, no existing method can handle structural perturbations. These perturbations are especially challenging because they alter the message passing scheme itself. In this work we close this gap and propose the first method to certify robustness of Graph Convolutional Networks (GCNs) under perturbations of the graph structure. We show how this problem can be expressed as a jointly constrained bilinear program - a challenging, yet well-studied class of problems - and propose a novel branch-and-bound algorithm to obtain lower bounds on the global optimum. These lower bounds are significantly tighter and can certify up to twice as many nodes compared to a standard linear relaxation.},
+      booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      pages = {1656–1665},
+      numpages = {10},
+      keywords = {adversarial robustness, semi-supervised learning, deep learning, adversarial attacks, graph neural networks},
+      location = {Virtual Event, CA, USA},
+      series = {KDD '20}
 }
 
 @article{Kipf_2016,
-  title={Semi-Supervised Classification with Graph Convolutional Networks},
-  author={Kipf, Thomas N and Welling, Max},
-  journal={arXiv preprint arXiv:1609.02907},
-  year={2016}
+      title={Semi-Supervised Classification with Graph Convolutional Networks},
+      author={Kipf, Thomas N and Welling, Max},
+      journal={arXiv preprint arXiv:1609.02907},
+      year={2016}
 }
 
 @misc{Zhou_2019,
@@ -27,25 +73,25 @@
 }
 
 @ARTICLE{Scarselli_2009,
-  author={F. {Scarselli} and M. {Gori} and A. C. {Tsoi} and M. {Hagenbuchner} and G. {Monfardini}},
-  journal={IEEE Transactions on Neural Networks}, 
-  title={The Graph Neural Network Model}, 
-  year={2009},
-  volume={20},
-  number={1},
-  pages={61-80},
-  doi={10.1109/TNN.2008.2005605}
+      author={F. {Scarselli} and M. {Gori} and A. C. {Tsoi} and M. {Hagenbuchner} and G. {Monfardini}},
+      journal={IEEE Transactions on Neural Networks}, 
+      title={The Graph Neural Network Model}, 
+      year={2009},
+      volume={20},
+      number={1},
+      pages={61-80},
+      doi={10.1109/TNN.2008.2005605}
 }
 
 @article{Liu_2020,
-author = {Liu, Zhiyuan and Zhou, Jie},
-year = {2020},
-month = {03},
-pages = {1-127},
-title = {Introduction to Graph Neural Networks},
-volume = {14},
-journal = {Synthesis Lectures on Artificial Intelligence and Machine Learning},
-doi = {10.2200/S00980ED1V01Y202001AIM045}
+      author = {Liu, Zhiyuan and Zhou, Jie},
+      year = {2020},
+      month = {03},
+      pages = {1-127},
+      title = {Introduction to Graph Neural Networks},
+      volume = {14},
+      journal = {Synthesis Lectures on Artificial Intelligence and Machine Learning},
+      doi = {10.2200/S00980ED1V01Y202001AIM045}
 }
 
 @misc{Goodfellow_2015,
@@ -98,59 +144,11 @@ doi = {10.2200/S00980ED1V01Y202001AIM045}
       primaryClass={cs.LG}
 }
 
-@article{Zuegner_2018,
-   title={Adversarial Attacks on Neural Networks for Graph Data},
-   ISBN={9781450355520},
-   url={http://dx.doi.org/10.1145/3219819.3220078},
-   DOI={10.1145/3219819.3220078},
-   journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-   publisher={ACM},
-   author={Zügner, Daniel and Akbarnejad, Amir and Günnemann, Stephan},
-   year={2018},
-   month={Jul}
-}
-
-@inproceedings{10.1145/3394486.3403217,
-author = {Z\"{u}gner, Daniel and G\"{u}nnemann, Stephan},
-title = {Certifiable Robustness of Graph Convolutional Networks under Structure Perturbations},
-year = {2020},
-isbn = {9781450379984},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3394486.3403217},
-doi = {10.1145/3394486.3403217},
-abstract = {Recent works show that message-passing neural networks (MPNNs) can be fooled by adversarial attacks on both the node attributes and the graph structure. Since MPNNs are currently being rapidly adopted in real-world applications, it is thus crucial to improve their reliablility and robustness. While there has been progress on robustness certification of MPNNs under perturbation of the node attributes, no existing method can handle structural perturbations. These perturbations are especially challenging because they alter the message passing scheme itself. In this work we close this gap and propose the first method to certify robustness of Graph Convolutional Networks (GCNs) under perturbations of the graph structure. We show how this problem can be expressed as a jointly constrained bilinear program - a challenging, yet well-studied class of problems - and propose a novel branch-and-bound algorithm to obtain lower bounds on the global optimum. These lower bounds are significantly tighter and can certify up to twice as many nodes compared to a standard linear relaxation.},
-booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-pages = {1656–1665},
-numpages = {10},
-keywords = {adversarial robustness, semi-supervised learning, deep learning, adversarial attacks, graph neural networks},
-location = {Virtual Event, CA, USA},
-series = {KDD '20}
-}
-
 @misc{Dai_2018,
       title={Adversarial Attack on Graph Structured Data}, 
       author={Hanjun Dai and Hui Li and Tian Tian and Xin Huang and Lin Wang and Jun Zhu and Le Song},
       year={2018},
       eprint={1806.02371},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-
-@misc{zuegner2019adversarial,
-      title={Adversarial Attacks on Graph Neural Networks via Meta Learning}, 
-      author={Daniel Zügner and Stephan Günnemann},
-      year={2019},
-      eprint={1902.08412},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG}
-}
-
-@misc{bojchevski2019certifiable,
-      title={Certifiable Robustness to Graph Perturbations}, 
-      author={Aleksandar Bojchevski and Stephan Günnemann},
-      year={2019},
-      eprint={1910.14356},
       archivePrefix={arXiv},
       primaryClass={cs.LG}
 }
@@ -165,45 +163,45 @@ series = {KDD '20}
 }
 
 @article{Ying_2018,
-   title={Graph Convolutional Neural Networks for Web-Scale Recommender Systems},
-   ISBN={9781450355520},
-   url={http://dx.doi.org/10.1145/3219819.3219890},
-   DOI={10.1145/3219819.3219890},
-   journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-   publisher={ACM},
-   author={Ying, Rex and He, Ruining and Chen, Kaifeng and Eksombatchai, Pong and Hamilton, William L. and Leskovec, Jure},
-   year={2018},
-   month={Jul}
+      title={Graph Convolutional Neural Networks for Web-Scale Recommender Systems},
+      ISBN={9781450355520},
+      url={http://dx.doi.org/10.1145/3219819.3219890},
+      DOI={10.1145/3219819.3219890},
+      journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      publisher={ACM},
+      author={Ying, Rex and He, Ruining and Chen, Kaifeng and Eksombatchai, Pong and Hamilton, William L. and Leskovec, Jure},
+      year={2018},
+      month={Jul}
 }
 
 @inproceedings{10.1145/3292500.3330851,
-author = {Zhu, Dingyuan and Zhang, Ziwei and Cui, Peng and Zhu, Wenwu},
-title = {Robust Graph Convolutional Networks Against Adversarial Attacks},
-year = {2019},
-isbn = {9781450362016},
-publisher = {Association for Computing Machinery},
-address = {New York, NY, USA},
-url = {https://doi.org/10.1145/3292500.3330851},
-doi = {10.1145/3292500.3330851},
-abstract = {Graph Convolutional Networks (GCNs) are an emerging type of neural network model on graphs which have achieved state-of-the-art performance in the task of node classification. However, recent studies show that GCNs are vulnerable to adversarial attacks, i.e. small deliberate perturbations in graph structures and node attributes, which poses great challenges for applying GCNs to real world applications. How to enhance the robustness of GCNs remains a critical open problem. To address this problem, we propose Robust GCN (RGCN), a novel model that "fortifies'' GCNs against adversarial attacks. Specifically, instead of representing nodes as vectors, our method adopts Gaussian distributions as the hidden representations of nodes in each convolutional layer. In this way, when the graph is attacked, our model can automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions. Moreover, to remedy the propagation of adversarial attacks in GCNs, we propose a variance-based attention mechanism, i.e. assigning different weights to node neighborhoods according to their variances when performing convolutions. Extensive experimental results demonstrate that our proposed method can effectively improve the robustness of GCNs. On three benchmark graphs, our RGCN consistently shows a substantial gain in node classification accuracy compared with state-of-the-art GCNs against various adversarial attack strategies.},
-booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-pages = {1399–1407},
-numpages = {9},
-keywords = {adversarial attacks, deep learning, graph convolutional networks, robustness},
-location = {Anchorage, AK, USA},
-series = {KDD '19}
+      author = {Zhu, Dingyuan and Zhang, Ziwei and Cui, Peng and Zhu, Wenwu},
+      title = {Robust Graph Convolutional Networks Against Adversarial Attacks},
+      year = {2019},
+      isbn = {9781450362016},
+      publisher = {Association for Computing Machinery},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3292500.3330851},
+      doi = {10.1145/3292500.3330851},
+      abstract = {Graph Convolutional Networks (GCNs) are an emerging type of neural network model on graphs which have achieved state-of-the-art performance in the task of node classification. However, recent studies show that GCNs are vulnerable to adversarial attacks, i.e. small deliberate perturbations in graph structures and node attributes, which poses great challenges for applying GCNs to real world applications. How to enhance the robustness of GCNs remains a critical open problem. To address this problem, we propose Robust GCN (RGCN), a novel model that "fortifies'' GCNs against adversarial attacks. Specifically, instead of representing nodes as vectors, our method adopts Gaussian distributions as the hidden representations of nodes in each convolutional layer. In this way, when the graph is attacked, our model can automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions. Moreover, to remedy the propagation of adversarial attacks in GCNs, we propose a variance-based attention mechanism, i.e. assigning different weights to node neighborhoods according to their variances when performing convolutions. Extensive experimental results demonstrate that our proposed method can effectively improve the robustness of GCNs. On three benchmark graphs, our RGCN consistently shows a substantial gain in node classification accuracy compared with state-of-the-art GCNs against various adversarial attack strategies.},
+      booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      pages = {1399–1407},
+      numpages = {9},
+      keywords = {adversarial attacks, deep learning, graph convolutional networks, robustness},
+      location = {Anchorage, AK, USA},
+      series = {KDD '19}
 }
 
 @inproceedings{NIPS2015_f9be311e,
- author = {Duvenaud, David K and Maclaurin, Dougal and Iparraguirre, Jorge and Bombarell, Rafael and Hirzel, Timothy and Aspuru-Guzik, Alan and Adams, Ryan P},
- booktitle = {Advances in Neural Information Processing Systems},
- editor = {C. Cortes and N. Lawrence and D. Lee and M. Sugiyama and R. Garnett},
- pages = {2224--2232},
- publisher = {Curran Associates, Inc.},
- title = {Convolutional Networks on Graphs for Learning Molecular Fingerprints},
- url = {https://proceedings.neurips.cc/paper/2015/file/f9be311e65d81a9ad8150a60844bb94c-Paper.pdf},
- volume = {28},
- year = {2015}
+      author = {Duvenaud, David K and Maclaurin, Dougal and Iparraguirre, Jorge and Bombarell, Rafael and Hirzel, Timothy and Aspuru-Guzik, Alan and Adams, Ryan P},
+      booktitle = {Advances in Neural Information Processing Systems},
+      editor = {C. Cortes and N. Lawrence and D. Lee and M. Sugiyama and R. Garnett},
+      pages = {2224--2232},
+      publisher = {Curran Associates, Inc.},
+      title = {Convolutional Networks on Graphs for Learning Molecular Fingerprints},
+      url = {https://proceedings.neurips.cc/paper/2015/file/f9be311e65d81a9ad8150a60844bb94c-Paper.pdf},
+      volume = {28},
+      year = {2015}
 }
 
 @misc{hamilton2018inductive,
