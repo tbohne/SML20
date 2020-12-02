@@ -217,10 +217,10 @@ Xu et al. \cite{xu2019topology} present a gradient-based attack method that faci
 and leads to a noticeable decrease in classification performance. Furthermore, they propose an optimization-based adversarial training
 for GNNs which yields higher robustness without sacrificing classification accuracy.
 Zhu et al. \cite{10.1145/3292500.3330851} propose Robust GCN (RGCN), a novel model that fortifies GCNs against adversarial attacks.
-Instead of representing  nodes as vectors, they adopt Gaussian distributions as the hidden representations of nodes in each
-convolutional layer which allows the model to automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions.
-Moreover, to remedy the propagation of adversarial attacks in GCNs, they propose a variance-based attention mechanism, i.e. assigning different
-weights to node neighborhoods according to their variances when performing convolutions. Their experimental evaluation suggests that
+Instead of representing  nodes as vectors, Gaussian distributions are adopted as the hidden representations of nodes in each
+convolutional layer, which allows the model to automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions.
+Moreover, to remedy the propagation of adversarial attacks in GCNs, a variance-based attention mechanism is proposed, i.e. assigning different
+weights to node neighborhoods according to their variances when performing convolutions. The experimental evaluation suggests that
 the method can effectively improve the robustness of GCNs.
 Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen_2020} and is based on the idea that
 edge manipulations play a key role in graph adversarial attacks. They design a biased graph-sampling scheme to drop graph connections
@@ -234,7 +234,7 @@ They introduce the framework Pro-GNN, which can jointly learn a structural graph
 these properties and are able to show that the framework achieves significantly better performance compared with state-of-the-art 
 defense methods.
 Finally, Wang et al. \cite{Wang_2019} present with GraphDefense an algorithm to improve the robustness of GCNs
-against adversarial attacks on graph structures. Moreover, they discuss crucial characteristics of defense methods in general to improve 
+against adversarial attacks on graph structures. Moreover, crucial characteristics of defense methods in general are discussed to improve 
 the robustness.
 
 \subsection{Certifiable Robustness}
@@ -364,9 +364,9 @@ The idea is that if a lower bound is positive, the classifier is robust with reg
 To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are several ways to achieve this in the literature and the followed one leads to a linear objective function which is a lower bound on the minimum of the original problem.
 Although they end up with a linear problem (all constraints are linear as well) which can be solved using highly optimized LP-solvers,
 the potentially large number of variables in a GNN that would reduce the efficiency, lets them consider a different approach.
-They consider the dual of the LP, because any dual-feasible solution is a lower bound on the minimum of the primal problem
-and if they are able to find a dual-feasible solution for which the objective function of the dual is positive,
-they know that the minimum of the primal problem has to be positive as well, guaranteeing robustness of the GNN with regard to any perturbation in the set.
+Since any dual-feasible solution is a lower bound on the minimum of the primal problem, the dual of the LP is considered.
+If a dual-feasible solution can be found for which the objective function of the dual is positive, the minimum
+of the primal problem has to be positive as well, guaranteeing robustness of the GNN with regard to any perturbation in the set.
 This approach enables them to compute robustness certificates very efficiently since it is not required to solve the dual problem optimally.\newline
 In summary, by considering the dual program, robustness certificates can be obtained if the dual values are positive for every $y \neq y^*$.
 Non-robustness certificates, on the other hand, can be constructed by the primal feasible perturbation if the primal values are negative for
@@ -437,11 +437,11 @@ ones, which is not surprising. Two important observations are highlighted:
     \item GNNs trained traditionally are only certifiably robust up to very small perturbations.
 \end{enumerate}
 Moreover, they analyze what contributes to certain nodes being more robust than others and see that neighborhood purity plays an important role.
-They claim that having many neighbors means a large surface for adversarial attacks while nodes with low degree might be affected more strongly 
+It is claimed that having many neighbors means a large surface for adversarial attacks while nodes with low degree might be affected more strongly 
 since each node in its neighborhood has a larger influence.\newline
 Regarding the robust training, they can show that their method dramatically increases the number of robust nodes. Almost every node
 is robust when considering the $Q$ for which the model has been trained and the overall amount of nodes that can be certified is also 
-increased significantly. Even nodes for which they certified non-robustness before, become certifiably robust.\newline
+increased significantly. Even nodes for which non-robustness was certified before, become certifiably robust.\newline
 
 \textbf{Conclusion}\newline
 
@@ -563,7 +563,7 @@ A traditional approach to optimize over intractable discrete variables is to per
 However, as claimed in the work, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
 in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not lead to a tractable optimization problem.
 Alternatively, it is proposed to optimize over the continuous-valued degree normalized message passing matrix instead of the binary 
-adjacency matrix $\tilde{A}$. They denote the variable corresponding to the message passing matrix by $\hat{A}$. 
+adjacency matrix $\tilde{A}$. The variable corresponding to the message passing matrix is denoted by $\hat{A}$.
 As a result, they replace the optimization problem in \ref{eq:4} by the following problem, which not only avoids optimization over
 a discrete variable, but also the nonconvex degree normalization procedure.
 \begin{gather}
@@ -676,11 +676,11 @@ Moreover, they plan to incorporate the information of a given GNN to further imp
 On a less concrete level, it would also be interesting to find out what makes perturbations harmful and therefore
 truly develop an understanding of the underlying patterns.
 The approach of Jin et al. \cite{Jin_2020_Graph} goes in this direction in a way, although they are not considering certifiable robustness.
-Their work is rather belonging to the second phase, dealing with mitigations, as they propose a framework which learns a structural graph and 
-a robust GNN model from a perturbed graph and enables a reasonable defense method in some scenarios.
+Their work is rather belonging to the second phase, dealing with mitigations, as the proposed framework, which learns a structural graph and 
+a robust GNN model from a perturbed graph, enables a reasonable defense method in some scenarios.
 Nonetheless, they highlight an important observation which is that real-world graphs share some intrinsic properties and that adversarial 
 attacks are very likely to violate these properties.
-The approaches of the third phase outlined in this work assume a certain attack model under which they provide robustness guarantees.
+The approaches of the third phase outlined in this work assume a certain attack model under which robustness guarantees are provided.
 If a general understanding of the underlying mechanisms of harmful perturbations can be established, there could be even more room
 for generalizations of attack models to guarantee robustness for.
 
