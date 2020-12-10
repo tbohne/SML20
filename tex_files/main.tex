@@ -41,16 +41,15 @@ Finally, there is a conclusion and a brief outlook on possible future research i
 \label{sec:background}
 
 A currently very active research area inside the field of machine learning, or more precisely deep learning, considers models to learn
-from graph inputs. Those models are called graph neural networks (GNNs). Graphs are useful data structures in complex real-life
-applications such as modeling physical systems, learning molecular fingerprints, controlling traffic networks, and recommending 
-friends in social networks.\cite{Liu_2020}
+from graph inputs. Those models are called graph neural networks (GNNs). 
+Many real-life applications can be represented by a graph as data structure, e.g. modeling physical systems, learning molecular fingerprints,
+controlling traffic networks or recommending friends in social networks. \cite{Liu_2020}
 Therefore, it is reasonable to think about combining graphs as data structures with state-of-the-art machine learning models.
-However, these tasks require dealing with non-Euclidean graph data that contains rich relational information between elements and
-cannot be well handled by traditional deep learning models which usually work with data represented in the Euclidean domain, e.g. in the
-fields of computer vision (images) or natural language processing (text).\cite{Liu_2020}
+Unfortunately, in its non-Euclidean nature, graph data is not suitable for traditional deep learning models that are typically designed 
+to work with Euclidean data such as images in computer vision or text in natural language processing. \cite{Liu_2020}
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. \cite{NIPS2015_f9be311e},
-\cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification.\cite{xu2019topology}
-Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering.\cite{Zhou_2019}
+\cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification. \cite{xu2019topology}
+Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering. \cite{Zhou_2019}
 In summary, GNNs are models to conduct deep learning with graph data.
 
 \subsection{Motivation}
