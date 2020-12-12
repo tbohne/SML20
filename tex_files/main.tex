@@ -137,20 +137,21 @@ that is sequentially processed through the hidden layers and finally results in 
 
 \subsection{Robustness}
 
-Besides the repeatedly demonstrated good performance, there is one big issue which is subject to a rather new branch of 
+Besides the repeatedly demonstrated good performance, there is one major issue that is subject to a rather new branch of 
 research inside the field of GNNs, which is the robustness of such models. There are several publications that analyze 
 the robustness of GNNs to adversarial examples and recently there came up first approaches to strengthen
 or even to certify their robustness with regard to a certain perturbation set.\newline
-Recent advancements in deep neural networks for graph-structured data have led to state-of-the-art performance on recommender system benchmarks.\cite{Ying_2018}
-Ying et al. describe a large-scale deep recommendation engine that they developed and deployed at a major tech company.
+Graph neural networks have lately reached state-of-the-art performance in recommendation systems. \cite{Ying_2018}
+Ying et al. developed a large-scale recommendation engine and deployed it at a major tech company.
 This example illustrates the need for robust GNNs. Although these systems may be relatively rare in practical applications, especially at
-that scale, at the moment, their performance suggests that that will change soon. However, in order to be able to use such models
+that scale, at the moment, their performance suggests that this will change soon. However, in order to be able to use such models
 with a clear conscience in practical applications requires a certain degree of robustness.
-The vulnerability to adversarial attacks has raised increasing concerns for applying GNNs in safety-critical applications.\cite{Jin_2020_Graph}\newline
+At the moment, there are noteworthy concerns about the security of using GNNs in safety-critical applications as they are
+vulnerable to adversarial attacks. \cite{Jin_2020_Graph}\newline
 
 \textbf{Adversarial Perturbations}\newline
 
-A well-studied problem of machine learning models in general is the sensitivity to adversarial perturbations.\cite{Goodfellow_2015}
+A well-studied problem of machine learning models in general is their sensitivity to adversarial perturbations. \cite{Goodfellow_2015}
 The idea of such perturbations, which is visualized in fig. \ref{fig:adversarial_example}, is that slight changes to the input data
 cause an entirely different output of the model and therefore often misclassification.
 
@@ -161,21 +162,21 @@ cause an entirely different output of the model and therefore often misclassific
     \label{fig:adversarial_example}
 \end{figure}
 
-Goodfellow et al. \cite{Goodfellow_2015} face that problem by adversarial training which means that they include adversarially 
-perturbed examples into the training procedure to strengthen the robustness of the models. They also introduce fast methods for generating 
-those adversarial examples such as displayed in fig. \ref{fig:adversarial_example}. By adding an imperceptibly small vector whose elements
-are equal to the sign of the elements of the gradient of the cost function with respect to the input, they can change GoogleNet's classification
-of the image.\cite{Goodfellow_2015}\newline
+Goodfellow et al. \cite{Goodfellow_2015} face that problem by adversarial training, which means that they include adversarially 
+perturbed examples into the training process in order to strengthen the robustness of the models. Furthermore, they introduce 
+efficient ways of generating adversarial examples, as shown in fig. \ref{fig:adversarial_example}.
+Although the added vector in fig. \ref{fig:adversarial_example} is imperceptibly small, it suffices to change the classification
+of the image by the well-known GoogleNet. \cite{Goodfellow_2015}\newline
 Adversarial perturbations are not only a problem for classical machine learning models, but also for GNNs.
-Recent works show that graph neural networks are highly non-robust with respect to adversarial attacks on both the graph
-structure and the node attributes, making their outcomes unreliable.\cite{Zuegner_2019}
-Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations to the graph structure and node features lead to 
-misclassification of the target as depicted in fig. \ref{fig:adversarial_GNN}.
+Numerous publications confirm the non-robustness of graph neural networks by showing that the models are prone to
+adversarial attacks on the node attributes as well as on the graph structure. \cite{Zuegner_2019}
+Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations to the graph structure or node features 
+cause a misclassification of the target node as depicted in fig. \ref{fig:adversarial_GNN}.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.35\textwidth]{img/adversarial_GNN.png}
-    \caption{Small perturbations of the graph structure and node features lead to misclassification of the target. \cite{Zuegner_2018}}
+    \caption{Small perturbations of the graph structure or node attributes cause a misclassification of the target. \cite{Zuegner_2018}}
     \label{fig:adversarial_GNN}
 \end{figure}
 
@@ -191,6 +192,9 @@ that are able to not only provide mitigations to adversarial attacks in some sce
 of a model, which is key to use them in safety-critical applications in the real world (cf. \ref{sec:rev3}). Because of the relevance of the last phase, 
 which is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
 will be on publications from that phase.
+
+\vfill
+\pagebreak
 
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
