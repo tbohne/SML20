@@ -73,10 +73,11 @@ indicate that the study of GNNs and their robustness is worthwhile.
 
 In this section, the basic graph neural network model proposed by Scarselli et al. \cite{Scarselli_2009} gets introduced
 based on the description in \textit{'Introduction to graph neural networks'}\cite{Liu_2020}.
-The goal of a GNN is to learn a state embedding $h_v \in \mathbb{R}^S$ for each node that is used to produce an 
-output $o_v$, e.g. the distribution of the predicted node label.
-The original GNN model works with an undirected homogeneous graph where each node $v$ in the graph has its input features $x_v$
-as well as a set of edges $co[v]$ and neighbors $ne[v]$. The authors illustrate the structure with the example in fig. \ref{fig:graph}
+A GNN's goal is to learn a state embedding $h_v \in \mathbb{R}^S$ for each node $v$ to generate an output $o_v$.
+As an example for such an output, they name the distribution of the predicted node label.
+In the original GNN model, which works with an undirected homogeneous graph, each node $v$ has input features $x_v$
+as well as a set of edges $co[v]$ and neighbors $ne[v]$. 
+The authors illustrate the structure with the example in fig. \ref{fig:graph}
 where $x_{1}$ is the input feature of $l_1$, $co[l_1]$ contains the edges $\{l_{(1, 2)}, l_{(1, 4)}, l_{(1, 6)}, l_{(3, 1)}\}$, and 
 $ne[l_1]$ contains the nodes $\{l_2, l_3, l_4, l_6\}$.
 
@@ -105,24 +106,28 @@ outputs $O$, and features $X$ (and node features $X_N$) with $F$ and $G$ being t
 \end{itemize}
 
 The $(t + 1)$-th iteration of $H$ is described as $H^{t + 1} = F(H^t, X)$.
-Using the target information $t_v$ for node $v$, the loss can be written as $\sum_{i=1}^p (t_i - o_i)$
-where $p$ is the number of supervised nodes. The learning algorithm is based on a gradient-descent strategy.\newline
+Using the target information $t_v$ for node $v$ and the number of supervised nodes $p$, 
+the loss term is described as $\sum_{i=1}^p (t_i - o_i)$ and a gradient-descent algorithm is proposed as learning technique.\newline
 
 \vfill
 \pagebreak
 
-This basic GNN model provides a first step towards incorporating neural networks into the graph domain, 
-but has several limitations \cite{Liu_2020} which are tackled in numerous variants of GNNs such as graph convolutional networks (GCNs).\newline
+This basic GNN model is still rather limited, but nevertheless an important milestone on the way to making
+neural networks applicable in the graph domain. \cite{Liu_2020}
+The restrictions give rise to numerous flavors of GNNs, such as graph convolutional networks (GCNs),
+which address certain limitations of the basic model.\newline
 
 \textbf{Graph Convolutional Networks}\newline
 
-The properties that define the different variants of GNNs are typically the aggregator to gather information from each node's neighbors
-and a specific updater to update the node's hidden states. \cite{Zhou_2019} In general, there is a certain functional evaluation of
-a node's features together with the features of its neighbors (convolution). The results are then the input for the neural network.
-GCN approaches are often categorized as spectral or spatial approaches. Spectral approaches
-work with a spectral representation of the graph and the convolution operation is defined in the Fourier domain by 
-computing the eigendecomposition of the graph Laplacian. \cite{Zhou_2019}
-A simple schematic representation of a deep GCN is depicted in fig. \ref{fig:gcn}.
+The properties that define the different variants of GNNs are typically the aggregator that gathers 
+information about the neighborhood of a node and a particular updater to update the hidden states. \cite{Zhou_2019}
+In general, there is a certain functional evaluation of a node's features together with the features of its neighbors (convolution). 
+The results are then the input for the neural network. GCN models are usually classified as spectral or spatial approaches.
+Spectral approaches perform an eigendecomposition of the graph Laplacian and operate on spectral graph representations. \cite{Zhou_2019}
+Whereas spatial methods work directly on the graph structure and consider the local neighborhood of nodes \cite{Zhou_2019},
+which lets them appear as the more intuitive approaches.
+A simple schematic representation of a deep GCN is depicted in fig. \ref{fig:gcn} where we have an initial graph as input
+that is sequentially processed through the hidden layers and finally results in an output representation of the graph.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.45\textwidth]{img/gcn.png}
