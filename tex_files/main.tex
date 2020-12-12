@@ -16,6 +16,8 @@
 
 \title{Robustness \& Graph (Convolutional) Neural Networks}
 
+\subtitle{Machine Learning Seminar 20/21}
+
 \numberofauthors{1}
 %
 \author{
@@ -55,12 +57,14 @@ In summary, GNNs are models to conduct deep learning with graph data.
 \subsection{Motivation}
 
 One of the most successful types of models in the field of deep learning is the convolutional neural network (CNN).
-GNNs are motivated by CNNs which are capable of extracting and composing multi-scale localized spatial features
-for features of high representational power, but can only operate on Euclidean data like images and text.\cite{Liu_2020}
-Thus, the idea is to generalize CNNs to graphs.\newline
-Another motivation comes from graph embedding, which learns to represent graph nodes, edges, or subgraphs in low-dimensional vectors.\cite{Liu_2020}
-Liu et al. also highlight that traditional machine learning approaches for graph analysis rely on hand-engineered features which causes them
-to be rather inflexible and expensive.
+Hence, the idea is to generalize CNNs, which are designed to operate on Euclidean data with a spatial relation like 
+images and text, to graph structured data. \cite{Liu_2020}
+The notion of graph embeddings, which learn to represent graph structures as low-dimensional vectors, provides
+another motivation for graph neural networks. \cite{Liu_2020}
+Liu et al. also highlight that traditional machine learning methods for graph analysis involve a lot of manual feature engineering
+which causes them to be rather inflexible and expensive.
+These considerations, along with the performance of GNNs in practical applications mentioned in section \ref{sec:background}, 
+indicate that the study of GNNs and their robustness is worthwhile.
 
 \vfill
 \pagebreak
