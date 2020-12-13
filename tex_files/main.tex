@@ -253,22 +253,27 @@ Moreover, crucial characteristics of defense methods in general are discussed to
 
 When considering safety-critical applications, it is not only required to be able to defend the system in some scenarios, but there
 have to be guarantees about the safety of the system.
-Bojchevski et al. \cite{bojchevski2019certifiable} present a first method for verifying certifiable
-(non-)robustness to perturbations of the graph structure for a general class of models including GNNs. Additionally, they investigate robust 
-training procedures that increase the number of certifiably robust nodes while maintaining or even improving the predictive accuracy.
-However, their work is limited to a specific class of graph models based on PageRank, not covering the highly important principle of graph convolutional
-networks. \cite{10.1145/3394486.3403217}
-Zügner et al. \cite{Zuegner_2019} propose a first method for certifiable (non-)robustness of GCNs with respect to 
-perturbations of the node attributes. If a node has been certified with their method, it is guaranteed to be robust under any
-possible perturbation given the attack model. Likewise, they can certify non-robustness and present a robust semi-supervised training
-procedure which improves the robustness with only minimal effect on the predictive accuracy.
-Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the problem of GCNs under perturbation of the graph structure and introduce a method
-for certifying their robustness. The authors show how the problem can be expressed as a jointly constrained bilinear program and
-present a branch-and-bound algorithm to obtain lower bounds on the global optimum. The problem gets decomposed into sub-problems that can
-be formulated as linear programs and therefore be solved using highly optimized LP-solvers (e.g. CPLEX).
-The first certified robustness guarantee of any GNN for both node and graph classifications against structural perturbation
-is provided by Wang et al.\cite{Wang_2020} Their approach is based on a recently developed technique called randomized smoothing,
-which they extend to graph data.
+Bojchevski et al. \cite{bojchevski2019certifiable} introduce a first method that is able to verify certifiable robustness or
+non-robustness of a general class of models including GNNs against perturbations of the graph structure.
+An important aspect of approaches that aim to make GNNs more robust is that they should not compromise predictive accuracy.
+The authors satisfy this constraint with their robust training procedure that increases the number of certifiably robust nodes
+and is even able to improve the predictive accuracy in some cases.
+However, the approaches are restricted in the sense that they are not applicable to GCNs, but only to a certain class of models
+based on \textit{PageRank}. \cite{10.1145/3394486.3403217}
+Zügner et al. \cite{Zuegner_2019} develop a first method that deals with certifiable (non-)robustness of GCNs against perturbations
+of the node attributes. The robustness certificates are always given under the assumption of a certain attack model and do not hold in general.
+Hence, a node that is certified as being robust by their method is guaranteed to be robust under every possible perturbation that is part of the
+defined attack model. Analogously, they are able to provide non-robustness certificates.
+Adhering to the aforementioned requirement of not, or at least only minimally affecting the predictive accuracy,
+the authors present a robust, semi-supervised training method.
+Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the related problem of GCNs against perturbation of the graph structure
+and introduce a method for certifying their robustness. The authors reformulate the problem in a way that enables them to use highly 
+optimized LP-solvers such as CPLEX to solve it. To achieve that, they express the problem as a jointly-constrained bilinear program, 
+develop a branch-and-bound procedure to obtain lower bounds on the optimal solution value and are able to divide the problem into linear 
+sub-problems.
+Finally, Wang et al.\cite{Wang_2020} extend the so-called \textit{randomized smoothing} technique to provide robustness guarantees for any
+GNN for node classification as well as graph classification problems. As Zügner et al. \cite{10.1145/3394486.3403217}, they consider
+perturbations of the graph structure.
 
 \section{Certifiable robustness of graph neural networks}
 \label{sec:main_section}
