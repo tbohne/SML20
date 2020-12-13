@@ -218,36 +218,35 @@ even slight perturbations of the graph structure or the node attributes consiste
 \label{sec:rev2}
 
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
-is how to defend them against such attacks. 
-Direct extension of defense algorithms for classical neural networks based on adversarial samples meets with immediate challenge because
-computing the adversarial network costs substantially. \cite{Jin_2020} Jin et al. propose to address this issue by perturbing the latent 
-representations in GCNs, which not only increases efficiency because there is no need to generate adversarial networks, but also attains 
-improved robustness and accuracy. They apply their framework of latent adversarial training on graphs to node classification,
-link prediction, and recommender systems and are able to confirm superior robustness in experiments.
+is how to defend them against such attacks.
+The defense mechanisms based on adversarial samples for classical neural networks are not directly and especially not efficiently
+extensible to GCNs. \cite{Jin_2020} Jin et al. tackle the problem and try to increase the efficiency by perturbations of the hidden representations
+of GCNs, which means that there is no need to generate adversarial networks and therefore improved efficiency. Additionally, they state that
+their framework improves robustness and accuracy in experiments on several tasks such as node classification, link prediction, and recommendation
+systems.
 When considering the robustness of GNNs, it is of course quite important to have efficient and effective attack methods to test with.
-Xu et al. \cite{xu2019topology} present a gradient-based attack method that facilitates the difficulty of tackling discrete graph data
-and leads to a noticeable decrease in classification performance. Furthermore, they propose an optimization-based adversarial training
-for GNNs which yields higher robustness without sacrificing classification accuracy.
-Zhu et al. \cite{10.1145/3292500.3330851} propose Robust GCN (RGCN), a novel model that fortifies GCNs against adversarial attacks.
-Instead of representing  nodes as vectors, Gaussian distributions are adopted as the hidden representations of nodes in each
-convolutional layer, which allows the model to automatically absorb the effects of adversarial changes in the variances of the Gaussian distributions.
-Moreover, to remedy the propagation of adversarial attacks in GCNs, a variance-based attention mechanism is proposed, i.e. assigning different
-weights to node neighborhoods according to their variances when performing convolutions. The experimental evaluation suggests that
-the method can effectively improve the robustness of GCNs.
-Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen_2020} and is based on the idea that
-edge manipulations play a key role in graph adversarial attacks. They design a biased graph-sampling scheme to drop graph connections
-such that random, sparse and deformed subgraphs are constructed for training which mitigates the sensitivity 
-to edge manipulations, and thus enhances the robustness of the models. Their experimental results validate the effectiveness 
-against adversarial attacks.
-The idea, the approach of Jin et al \cite{Jin_2020_Graph} is based on, is to defend adversarial attacks by cleaning up the perturbed graph.
-The authors state that real-world graphs share some intrinsic properties as they are often low-rank, sparse, and the features of two adjacent
-nodes tend to be similar and that adversarial attacks are likely to violate these properties.
-They introduce the framework Pro-GNN, which can jointly learn a structural graph and a robust GNN model from the perturbed graph guided by
-these properties and are able to show that the framework achieves significantly better performance compared with state-of-the-art 
-defense methods.
-Finally, Wang et al. \cite{Wang_2019} present with GraphDefense an algorithm to improve the robustness of GCNs
-against adversarial attacks on graph structures. Moreover, crucial characteristics of defense methods in general are discussed to improve 
-the robustness.
+Xu et al. \cite{xu2019topology} are proposing an effective gradient-based attack for graph neural networks that causes decreased classification
+performance. As a training procedure for higher robustnesss, they introduce an optimization-based adversarial training that is not
+impairing the classification accuracy.
+Zhu et al. \cite{10.1145/3292500.3330851} develop an approach that they refer to as \textit{Robust GCN} (RGCN), which is aiming at
+increased robustness against adversarial attacks. To be able to simply absorb the effects of adversarial perturbations, they model
+the latent structures in each layer of the GCN as being Gaussian distributed with the idea that the perturbations perish in the variances
+of the distributions. According to these variances, the neighborhoods of nodes are assigned different weights to prevent adversarial attacks
+from being propagated through the net. The presented experimental evaluation suggests that the goal of increased robustness is achieved.
+Another approach to enhance the robustness of GCNs is proposed by Chen et al. \cite{Chen_2020} and relies on the idea that a crucial 
+aspect of adversarial attacks on graph structures is given by manipulations of the edges of the graph.
+Thus, they focus on mitigating the sensitivity of the models to such manipulations by a training procedure, in which
+random, sparse and deformed subgraphs are used by a removal of certain edges. Experimentally, they can show that the method is indeed
+mitigating the sensitivity to adversarial attacks and thereby increasing the robustness.
+The idea, the approach of Jin et al \cite{Jin_2020_Graph} is based on, is that a reasonable defense method against graph perturbations lets
+the perturbed version of the graph undergo some kind of cleaning procedure. The authors state that graph structures representing problems
+from the real-world often share some intrinsic properties such as low-rankedness, sparsity, and a certain similarity between neighboring
+nodes and that those features can be used to identify adversarial attacks, which seem to be likely to violate such properties.
+Based on that idea, they propose the framework \textit{Pro-GNN}, which leads to a robust GNN model with remarkable performance in experiments
+with real-world data and extensive perturbations.
+Finally, Wang et al. \cite{Wang_2019} present with \textit{GraphDefense} an algorithm to improve the robustness of graph convolutional 
+networks against adversarial attacks with a particular focus on scaling for large graph inputs. 
+Moreover, crucial characteristics of defense methods in general are discussed to improve the robustness.
 
 \subsection{Certifiable Robustness}
 \label{sec:rev3}
