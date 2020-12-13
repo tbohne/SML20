@@ -5,6 +5,7 @@
 \usepackage{courier}
 \usepackage{microtype}
 \usepackage{hyperref}
+\usepackage{csquotes}
 
 \frenchspacing
 
@@ -199,20 +200,19 @@ will be on publications from that phase.
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
 
-Dai et al. \cite{Dai_2018} focus on adversarial attacks on graph structured data that fool the model by modifying the
-combinatorial structure of the data. They use synthetic and real-world data to show that a family of GNN models is vulnerable
-to these attacks in both graph-level and node-level classification tasks.
+Dai et al. \cite{Dai_2018} address adversarial attacks on graph structured data, in which the combinatorial structure of 
+the data is altered in order to manipulate the outcome. They are able to show the vulnerability of GNN models to these kind of attacks
+in graph-level as well as node-level classification tasks using real-world and artificial data.\newline
 Another approach for adversarial attacks on graph structured data is proposed by Zügner et al. \cite{Zuegner_2018} who focus on node classification
-via graph convolutional networks.
-The authors claim that especially in domains where GNNs are used, e.g. the web, adversaries are common and that it is therefore important
-to investigate the robustness of such models. They study adversarial attacks on attributed graphs and distinguish between
-adversarial attacks on the node's features and the graph structure. The results suggest that the accuracy of node classification
-significantly drops even for only a few perturbations which clearly motivates reflections on the robustness of such models, especially
-when considering practical applications.
+via graph convolutional networks. The authors claim that especially in domains where GNNs are used, such as the web, adversarial attacks are 
+common and that it is therefore important to investigate the robustness of such models. They study adversarial attacks on attributed graphs 
+and distinguish between adversarial attacks on the node's features and the graph structure.
+The results suggest that even slight perturbations significantly deteriorate the classification accuracy, which clearly motivates reflections
+on the robustness of such models, especially when considering practical applications.\newline
 So far, adversarial attacks were introduced as a quite vague concept. Zügner et al. \cite{zuegner2019adversarial}
-define them as small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker
-and propose different categories to be considered in the attack model. Furthermore, they confirm previous claims that small graph 
-perturbations consistently lead to a strong decrease in performance for GCNs.
+define them as \textquote{small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker}
+and propose different categories to be considered in the attack model. Furthermore, they confirm previous claims that 
+even slight perturbations of the graph structure or the node attributes consistently decrease the performance of GCN models.
 
 \subsection{Defense mechanisms}
 \label{sec:rev2}
