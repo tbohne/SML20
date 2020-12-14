@@ -339,73 +339,88 @@ outlined again.\newline
 
 \subsubsection{Certifying the robustness of a given GNN}
 
-The first step is to derive an efficient principle for robustness certificates. Given a trained GNN and a specific node $t$ under consideration,
-the author's goal is to provide a certificate which guarantees that the prediction made for $t$ will not change when the data gets perturbed.
-If the certificate is provided, the prediction for this node is robust under any admissible perturbation.
-In a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood
-which allows them to reduce the entries that are required to compute the output for the target node $t$. That drastically improves the scalability
-by reducing the size of the neural network and potential perturbations. Given that sliced version of the GNN, they define their actual
-task which is to verify whether no admissible perturbation changes the prediction of the target node $t$.\newline
+The main part of \cite{Zuegner_2019} starts with the search for an efficient way of robustness certification.
+First, the goal is to certify the robustness of an already trained GNN model. When considering a node $t$ in the graph, the idea is to be 
+able to assure that the prediction of $t$ does not change after feassible perturbations, i.e. to assure that it is robust.
+In a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood. \cite{Zuegner_2019}
+This fact allows them to improve the scalability of the approach by reducing the entries that are required to compute the output
+for the target node $t$. In particular, the size of the neural network itself and the size of potential perturbations are reduced.
+Based on that sliced version of the GNN, they formally define the probem to be solved, which is to check whether the prediction 
+of a node $t$ can not be altered by any feasible perturbation. The problem is defined as follows.\newline
 
-Given a graph $G = (A, X)$, a target node $t$, and a GNN with parameters $\theta$. $A$ is the adjacency matrix and $X$ represents the features of the nodes.
-The sliced versions of $A$ and $X$ are denoted as $\dot{A}$ and $\dot{X}$. $y^*$ denotes the class of node $t$ given by ground truth or predicted.
-One important aspect, the authors emphasize, is that it is crucial to obtain certificates that reflect realistic attacks.
-They define the set of admissible perturbations by limiting the number of changes to the original attributes with a perturbation
-budget and measure the $L_0$ norm in the change to $\dot{X}$. 
-The perturbations are limited locally as well as globally, because in a graph setting, a node can not only be directly attacked by changing
-its attributes, but also indirectly by changing the node attributes of its $L-1$ hop neighborhood.
-Therefore, a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$ gets introduced.
-The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under some set
-of admissible perturbations to the model attributes is given by
+Let $G = (A, X)$ be a given graph, $t$ a target node, and the parameters of the model are denoted as $\theta$.
+$A$ is the adjacency matrix and $X$ represents the features of the nodes. The sliced versions of $A$ and $X$ are denoted 
+as $\dot{A}$ and $\dot{X}$ and $y^*$ defines the class of node $t$ given by ground truth or predicted.
+One important aspect, the authors emphasize, is that it is crucial that the generated certificates reflect realistic attacks.
+The attack model, i.e. the set of feasible perturbations, is restricted by a certain perturbation budget which sets a limit 
+onto the number of $L_0$-measured changes to the attributes of the nodes $\dot{X}$.
+The perturbations are limited locally as well as globally, because in a scenario with a graph as data structure, a node can not 
+only be directly attacked by changing its attributes, but also indirectly by changing the node attributes of its $L-1$ hop 
+neighborhood. \cite{Zuegner_2019}
+Therefore, a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$ is introduced.
+The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under a certain set
+of feasible perturbations to the node features is defined as:
 \begin{gather} 
 \label{eq:1}
     m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \\
     s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X}) \nonumber
 \end{gather}
 where $f_{\theta}^t(\tilde{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
-of admissible perturbations to the node attributes.
-If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is certifiably robust with regard to node $t$ and perturbations $X_{q, Q}$,
-which means that there is no adversarial example within the admissible set of perturbations that causes a prediction change.
-The high-level idea of considering the classification margin is depicted in the following figures.
-Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and fig. \ref{fig:after_pert} introduces two
-perturbations to the node attributes that lead to a negative margin.
+of feasible perturbations to the node features.
+If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is considered to be certifiably robust with regard to the node $t$ and the set of
+perturbations $X_{q, Q}$, which means that there is no perturbation within the admissible set of perturbations that causes a prediction change. \cite{Zuegner_2019}
+The high-level idea of considering the classification margin as indicator for robustness is depicted in the following figures.
+Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and a positive classification margin.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/before_pert.png}
-    \caption{Before perturbation \cite{Zuegner_2019}}
+    \caption{Classification margin before perturbation \cite{Zuegner_2019}}
     \label{fig:before_pert}
 \end{figure}
+
+Fig. \ref{fig:after_pert}, on the other hand, introduces two perturbations to the node attributes that lead to a negative
+classification margin and therefore not to certifiable robustness.
+
+\vfill
+\pagebreak
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/after_pert.png}
-    \caption{After perturbation \cite{Zuegner_2019}}
+    \caption{Classification margin after perturbation \cite{Zuegner_2019}}
     \label{fig:after_pert}
 \end{figure}
 
-The authors identify two major obstacles in efficiently finding the minimum in \ref{eq:1}.
-First, the data domain is discrete which makes optimization often intractable. Second, the GNN ($f_{\theta}^t$) is nonconvex
-due to the nonlinear activation function in the neural network. They tackle those issues by efficiently computing lower bounds
-on the minimum of the original problem via relaxations of the neural network and the data domain.
-The idea is that if a lower bound is positive, the classifier is robust with regard to the set of admissible perturbations.
-To make the objective function convex, they have to find a convex relaxation of the ReLU activation function. There are several ways to achieve this in the literature and the followed one leads to a linear objective function which is a lower bound on the minimum of the original problem.
-Although they end up with a linear problem (all constraints are linear as well) which can be solved using highly optimized LP-solvers,
-the potentially large number of variables in a GNN that would reduce the efficiency, lets them consider a different approach.
-Since any dual-feasible solution is a lower bound on the minimum of the primal problem, the dual of the LP is considered.
-If a dual-feasible solution can be found for which the objective function of the dual is positive, the minimum
-of the primal problem has to be positive as well, guaranteeing robustness of the GNN with regard to any perturbation in the set.
-This approach enables them to compute robustness certificates very efficiently since it is not required to solve the dual problem optimally.\newline
-In summary, by considering the dual program, robustness certificates can be obtained if the dual values are positive for every $y \neq y^*$.
-Non-robustness certificates, on the other hand, can be constructed by the primal feasible perturbation if the primal values are negative for
-one $y \neq y^*$. For some nodes, neither of these certificates can be given. The authors highlight that obtaining good upper and lower bounds is 
-crucial to obtain robustness certificates, as tighter bounds lead to lower relaxation error of the GNN activations. Furthermore, the bounds can 
-be used for backpropagation which is an important aspect for robust training.\newline
+To be able to solve the optimization problem in \ref{eq:1}, the authors have to find a way of treating the challenging
+problems of a discrete data domain together with a nonconvex activation function in $f_{\theta}^t$. \cite{Zuegner_2019}
+They tackle those issues by efficiently computing lower bounds on the minimum of the problem in \ref{eq:1} via relaxations 
+of the GNN and the data domain. The idea is that a positive lower bound indicates the robustness of the classifier under 
+the defined set of feasible perturbations.
+To end up with a convex objective function in the optimization problem in \ref{eq:1}, a convex relaxation of the ReLU activation
+function is required. \cite{Zuegner_2019} There are several ways to find such a relaxation in the literature and the one, the authors follow,
+leads to a linear objective function which is a lower bound on the minimum of the original problem.
+Although they end up with a linear problem (all constraints are linear as well), which can be solved using highly optimized LP-solvers,
+the potentially large number of variables in such a model that would reduce the efficiency, lets them consider a different approach.
+Since any dual-feasible solution provides a lower bound on the minimum of the primal problem, the dual of the LP is considered. \cite{Zuegner_2019}
+The authors summarize the idea as follows:
+\begin{quote}
+    \emph{"[...] if we find any dual-feasible solution for which the objective function of the dual is positive, we know that the minimum of 
+    the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set."} \cite{Zuegner_2019}
+\end{quote}
 
-The certification of robustness for given GNNs is of course extremely useful for practical applications, but the next step would be to
-train classifiers that are certifiably robust to adversarial attacks which will be considered in the following section.
+Since it is not required to solve the dual of the LP optimally (it suffices to find a feasible solution), the robustness certificates
+can be computed in a very efficient manner. As seen, the robustness of a node can be certified by positive dual values for each $y \neq y^{\ast}$.
+In contrast, to provide certificates for non-robustness, one has to consider the primal values that have to be negative for one $y \neq y^*$. \cite{Zuegner_2019}
+However, it is not guaranteed that each node falls into one of the two cases, which leaves certain nodes that can not be certified.
+The authors highlight that reasonable (tight) upper and lower bounds are of great importance for robustness certification based on their method
+and that those bounds can be used for backpropagation in the robust training procedure that will be presented in section \ref{subsec:robust_training}.\newline
+The certification of robustness for trained GNNs is of course a very useful tool for practical applications, 
+but, as the authors claim, the next step would be to train classifiers that are certifiably robust to adversarial attacks 
+which will be considered in the following section.
 
 \subsubsection{Robust Training}
+\label{subsec:robust_training}
 
 As seen, the value of the dual can be interpreted as lower bound on the margin between the two considered classes.
 The authors denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
