@@ -296,33 +296,46 @@ in section \ref{sec:paper_four}.
 \label{sec:paper_two}
 
 In this section, the approach of Zügner et al. \cite{Zuegner_2019} will be described,
-in which a first method for provable (non-)robustness of graph convolutional networks with respect
-to perturbations of the node attributes is proposed. If a node has been certified with the method, it is guaranteed to be robust under any possible 
-perturbation given the attack model. Likewise, non-robustness can be certified. The proposed semi-supervised training procedure that treats 
-labeled and unlabeled nodes jointly, significantly improves the robustness of a GNN with only minimal effect on the predictive accuracy.
-As a core challenge, it is identified that in a GNN, a node's prediction is also affected when perturbing other nodes in the graph
-which makes the space of possible perturbations large. Accordingly, the perturbation budget is constrained locally and globally.
-The main idea is to estimate the worst-case change in the prediction obtained by the GNN under the given space of perturbations.
-If that change is small, the GNN is considered to be robust. To be able to compute the worst-case change efficiently,
-the authors provide bounds on the value and derive relaxations of the GNN and the perturbation space. 
-Finally, they show on various graph datasets that GNNs trained in the traditional way are not robust
-and that using their robust training, the robustness can be improved dramatically. The main question of the work is:
+in which the authors develop a first method that deals with certifiable (non-)robustness of GCNs against perturbations of
+the node attributes. Since the robustness certificates are always given under the assumption of a certain attack model,
+a node that is certified as being robust by their method is guaranteed to not change its prediction after every perturbation that is
+part of that attack model. Analogously, they are able to provide non-robustness certificates.
+As mentioned in section \ref{sec:rev3}, it is always a major concern to not negatively affect the predictive accuracy 
+while establishing a strengthened robustness of the model. With the presented semi-supervised training procedure, the authors achieve that goal.
+As a general issue when considering the robustness of GNNs, the work identifies the large space of possible perturbations
+that results from the fact that the perturbation of a single node can also have an effect on the predictions of other nodes in the graph.
+Accordingly, the perturbation budget gets constrained locally and globally.
+The approaches outlined in the work are mainly centered around the idea of estimating the worst-case change in the GNN's prediction according
+to the defined attack model (restricted space of perturbations). The graph neural network model is considered to be robust
+if that worst-case change is small.
+To be able to compute the worst-case change efficiently, the authors do not use the exact change value, but provide bounds on the value
+and additionally propose relaxations for the GNN model and the considered space of perturbations (attack model). 
+Finally, they conduct an experimental evaluation of the approach that leads them to the conclusion that 
+traditionally trained GNN models lack robustness and that the suggested training procedure offers a remedy by establishing
+a significant degree of robustness. The main question of the work can be subsumed as:
 \begin{quote}
-    \emph{"How to make sure that small changes to the input data do not have a dramatic effect to a GNN?"}
+    \emph{"How to make sure that small changes to the input data do not have a dramatic effect to a GNN?"} \cite{Zuegner_2019}
 \end{quote}
 
-\textbf{Certificates}\newline
+Because of their great importance for the rest of the work, the following two major concepts of \cite{Zuegner_2019} are briefly 
+outlined again.\newline
 
-Given a trained GNN, the authors can give robustness certificates that state that a
-node is robust with regard to a certain space of perturbations. If the certificate
-holds, it is guaranteed that no perturbation in the considered space exists
-which will change the node's prediction. Furthermore, they supply non-robustness
-certificates realized by providing adversarial examples.\newline
+\textbf{Robustness Certificates}
+\begin{quote}
+    \emph{"Given a trained GNN, we can give robustness certificates that state that a node is robust w.r.t. a certain space of perturbations. 
+    If the certificate holds, it is guaranteed that no perturbation (in the considered space) exists which will change the node's prediction. 
+    Furthermore, we also provide non-robustness certificates that, when they hold, state whether a node is not robust; realized by providing 
+    an adversarial example."} \cite{Zuegner_2019}
+\end{quote}
 
-\textbf{Robust Training}\newline
+\textbf{Robust Training}
+\begin{quote}
+    \emph{"We proposes a learning principle that improves the robustness of the GNN (i.e. making it less sensitive to perturbations) 
+    while still ensuring high accuracy for node classification."} \cite{Zuegner_2019}
+\end{quote}
 
-Besides the certification technique, a learning principle which improves the robustness of a GNN
-by making it less sensitive to perturbations while still ensuring high accuracy for node classification, is proposed.\newline
+\vfill
+\pagebreak
 
 \subsubsection{Certifying the robustness of a given GNN}
 
