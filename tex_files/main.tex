@@ -507,19 +507,22 @@ As future work, they already bridge to the next section which considers perturba
 \label{sec:paper_three}
 
 As announced in the previous section, the next step is to consider perturbations of the graph structure,
-which means that the graph structure itself can be altered by an attacker.
-In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described in which the
-problem of certifiable robustness of GCNs under perturbations of the graph structure is tackled. It is claimed that these perturbations 
-are particularly challenging because they alter the message passing scheme itself.
-After showing how this problem can be expressed as a jointly constrained bilinear program, the authors propose a novel branch-and-bound
-algorithm to obtain lower bounds on the global optimum. Since these lower bounds are significantly tighter, they are able to
-certify up to twice as many nodes compared to a standard linear relaxation.
-In the work, the realistic case where an attacker is allowed to insert new edges is considered to reflect real-world
-applications in which new edges such as likes or follows in social media are cheap and easy to inject. 
+which means that the graph structure itself can be modified by an attacker.
+In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described, in which the
+problem of certifiable robustness of GCNs against structural perturbations is tackled. 
+Since these kind of perturbations attack, and thus modify, the message passing scheme, they are considered to be particularly challenging. \cite{10.1145/3394486.3403217} 
+The authors reformulate the problem as a jointly-constrained bilinear program and develop a branch-and-bound procedure 
+to provide lower bounds on the optimal solution value. The attack model that is used in the work is based on the idea that an attacker 
+is able to insert new edges to the graph. Such a scenario could for example occur in web-based applications where edges represent friends, 
+likes or follows in social media. \cite{10.1145/3394486.3403217}
 The high-level idea, which is visualized in fig. \ref{fig:high_level}, is that there is a clean graph that is reachable by removing
 these adversaries that could have changed the model's prediction.
-A certificate issued by their method states that a node's prediction could not have been altered by edges potentially
-inserted by an attacker. 
+The authors summarize the idea of their certificates as follows:
+\begin{quote}
+    \emph{"A certificate issued by our method states that a node's prediction could not have been altered by edges potentially
+    inserted by an attacker."} \cite{10.1145/3394486.3403217}
+\end{quote}
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/high_level_graph_pert.png}
@@ -527,35 +530,39 @@ inserted by an attacker.
     \label{fig:high_level}
 \end{figure}
 
-There are three major challenges identified by the authors:
+\vfill
+\pagebreak
+
+There are three major challenges identified in the work:
 
 \begin{figure}[h]
     \centering
     \begin{enumerate}
-        \item Neural networks are in general nonconvex functions, which makes finding the optimal (worst-case)
-        perturbation intractable.
-        \item Enumerating and testing all admissible perturbations is intractable (grows exponentially with the perturbation budget).
-        \item While the certificates of the approach in section \ref{sec:paper_two} deal with what happens when the input is modified, here the
-        aim is to certify robustness for cases where the graph structure and therefore the way embeddings are propagated, changes.
-        Therefore, the output could be computed from a different set of nodes.
+        \item The search for optimal perturbations is not efficient due to the general nonconvexity of neural networks.
+        \item Enumerating the set of feasible perturbations is of course not efficiently possible as well, because the cardinality of the
+        set is growing exponentially with the perturbation budget.
+        \item In contrast to the certificates of the approach in section \ref{sec:paper_two}, here the changed structure could change 
+        the propagation of embeddings.
     \end{enumerate}
     \caption{Major challenges to be solved.}
     \label{fig:challenges}
 \end{figure}
 
 The first challenge is also a problem for traditional neural networks and the approach already used
-in section \ref{sec:paper_two}, which relies on a relaxation of the ReLU activation function, is applied again.
-The second challenge, on the other hand, requires new approaches. 
-The binary attribute data in section \ref{sec:paper_two} was handled by a continuous relaxation which is, as the authors show,
-not appropriate when considering perturbations of the graph structure. Instead, they directly work on the 
-continuous-valued degree-normalized message passing matrix used by GCNs.
-Another unstudied question is posed by the third challenge and requires a way to deal with changes to the message passing matrix.
-The difficulty here is seen in the fact that the message passing matrix is used at each layer, as opposed to the input features,
-which appear only in the first layer of the neural network, which means that the ReLU relaxations no longer lead to convex (linear)
-constraints but become nonconvex. It is shown that the problem can be expressed as a jointly constrained bilinear program
-which can be used to obtain lower bounds on the worst-case change in a node's prediction by a novel branch-and-bound algorithm.
-These lower bounds can be used as robustness certificates if they are positive, which means that the prediction of a node will not
-change under any admissible perturbation.
+in section \ref{sec:paper_two}, which realxes the ReLU activation function, is applied again. \cite{10.1145/3394486.3403217}
+For the second challenge, the authors can not recycle another approach, but have to come up with new solutions.
+They show that a continuous relaxation, as used for the binary attributed data in section \ref{sec:paper_two}, 
+is not applicable for attacks on the graph structure and instead work directly on the degree-normalized message passing matrix 
+of the GCN which already consists of continuous values.
+Another unstudied question is posed by the third challenge that requires a way to handle a modified structure (message passing scheme). \cite{10.1145/3394486.3403217}
+The authors see the problem in the fact that the message passing scheme, i.e. the matrix, in contrast to the input features considered
+in section \ref{sec:paper_two}, are used in every layer of the network and not only in the input layer.
+That causes nonconvex constraints after the ReLU relaxations. \cite{10.1145/3394486.3403217}
+As mentioned, the authors reformulate the problem as a jointly-constrained bilinear program and develop a branch-and-bound procedure 
+to provide lower bounds on the optimal solution value.
+The lower bounds can be seen as worst-case change for the prediction of a node and are therefore used as 
+robustness certificates where a positive value indicates that the prediction of a node will not
+change when being exposed to a feasible attack . \cite{10.1145/3394486.3403217}
 
 \vfill
 \pagebreak
