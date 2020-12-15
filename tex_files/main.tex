@@ -564,111 +564,107 @@ The lower bounds can be seen as worst-case change for the prediction of a node a
 robustness certificates where a positive value indicates that the prediction of a node will not
 change when being exposed to a feasible attack . \cite{10.1145/3394486.3403217}
 
+\subsubsection{Robustness Certification Technique}
+
+The problem is outlined as a semi-supervised node classification task in a graph $G = (A, X)$ with $D-$dimensional node attributes
+where $A \in \{0, 1\}^{N \times N}$ is the adjacency matrix and $X \in \mathbb{R}^{N \times D}$ are the attributes of the nodes.
+Just as in section \ref{sec:paper_two}, $V_L \subseteq V$ is the subset of labeled nodes with labels $C = \{1, 2, ..., K\}$.
+Also as in the previous section, $\theta$ summarizes the trainable weights of the GNN that can be learned using the labeled nodes $V_L$
+by minimizing the cross entropy loss. \cite{10.1145/3394486.3403217}
+The message passing matrix that defines how activations are propagated through the GNN can be obtained
+by a defined transformation $\mathcal{T}(A)$ to the adjacency matrix. \cite{10.1145/3394486.3403217}
+As always in classification tasks, the aim is to assign labels to the nodes.
+The network's output $H_{vc}^{(L)}$ is the probability of assigning label $c$ to node $v$. \cite{10.1145/3394486.3403217}\newline
+At first, the authors define the optimization problem that is to be solved.
+The starting point is an already trained GNN with weights $\theta$. The input graph that is represented by the adjacency matrix $A$
+may already be perturbed. At this point, the main idea, visualized in fig. \ref{fig:high_level}, comes into play, which is that
+the graph represented by $A$ can be reached from the \textquote{clean} unperturbed version of the graph represented by an adjacency 
+matrix $A^{\ast}$ by a set of feasible perturbations against the graph structure, e.g. adversarial edges. \cite{10.1145/3394486.3403217}
+
 \vfill
 \pagebreak
 
-\subsubsection{Robustness Certification Technique}
-
-The considered task is semi-supervised node classification in a graph with $D-$dimensional
-node features. Let $G = (A, X)$ be an attributed, unweighted graph, where $A \in \{0, 1\}^{N \times N}$ is the
-adjacency matrix and $X \in \mathbb{R}^{N \times D}$ are the features of the nodes. Given a subset $V_L \subseteq V$ of 
-labeled nodes with class labels from $C = \{1, 2, ..., K\}$, the goal is to assign each node in $G$ to one class in $C$.
-The message passing matrix that defines how the activations are propagated through the network can be obtained
-by a defined transformation $\mathcal{T}(A)$ to the adjacency matrix. Just as in the previous section, $\theta$ summarizes the trainable weights of 
-the GNN and is typically learned by minimizing the cross entropy loss on the labeled training nodes $V_L$. The output 
-$H_{vc}^{(L)}$ is the probability of assigning node $v$ to class $c$.\newline
-
-To derive robustness certificates, the authors first set up the optimization problem they aim to solve, just
-as in section \ref{sec:paper_two}. They assume an already trained GNN with weights $\theta$ as well as a potentially corrupted graph
-structure in form of an adjacency matrix $A$. The unperturbed graph structure $A^{\ast}$ is not known, but $A$ is
-assumed to be reachable from $A^{\ast}$ via an admissible set of perturbations. 
-The idea is to certify robustness for a single target node $t$ at a time which guarantees that the prediction
-made for node $t$ cannot have been altered by the attacker.
-Formally, they aim to solve the following problem.
-Let $y^{\ast}$ denote the class of node $t$ (ground truth or predicted). The worst case margin between classes $y^{\ast}$ and $y$
-achievable under some set $\mathcal{A}(A)$ of admissible perturbations to the graph structure is given by:
+The authors guarantee the robustness for a single node at a time, i.e. they assure that the specific node under 
+consideration is not changing its prediction after a feasible attack.
+The worst-case margin between $y^{\ast}$ and $y$ is computed as the following optimization problem where $y^{\ast}$ defines the given / predicted 
+class of node $t$ and $\mathcal{A}(A)$ defines the set of feasible perturbations.
 \begin{gather}
 \label{eq:4}
     m^t (y^{\ast}, y) := \min_{\tilde{A}} f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_{y^{\ast}}
     - f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_y \\
     s.t. \tilde{A} \in \mathcal{A}(A) \nonumber
 \end{gather}
-If $m^t (y^{\ast}, y) > 0$ for all classes $y \neq y^{\ast}$, the neural network is certifiably robust with regard to node $t$
-and a set of admissible perturbations $\mathcal{A}$. Therefore, just as in section \ref{sec:paper_two}, if the minimum is positive, 
-it means that there exists no adversarial example within the defined admissible perturbations that leads to the classifier changing its 
-prediction to the other class $y$. Solving the optimization problem in \ref{eq:4} is hard due to the three challenges mentioned in fig. \ref{fig:challenges}.
-Nevertheless, the authors are able to determine lower bounds on the minimum of the original problem by:
+The GNN is claimed to be robust under the set of feasible attacks for the node $t$ in question,
+if $m^t (y^{\ast}, y) > 0 \thinspace \forall \thinspace y \neq y^{\ast}$.
+Therefore, just as for the optimization problem in section \ref{sec:paper_two}, if the minimum in \ref{eq:4} is positive, 
+there is no feasible perturbation to the graph structure that would cause a prediction change of node $t$. \cite{10.1145/3394486.3403217}\newline
+Now we get back to the previously mentioned challenges (cf. \ref{fig:challenges}) that prevent an easy and efficient optimization 
+of the problem in \ref{eq:4}.
+The authors are able to bypass the hard, or inefficient part of the problem by again computing lower bounds instead of optimal values.
+More precisely, they perform the following three steps to compute lower bounds on the original problem that
+allow to answer the question of robustness:
 \begin{itemize}
-    \item Optimizing over the continuous-valued message passing matrix $\mathcal{T}(A)$ instead of the binary
-    adjacency matrix $A$.
-    \item Performing relaxations of the activation functions in the neural network.
-    \item Expressing the problem as a jointly-constrained bilinear program and proposing a branch-and-bound algorithm to solve it.
+    \item Replace the binary adjacency matrix $A$ by the continuous message-passing-matrix $\mathcal{T}(A)$.
+    \item Relax the activation function of the GNN.
+    \item Rephrase the problem as jointly-constrained bilinear program and solve it with branch-and-bound.
 \end{itemize}
-Those lower bounds enable them to decide whether the classifier is robust with regard to admissible perturbations,
-which is the case if the lower bound is positive.\newline
+A positive lower bound indicates robustness under the defined attack model. \cite{10.1145/3394486.3403217}\newline
 
 \textbf{Optimization over the graph structure}\newline
 
-To be able to handle the second challenge mentioned in \ref{fig:challenges}, the authors set reasonable constraints to 
-the perturbations an attacker can perform such that resulting certificates reflect realistic attacks.
-As a norm to measure distance for the discrete graph structure $A$, they use the number of perturbed elements
-measured by the non-convex $L_0$ norm. To do that, the setup of the previous paper discussed in section \ref{sec:paper_two},
-which introduces local and global $L_0$ constraints on the node attributes, gets translated to graph structure perturbations.
-Precisely, they allow the attacker to insert at most $q_i \in \mathbb{N}$ edges to a node $i$, and at most $Q \in \mathbb{N}$ edges
-across the whole graph. It is assumed that an attacker has potentially inserted edges to the unknown original graph 
-structure $A^{\ast}$ to produce $A$, which means that $A^{\ast}$ must be reachable from $A$ by removing edges.\newline
-A traditional approach to optimize over intractable discrete variables is to perform a continuous relaxation.
-However, as claimed in the work, any optimization problem involving $\tilde{A}$ in the objective function is not convex 
-in the variables $\tilde{A}_{ij}$, which means that a simple continuous relaxation does not lead to a tractable optimization problem.
-Alternatively, it is proposed to optimize over the continuous-valued degree normalized message passing matrix instead of the binary 
-adjacency matrix $\tilde{A}$. The variable corresponding to the message passing matrix is denoted by $\hat{A}$.
-As a result, they replace the optimization problem in \ref{eq:4} by the following problem, which not only avoids optimization over
-a discrete variable, but also the nonconvex degree normalization procedure.
+In order to be able to cope with the second challenge mentioned in fig. \ref{fig:challenges}, the set of feasible perturbations
+is restricted in such a way that on the one hand the sheer size of the set is limited and on the other hand
+it reflects perturbations that could actually occur in practical applications. \cite{10.1145/3394486.3403217}
+The authors again use the $L_0$ norm, in this case to measure the number of perturbed elements in $A$.
+To do that, they transfer the idea of local and global $L_0$ constraints on the node attributes used in the previous paper 
+discussed in section \ref{sec:paper_two} to structural perturbations, which means that there are allowed to be at most
+$q_i \in \mathbb{N}$ local adversarial edges to a specific node $i$ and at most $Q \in \mathbb{N}$ global adversarial
+edges inserted into the whole graph. \cite{10.1145/3394486.3403217}
+This approach refers to the high-level idea visualized in fig. \ref{fig:high_level}, i.e. that the perturbed graph structure
+differs from the original (clean) structure by a certain set of inserted adversarial edges.\newline
+Continuous relaxation would be the common way of dealing with intractable discrete optimization problems,
+but in this case, due to the minimization over $\tilde{A}$ in the objective function, this is not an option. \cite{10.1145/3394486.3403217}
+Instead, the authors propose to use the degree normalized message-passing-matrix $\hat{A}$ in its continuous nature.
+As a result, the optimization problem in \ref{eq:4} is replaced by the following problem, which not only avoids 
+the intractable optimization over a discrete variable, but also the nonconvex degree normalization process
+since the message-passing-matrix $\hat{A}$ is now directly passed to $f_{\theta}^t$ as input. \cite{10.1145/3394486.3403217}
 \begin{gather}
 \label{eq:5}
     \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
     - f_{\theta}^t (X, \hat{A})_y \\
     s.t. \hat{A} \in \mathcal{\hat{A}}(A) \nonumber
 \end{gather}
-The neural network $f_{\theta}^t$ in objective \ref{eq:5} directly takes the message passing matrix $\hat{A}$ as input.
-The set of admissible degree-normalized message passing matrices $\mathcal{\hat{A}}(A)$ based
-on the perturbation budget and the graph is designed carefully, because any degree-normalized matrix that could be produced by first performing discrete
-perturbations to $A$ and then degree-normalizing the resulting binary matrix $\tilde{A}$ must be included in the new set of admissible matrices.
-Only then it follows that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, which means that the optimum of the modified optimization problem in
-\ref{eq:5} is a lower bound on the optimal value of the original problem in \ref{eq:4}. A positive value of \ref{eq:5} indicates a certificate.
-The authors derive constraints to generate a valid and tight set of admissible message passing matrices $\mathcal{\hat{A}}$.
-Those are convex to enable tractable optimization. To further enable efficient optimization, they require the constraints to be linear
-as well as efficient to compute. The set $\mathcal{\hat{A}}(A)$ is constructed in a way that $\mathcal{T}(\mathcal{A}(A)) \subseteq \mathcal{\hat{A}}(A)$,
-i.e. for $\tilde{A} \in \mathcal{A}(A)$ it holds that $\mathcal{T}(\tilde{A}) \in \mathcal{\hat{A}}(A)$.
-Therefore, an optimal solution for \ref{eq:5} leads to a valid lower bound for the original objective \ref{eq:4}.\newline
+
+\vfill
+\pagebreak
+
+It is crucial to define the set $\mathcal{\hat{A}}(A)$ of possible message passing matrices in a way that it contains
+every possible matrix that could result from first performing discrete perturbations to $A$ and afterwards 
+degree-normalizing the resulting binary matrix $\tilde{A}$, only then it holds that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, 
+i.e. the result of \ref{eq:5} provides a lower bound on the optimal solution of the optimization problem in \ref{eq:4}. \cite{10.1145/3394486.3403217}
+The authors are able to derive constraints to generate message passing matrices $\mathcal{\hat{A}}$
+that are valid, tight, and convex to enable efficient optimization.
+Finally, a positive value of \ref{eq:5} indicates a certificate. \cite{10.1145/3394486.3403217} \newline
 
 \textbf{Relaxation of the neural network}\newline
 
-As stated in the first challenge in fig. \ref{fig:challenges}, the objective function is hard due to the non-convexity. The authors follow the relaxation approach 
-from section \ref{sec:paper_two}, which causes the output $H$ of the ReLU activation function to no longer be deterministic, 
-but treated as a variable. For the convex relaxation, they state that valid lower and upper bounds on the pre-ReLU activations 
-in the GNN are needed, which are inspired by approaches from the literature.\newline
+As stated in the first challenge in fig. \ref{fig:challenges}, the objective function of the GNN is hard due to the non-convexity.
+Therefore, the authors again apply a relaxation approach from their previous paper \cite{Zuegner_2019}, which causes the output $H$ 
+of the ReLU activation function to no longer be deterministic, but considered to be a variable and combine it with ideas
+of another approach from the literature.\newline
 
 \textbf{Jointly constrained bilinear program}\newline
 
-Using the relaxation of the neural network and the constraints on the message passing matrix, the authors are able to
-rephrase the objective function \ref{eq:5} as a bilinear objective function.
+Combining the relaxed GNN with the constraints on the message-passing-matrix, the objective function in \ref{eq:5} 
+can be reformulated as a bilinear objective function. \cite{10.1145/3394486.3403217}
 Afterwards, they add another artificial constraint that does not change the solution, but enables them to use 
-a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem. 
-The idea is to use the convex envelope of the objective function to compute lower bounds 
-and to apply a branch-and-bound procedure to recursively subdivide the domain.\newline
-It is highlighted that it is not necessary to find the global solution of the bilinear problem, 
-only its sign is of relevance. In each iteration, the upper and lower bounds become increasingly accurate and the idea is to 
-stop as soon as possible. If the lower bound is positive, robustness has been successfully certified. If the upper bound is negative, 
-no robustness certificate can be given for the instance, which does not imply that the classifier is not robust, 
-it just can not be certified. The procedure is further improved by exploiting knowledge about the graph domain.\newline
-
-\textbf{Summary}\newline
-
-The work rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
-as a jointly constrained bilinear program. While this problem is not convex, the authors can use a branch-and-bound procedure to get increasingly
-accurate bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
-and therefore have an efficient way of robustness certification.
+a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem.
+The convex envelope of the objective function is used to compute lower bounds and additionally, a branch-and-bound procedure is used
+to recursively divide the problem into sub-problems. In each iteration, the upper and lower bounds become more and more precise
+and the idea is to stop as soon as possible. It is important to note that it is not necessary to find the optimal solution of 
+the bilinear problem, only its sign is of relevance. \cite{10.1145/3394486.3403217}
+Consequently, there are two possible outcomes: A positive lower bound indicates successfully certified robustness, while a negative
+lower bound only states that no robustness certificate can be given and not non-robustness. \cite{10.1145/3394486.3403217}\newline
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
@@ -692,6 +688,13 @@ The problem is framed as a jointly-constrained bilinear program and a branch-and
 use of knowledge about the graph domain and decomposes it into sub-problems.
 These sub-problems are linear programs that can be solved using highly optimized LP-solvers (e.g. CPLEX).
 Finally, the presented certification method is able to certify a large fraction of the nodes.
+
+\textbf{Summary}\newline
+
+The work rephrased the problem of certifying robustness of GCNs under perturbations of the graph structure
+as a jointly constrained bilinear program. While this problem is not convex, the authors can use a branch-and-bound procedure to get increasingly
+accurate bounds on the global optimum. As soon as the upper or lower bound crosses zero, they can stop the procedure
+and therefore have an efficient way of robustness certification.
 
 \subsection{Robustness guarantee of any GNN for node and graph classifications}
 \label{sec:paper_four}
