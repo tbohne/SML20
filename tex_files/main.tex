@@ -338,6 +338,7 @@ outlined again.\newline
 \pagebreak
 
 \subsubsection{Certifying the robustness of a given GNN}
+\label{subsec:robustness_certification}
 
 The main part of \cite{Zuegner_2019} starts with the search for an efficient way of robustness certification.
 First, the goal is to certify the robustness of an already trained GNN model. When considering a node $t$ in the graph, the idea is to be 
@@ -422,77 +423,84 @@ which will be considered in the following section.
 \subsubsection{Robust Training}
 \label{subsec:robust_training}
 
-As seen, the value of the dual can be interpreted as lower bound on the margin between the two considered classes.
-The authors denote with $p_{\theta}^t$ the $k$-dimensional vector containing the dual objective function values
-for any class $k$ compared to the given class $y$. Node $t$ with class $y_t^{\ast}$ is certifiably robust if $p_{\theta}^t < 0$ for all entries
-except the entry at $y_t^{\ast}$ which is always $0$. A starting point for a training objective is the following typical objective 
-to train GNNs for node classification:
+As seen in the previous section, the dual problem can be used to provide a lower bound on the margin
+between the two considered classes $y$ and $y^{\ast}$ for node $t$.
+The authors define a $k$-dimensional vector $p_{\theta}^t$ that contains the dual objective function values
+for any class $k$ compared to $y$. The node $t$ can be determined as being certifiably robust if $p_{\theta}^t < 0$
+for all entries except the one for $y^{\ast}$, for which $y^{\ast} = 0$ holds. \cite{Zuegner_2019}
+As a starting point for a training objective serves the following common objective function for classification tasks:
 \begin{gather}
     \min_{\theta} \sum_{t \in \mathcal{V}_L} \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
-where $\mathcal{V}_L$ is the set of labeled nodes, $\mathcal{L}$ is the
-cross entropy function and $y_t^{\ast}$ denotes the known class label of node $t$.
-It is only a starting point, because they instead refer to the so-called robust cross entropy loss objective from the literature,
-which improves the robustness of classical neural networks:
+where $\mathcal{V}_L$ is the set of labeled nodes, $\mathcal{L}$ is the cross entropy function and $y_t^{\ast}$ represents
+the class of node $t$ that is given by ground truth or predicted.
+It is only a starting point, because they instead build on an objective from the literature that they call \textit{robust cross entropy loss},
+which leads to an increased robustness of classical neural networks and provides an upper bound on the worst-case loss \cite{Zuegner_2019}:
 \begin{gather}
 \label{eq:between}
     \min_{\theta, \{\Omega^{t, k}\}_{t \in \mathcal{V}_L, 1 \leq k \leq K}} \sum_{t \in \mathcal{V}_L} \mathcal{L} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast})
 \end{gather}
-\ref{eq:between} is an upper bound on the worst case loss achievable. To overcome the common issue of overconfidence in deep learning 
-models and to facilitate true robustness, the authors propose an alternative robust loss that they refer to as robust hinge loss:
+To prevail the classical problem of overconfidence and to establish guaranteed robustness, the authors introduce an 
+alternative robust loss that they refer to as \textit{robust hinge loss}:
 \begin{gather}
 \label{eq:between_2}
     \mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}
 \end{gather}
-If the loss in \ref{eq:between_2} is $0$, the node $t$ is certifiably robust and guaranteeing a margin of at least $M$ to the decision boundary.
-Then the robust hinge loss gets combined with standard cross entropy to obtain the following robust optimization problem:
+The node $t$ is certifiably robust and guaranteed to have a margin $\geq M$ to the decision boundary if $\mathcal{\hat{L}}_M (p, y^{\ast}) = 0$
+in equation \ref{eq:between_2}. \cite{Zuegner_2019}
+In the final objective function in \ref{eq:2}, the authors combine the \textit{robust hinge loss} with standard cross entropy:
 \begin{gather}
 \label{eq:2}
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
-The advantage compared to the robust cross entropy loss is that the cross entropy term is operating on the exact, non-relaxed GNN.
-The authors keep using the exact GNN model for the node prediction, while the relaxed GNN is only used to ensure robustness. 
-In case every node is robust, the term $\mathcal{\hat{L}}_M$ becomes $0$ and reduces the whole term to the standard cross-entropy loss 
-on the exact GNN.\newline
-The optimization problem \ref{eq:2} only improves robustness regarding the labeled nodes $\mathcal{V}_L$.
-To handle the semi-supervised setting ensuring also robustness for the unlabeled nodes, they extend the robust hinge loss
-as depicted in \ref{eq:3}. The unlabeled nodes are used for robustness purposes only. 
-\ref{eq:3} is based on the idea to use the exact GNN to correctly classify all labeled nodes and simultaneously ensuring that
-every node has at least a margin of $M$ from the decision boundary even under worst-case perturbations.
-By setting a smaller margin $M_2$ for the unlabeled nodes, they can train their classifier to be robust.
+The advantage compared to the \textit{robust cross entropy loss} is that the cross entropy term is operating on the exact, non-relaxed 
+version of the GNN. \cite{Zuegner_2019}
+Therefore, the authors only use the relaxed version to assure robustness while keeping with the exact version for node prediction.
+In case every node is robust, the term $\mathcal{\hat{L}}_M = 0$ and the whole term reduces to the standard cross entropy loss
+on the exact GNN. \cite{Zuegner_2019}
+So far, only the labeled nodes $\mathcal{V}_L$ are considered in \ref{eq:2}. To bridge the gap to the semi-supervised setting,
+the authors also provide robustness guarantees for unlabeled nodes by extending the \textit{robust hinge loss} as depicted in \ref{eq:3}.
+The objective in \ref{eq:3} is based on the idea of using the exact version of the network for classification while every node is guaranteed to have a margin
+$\geq M$ from the decision boundary against every possible perturbation that is part of the defined attack model. \cite{Zuegner_2019}
+The second margin $M_2$ is used for the unlabeled nodes $\mathcal{V} \backslash \mathcal{V}_L$.
 \begin{multline}
 \label{eq:3}
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_{M_1} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast}) \\
     + \sum_{t \in \mathcal{V} \backslash \mathcal{V}_L} \mathcal{\hat{L}}_{M_2} (p_{\theta}^t (\tilde{y}_t, \Omega^{t, \cdot}), \tilde{y}_t)
 \end{multline}
-It is concluded that since the dual program and the lower and upper activation bounds are differentiable, a robust GNN can be 
-trained with gradient descent and standard deep learning libraries.
+The authors conclude that due to the differentiability of the dual program and the activation bounds,
+the approach enables the training of a robust GNN using gradient descent and standard deep learning libraries.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
-The work ends with an experimental evaluation of the approaches on the common datasets \textit{CORA-ML}, 
-\textit{CITESEER}, and \textit{PUBMED}. First, the robustness of traditionally trained GNNs is evaluated using the presented
-certification method and afterwards, it is shown that the robust training procedure dramatically improves the robustness 
-of GNNs while sacrificing only minimal accuracy on the unlabeled nodes. On average, the labeled nodes are more robust than the unlabeled
-ones, which is not surprising. Two important observations are highlighted:
+The work (\cite{Zuegner_2019}) ends with an experimental evaluation of the approaches on the common datasets \textsc{Cora-ML}, 
+\textsc{Citeseer}, and \textsc{PubMed}. First, the robustness of traditionally trained GNNs is evaluated using the presented
+certification approach (cf. \ref{subsec:robustness_certification}) and afterwards, it is shown that the robust training procedure
+(cf. \ref{subsec:robust_training}) significantly improves the robustness of GNNs without strong negative effects on the predictive accuracy.
+As one would expect, the labeled nodes are on average more robust than the unlabeled ones.
+The following important observations are highlighted by the authors:
 \begin{enumerate}
-    \item The certificates are often very tight and the amount of nodes for which no certificate can be given is rather small.
-    \item GNNs trained traditionally are only certifiably robust up to very small perturbations.
+    \item Many of the provided certificates are tight.
+    \item There is only a small fraction of nodes for which no certificate can be provided.
+    \item Traditionally trained GNNs are only certifiably robust against negligible perturbations.
 \end{enumerate}
-Moreover, they analyze what contributes to certain nodes being more robust than others and see that neighborhood purity plays an important role.
-It is claimed that having many neighbors means a large surface for adversarial attacks while nodes with low degree might be affected more strongly 
-since each node in its neighborhood has a larger influence.\newline
-Regarding the robust training, they can show that their method dramatically increases the number of robust nodes. Almost every node
-is robust when considering the $Q$ for which the model has been trained and the overall amount of nodes that can be certified is also 
-increased significantly. Even nodes for which non-robustness was certified before, become certifiably robust.\newline
+Moreover, they analyze which properties are involved in making nodes robust or non-robust and identify neighborhood purity
+as a key factor. 
+They are observing a trade-off that says that many neighbors imply a large surface for potential attacks, while nodes 
+with a lower degree are less stable and therefore stronger affected by individual neighboring attacks.
+Regarding the robust training, they can show that their method significantly increases the number of robust nodes. 
+If the perturbation budget for which the model was trained is considered, amost all the nodes are certifiably robust. \cite{Zuegner_2019}
+Additionally increased is the general amount of certifiable nodes. There are even examples for nodes that have been certified as being
+non-robust before, that become certifiably robust after the procedure.\newline
 
 \textbf{Conclusion}\newline
 
-The presented approaches were the first on certifying robustness of GNNs, considering perturbations of the node attributes.
-By relaxing the GNN and considering the dual, the authors realize an efficient computation of the certificates.
-The experimental results indicate the tightness of the certificates since for most nodes a certificate can be given.
-They show that traditionally trained GNNs are non-robust and that using the presented robust training method strengthens the robustness.
-The perhaps most important aspect is that the increased robustness comes at almost no loss in classification accuracy.
+The work presented in this section introduced the first methods for provable robustness of graph neural networks against
+perturbations of node attributes. A major focus of the work was about being able to compute robustness certificates in an efficient
+manner, which was achieved by several relaxations and a well justified consideration of dual feasible solutions instead of the optimal
+solution values. Another fundamental result provided by Zügner et al. \cite{Zuegner_2019} is the fact that traditionally trained graph neural
+networks are not robust and that the robust training procedure presented in the work is indeed able to significantly strengthen the robustness
+of GNN models. The perhaps most important aspect is that the strengthened robustness does not have a significant negative effect on the predictive accuracy.
 As future work, they already bridge to the next section which considers perturbations of the graph structure.
 
 \subsection{Robustness Certification for Graph Structure Perturbations}
