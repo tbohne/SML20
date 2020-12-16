@@ -45,8 +45,8 @@ Finally, there is a conclusion and a brief outlook on possible future research i
 
 A currently very active research area inside the field of machine learning, or more precisely deep learning, considers models to learn
 from graph inputs. Those models are called graph neural networks (GNNs). 
-Many real-life applications can be represented by a graph as data structure, e.g. modeling physical systems, learning molecular fingerprints,
-controlling traffic networks or recommending friends in social networks. \cite{Liu_2020}
+Many real-life applications can be represented by a graph as data structure, e.g. \textit{"modeling physical systems, learning molecular fingerprints,
+controlling traffic networks, and recommending friends in social networks"} \cite{Liu_2020}. 
 Therefore, it is reasonable to think about combining graphs as data structures with state-of-the-art machine learning models.
 Unfortunately, in its non-Euclidean nature, graph data is not suitable for traditional deep learning models that are typically designed 
 to work with Euclidean data such as images in computer vision or text in natural language processing. \cite{Liu_2020}
@@ -204,8 +204,8 @@ Dai et al. \cite{Dai_2018} address adversarial attacks on graph structured data,
 the data is altered in order to manipulate the outcome. They are able to show the vulnerability of GNN models to these kind of attacks
 in graph-level as well as node-level classification tasks using real-world and artificial data.\newline
 Another approach for adversarial attacks on graph structured data is proposed by Zügner et al. \cite{Zuegner_2018} who focus on node classification
-via graph convolutional networks. The authors claim that especially in domains where GNNs are used, such as the web, adversarial attacks are 
-common and that it is therefore important to investigate the robustness of such models. They study adversarial attacks on attributed graphs 
+via graph convolutional networks. The authors claim that specifically areas in which GNNs are applied, such as websites, are often target of
+adversarial attacks and that it is therefore important to investigate the robustness of such models. They study adversarial attacks on attributed graphs 
 and distinguish between adversarial attacks on the node's features and the graph structure.
 The results suggest that even slight perturbations significantly deteriorate the classification accuracy, which clearly motivates reflections
 on the robustness of such models, especially when considering practical applications.\newline
@@ -256,7 +256,7 @@ have to be guarantees about the security of the system.
 Bojchevski et al. \cite{bojchevski2019certifiable} introduce a first method that is able to verify certifiable robustness or
 non-robustness of a general class of models including GNNs against perturbations of the graph structure.
 An important aspect of approaches that aim to make GNNs more robust is that they should not compromise the predictive accuracy of the models.
-The authors satisfy this constraint with their robust training procedure that increases the number of certifiably robust nodes
+The authors satisfy this constraint with their training process that leads to a larger fraction of nodes that are provably robust
 and is even able to improve the predictive accuracy in some cases.
 However, the approaches are restricted in the sense that they are not applicable to GCNs, but only to a certain class of models
 based on \textit{PageRank}. \cite{10.1145/3394486.3403217}
@@ -267,7 +267,7 @@ defined attack model. Analogously, they are able to provide non-robustness certi
 Adhering to the aforementioned requirement of not, or at least only minimally affecting the predictive accuracy,
 the authors present a robust, semi-supervised training method.
 Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the related problem of GCNs against perturbation of the graph structure
-and introduce a method for certifying their robustness. The authors reformulate the problem in a way that enables them to use highly 
+and introduce a method for certifying their robustness. The authors reformulate the problem in a way that enables them to use specially 
 optimized LP-solvers such as CPLEX to solve it. To achieve that, they express the problem as a jointly-constrained bilinear program, 
 develop a branch-and-bound procedure to obtain lower bounds on the optimal solution value and are able to divide the problem into linear 
 sub-problems.
@@ -278,14 +278,14 @@ perturbations of the graph structure.
 \section{Certifiable robustness of graph neural networks}
 \label{sec:main_section}
 
-As seen in the previous sections, GNNs are highly non-robust against adversarial attacks on the graph
+As seen in the previous sections, graph neural networks are not at all robust against adversarial perturbations of the graph
 structure or the node attributes. This section will provide an overview of the crucial and only recently started 
 third phase of research in the domain of robust GNNs, which aims to give provable guarantees about the (non-)robustness of a model.
 Only such guarantees enable the use of GNNs in safety-critical real-world applications.\newline
 A first work on certifiable (non-)robustness of GNNs against perturbations of the graph structure
 is proposed by Bojchevski et al. \cite{bojchevski2019certifiable}. They are able to compute certificates very efficiently
-and, as mentioned in the previous section, develop a training procedure that increases the number of certifiably robust nodes without
-negatively affecting the predictive accuracy. However, due to the restriction to a class of models
+and, as mentioned in the previous section, develop a training method that leads to a higher number of nodes that are provably robust without
+negatively affecting the prediction accuracy. However, due to the restriction to a class of models
 based on \textit{PageRank} \cite{10.1145/3394486.3403217}, the approach will not be further discussed in this work.\newline 
 After a somewhat deeper consideration of the approaches of Zügner et al., providing first robustness certificates for GCNs with respect to 
 perturbations of the node attributes in section \ref{sec:paper_two} and the graph structure in section \ref{sec:paper_three},
@@ -343,21 +343,21 @@ outlined again.\newline
 The main part of \cite{Zuegner_2019} starts with the search for an efficient way of robustness certification.
 First, the goal is to certify the robustness of an already trained GNN model. When considering a node $t$ in the graph, the idea is to be 
 able to assure that the prediction of $t$ does not change after feassible perturbations, i.e. to assure that it is robust.
-In a GNN with $L$ layers, the output of node $t$ only depends on the nodes in its $L-1$ hop neighborhood. \cite{Zuegner_2019}
-This fact allows them to improve the scalability of the approach by reducing the entries that are required to compute the output
-for the target node $t$. In particular, the size of the neural network itself and the size of potential perturbations are reduced.
+In an $L$-layered network, the output of a node $t$ is only based on its neighbors in the $(L-1)$-hop-neighborhood. \cite{Zuegner_2019}
+This fact allows them to improve the scalability of the approach by reducing the computational effort to get the output
+of target node $t$. In particular, the size of the neural network itself and the size of potential perturbations are reduced.
 Based on that sliced version of the GNN, they formally define the probem to be solved, which is to check whether the prediction 
 of a node $t$ can not be altered by any feasible perturbation. The problem is defined as follows.\newline
 
 Let $G = (A, X)$ be a given graph, $t$ a target node, and the parameters of the model are denoted as $\theta$.
 $A$ is the adjacency matrix and $X$ represents the features of the nodes. The sliced versions of $A$ and $X$ are denoted 
-as $\dot{A}$ and $\dot{X}$ and $y^*$ defines the class of node $t$ given by ground truth or predicted.
+as $\dot{A}$ and $\dot{X}$ and $y^*$ defines the label of $t$ that is either given or predicted.
 One important aspect, the authors emphasize, is that it is crucial that the generated certificates reflect realistic attacks.
 The attack model, i.e. the set of feasible perturbations, is restricted by a certain perturbation budget which sets a limit 
 onto the number of $L_0$-measured changes to the attributes of the nodes $\dot{X}$.
 The perturbations are limited locally as well as globally, because in a scenario with a graph as data structure, a node can not 
-only be directly attacked by changing its attributes, but also indirectly by changing the node attributes of its $L-1$ hop 
-neighborhood. \cite{Zuegner_2019}
+only be directly attacked by changing its attributes, but also indirectly by altering attributes of nodes in its 
+$(L-1)$-hop-neighborhood. \cite{Zuegner_2019}
 Therefore, a global perturbation budget $Q \in \mathbb{N}$ as well as a local budget $q \in \mathbb{N}$ is introduced.
 The worst case margin $m^t$ between the classes $y^*$ and $y$ for a node $t$ achievable under a certain set
 of feasible perturbations to the node features is defined as:
@@ -368,7 +368,7 @@ of feasible perturbations to the node features is defined as:
 \end{gather}
 where $f_{\theta}^t(\tilde{X}, \dot{A})$ represents the output of the sliced GNN and $X_{q, Q} (\dot{X})$ is the set
 of feasible perturbations to the node features.
-If $m^t (y^*, y) > 0$ for all $y \neq y^*$, the GNN is considered to be certifiably robust with regard to the node $t$ and the set of
+If $m^t (y^*, y) > 0 \thinspace \forall \thinspace y \neq y^*$, the network is considered to be robust with regard to the node $t$ and the set of
 perturbations $X_{q, Q}$, which means that there is no perturbation within the admissible set of perturbations that causes a prediction change. \cite{Zuegner_2019}
 The high-level idea of considering the classification margin as indicator for robustness is depicted in the following figures.
 Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and a positive classification margin.
@@ -398,66 +398,66 @@ problems of a discrete data domain together with a nonconvex activation function
 They tackle those issues by efficiently computing lower bounds on the minimum of the problem in \ref{eq:1} via relaxations 
 of the GNN and the data domain. The idea is that a positive lower bound indicates the robustness of the classifier under 
 the defined set of feasible perturbations.
-To end up with a convex objective function in the optimization problem in \ref{eq:1}, a convex relaxation of the ReLU activation
-function is required. \cite{Zuegner_2019} There are several ways to find such a relaxation in the literature and the one, the authors follow,
-leads to a linear objective function which is a lower bound on the minimum of the original problem.
-Although they end up with a linear problem (all constraints are linear as well), which can be solved using highly optimized LP-solvers,
-the potentially large number of variables in such a model that would reduce the efficiency, lets them consider a different approach.
-Since any dual-feasible solution provides a lower bound on the minimum of the primal problem, the dual of the LP is considered. \cite{Zuegner_2019}
-The authors summarize the idea as follows:
+To end up with a convex objective function in the optimization problem in \ref{eq:1}, a relaxation of the ReLU is required. \cite{Zuegner_2019} 
+For such a relaxation, there are several methods published in the literature and the one, the authors follow,
+leads to a linear objective function which determines a lower bound for the optimal value of the initial problem.
+Although they end up with a linear problem (all constraints are linear as well), which can be solved with a specially optimized LP-solver,
+a possibly huge set of variables in such a model that would reduce the efficiency, lets them consider a different approach.
+Since every feasible solution of the dual problem provides a lower bound for the optimal solution of the primal problem, 
+the dual of the LP is considered. \cite{Zuegner_2019} The authors summarize the idea as follows:
 \begin{quote}
     \emph{"[...] if we find any dual-feasible solution for which the objective function of the dual is positive, we know that the minimum of 
     the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set."} \cite{Zuegner_2019}
 \end{quote}
 
-Since it is not required to solve the dual of the LP optimally (it suffices to find a feasible solution), the robustness certificates
+Since it is not necessary to obtain an optimal solution for the dual problem (it suffices to find a feasible solution), the robustness certificates
 can be computed in a very efficient manner. As seen, the robustness of a node can be certified by positive dual values for each $y \neq y^{\ast}$.
 In contrast, to provide certificates for non-robustness, one has to consider the primal values that have to be negative for one $y \neq y^*$. \cite{Zuegner_2019}
 However, it is not guaranteed that each node falls into one of the two cases, which leaves certain nodes that can not be certified.
 The authors highlight that reasonable (tight) upper and lower bounds are of great importance for robustness certification based on their method
 and that those bounds can be used for backpropagation in the robust training procedure that will be presented in section \ref{subsec:robust_training}.\newline
 The certification of robustness for trained GNNs is of course a very useful tool for practical applications, 
-but, as the authors claim, the next step would be to train classifiers that are certifiably robust to adversarial attacks 
+but, as the authors claim, the next step would be to achieve provable robustness of a model via training,
 which will be considered in the following section.
 
 \subsubsection{Robust Training}
 \label{subsec:robust_training}
 
-As seen in the previous section, the dual problem can be used to provide a lower bound on the margin
-between the two considered classes $y$ and $y^{\ast}$ for node $t$.
-The authors define a $k$-dimensional vector $p_{\theta}^t$ that contains the dual objective function values
-for any class $k$ compared to $y$. The node $t$ can be determined as being certifiably robust if $p_{\theta}^t < 0$
+As seen in the previous section, the dual problem yields lower bounds on the classification margin
+between the labels $y$ and $y^{\ast}$ for node $t$.
+The authors define a $k$-dimensional vector $p_{\theta}^t$ that contains the solutions of the dual program
+for a label $k$ compared to the label $y$. The node $t$ can be determined as being certifiably robust if $p_{\theta}^t < 0$
 for all entries except the one for $y^{\ast}$, for which $y^{\ast} = 0$ holds. \cite{Zuegner_2019}
 As a starting point for a training objective serves the following common objective function for classification tasks:
 \begin{gather}
     \min_{\theta} \sum_{t \in \mathcal{V}_L} \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
 where $\mathcal{V}_L$ is the set of labeled nodes, $\mathcal{L}$ is the cross entropy function and $y_t^{\ast}$ represents
-the class of node $t$ that is given by ground truth or predicted.
+the label of node $t$ that is either given or predicted.
 It is only a starting point, because they instead build on an objective from the literature that they call \textit{robust cross entropy loss},
 which leads to an increased robustness of classical neural networks and provides an upper bound on the worst-case loss \cite{Zuegner_2019}:
 \begin{gather}
 \label{eq:between}
     \min_{\theta, \{\Omega^{t, k}\}_{t \in \mathcal{V}_L, 1 \leq k \leq K}} \sum_{t \in \mathcal{V}_L} \mathcal{L} (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast})
 \end{gather}
-To prevail the classical problem of overconfidence and to establish guaranteed robustness, the authors introduce an 
-alternative robust loss that they refer to as \textit{robust hinge loss}:
+To prevail the classical problem of overconfidence and to establish guaranteed robustness, the authors introduce 
+a loss function that they call \textit{robust hinge loss}:
 \begin{gather}
 \label{eq:between_2}
     \mathcal{\hat{L}}_M (p, y^{\ast}) = \sum_{k \neq y^{\ast}} \max \{0, p_k + M\}
 \end{gather}
 The node $t$ is certifiably robust and guaranteed to have a margin $\geq M$ to the decision boundary if $\mathcal{\hat{L}}_M (p, y^{\ast}) = 0$
 in equation \ref{eq:between_2}. \cite{Zuegner_2019}
-In the final objective function in \ref{eq:2}, the authors combine the \textit{robust hinge loss} with standard cross entropy:
+In the final objective function in \ref{eq:2}, the authors merge their \textit{robust hinge loss} with the cross entropy function:
 \begin{gather}
 \label{eq:2}
     \min_{\theta, \Omega} \sum_{t \in \mathcal{V}_L} \mathcal{\hat{L}}_M (p_{\theta}^t (y_t^{\ast}, \Omega^{t, \cdot}), y_t^{\ast}) + \mathcal{L} (f_{\theta}^t (\dot{X}, \dot{A}), y_t^{\ast})
 \end{gather}
-The advantage compared to the \textit{robust cross entropy loss} is that the cross entropy term is operating on the exact, non-relaxed 
+The advantage compared to the \textit{robust cross entropy loss} is that the cross entropy function works with the exact
 version of the GNN. \cite{Zuegner_2019}
 Therefore, the authors only use the relaxed version to assure robustness while keeping with the exact version for node prediction.
-In case every node is robust, the term $\mathcal{\hat{L}}_M = 0$ and the whole term reduces to the standard cross entropy loss
-on the exact GNN. \cite{Zuegner_2019}
+In case every node is robust, $\mathcal{\hat{L}}_M = 0$ holds and the whole objective reduces to the simple cross entropy loss
+on the original version of the GNN. \cite{Zuegner_2019}
 So far, only the labeled nodes $\mathcal{V}_L$ are considered in \ref{eq:2}. To bridge the gap to the semi-supervised setting,
 the authors also provide robustness guarantees for unlabeled nodes by extending the \textit{robust hinge loss} as depicted in \ref{eq:3}.
 The objective in \ref{eq:3} is based on the idea of using the exact version of the network for classification while every node is guaranteed to have a margin
@@ -469,7 +469,7 @@ The second margin $M_2$ is used for the unlabeled nodes $\mathcal{V} \backslash 
     + \sum_{t \in \mathcal{V} \backslash \mathcal{V}_L} \mathcal{\hat{L}}_{M_2} (p_{\theta}^t (\tilde{y}_t, \Omega^{t, \cdot}), \tilde{y}_t)
 \end{multline}
 The authors conclude that due to the differentiability of the dual program and the activation bounds,
-the approach enables the training of a robust GNN using gradient descent and standard deep learning libraries.
+the approach enables the training of a robust GNN using standard software.
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
@@ -477,7 +477,7 @@ The work (\cite{Zuegner_2019}) ends with an experimental evaluation of the appro
 \textsc{Citeseer}, and \textsc{PubMed}. First, the robustness of traditionally trained GNNs is evaluated using the presented
 certification approach (cf. \ref{subsec:robustness_certification}) and afterwards, it is shown that the robust training procedure
 (cf. \ref{subsec:robust_training}) significantly improves the robustness of GNNs without strong negative effects on the predictive accuracy.
-As one would expect, the labeled nodes are on average more robust than the unlabeled ones.
+As one would expect, the labeled set of nodes exhibits on average a higher robustness as the unlabeled one.
 The following important observations are highlighted by the authors:
 \begin{enumerate}
     \item Many of the provided certificates are tight.
@@ -587,7 +587,7 @@ matrix $A^{\ast}$ by a set of feasible perturbations against the graph structure
 The authors guarantee the robustness for a single node at a time, i.e. they assure that the specific node under 
 consideration is not changing its prediction after a feasible attack.
 The worst-case margin between $y^{\ast}$ and $y$ is computed as the following optimization problem where $y^{\ast}$ defines the given / predicted 
-class of node $t$ and $\mathcal{A}(A)$ defines the set of feasible perturbations.
+label of node $t$ and $\mathcal{A}(A)$ defines the set of feasible perturbations.
 \begin{gather}
 \label{eq:4}
     m^t (y^{\ast}, y) := \min_{\tilde{A}} f_{\theta}^t (X, \mathcal{T}(\tilde{A}))_{y^{\ast}}
@@ -668,8 +668,8 @@ lower bound only states that no robustness certificate can be given and not non-
 
 \subsubsection{Experimental Evaluation and Conclusion}
 
-As in the previous paper presented in section \ref{sec:paper_two}, an experimental evaluation of the approaches on the commonly used
-datasets \textsc{CORA-ML}, \textsc{CITESEER}, and \textsc{PUBMED} is provided.
+As in the previous paper presented in section \ref{sec:paper_two}, an experimental evaluation of the approaches on the benchmark datasets 
+\textsc{Cora-ML}, \textsc{Citeseer}, and \textsc{PubMed}. is provided.
 The authors evaluate the proposed robustness certification technique against attacks on the graph structure
 based on three different local $q$ and global $Q$ perturbation budgets with which they perform gradient-based attacks.
 This approach enables them to estimate the number of non-robust nodes, although the computation of the precise number would be intractable. \cite{10.1145/3394486.3403217}
@@ -684,7 +684,7 @@ Only the training for robustness against perturbations of the node attributes th
 
 In summary, the authors introduce first approaches for certifiable robustness against structural perturbations for graph convolutional networks.
 The main idea is to reformulate the problem as a jointly constrained bilinear program and to efficiently solve that using a branch-and-bound
-method. The branch-and-bound method recursively divides the problem into linear sub-problems that can be solved by highly optimized LP-solvers (e.g. CPLEX).
+method. The branch-and-bound method recursively divides the problem into linear sub-problems that can be solved by specially optimized LP-solvers (e.g. CPLEX).
 For a large fraction of the nodes, the authors are able to provide a clear decision of robustness / non-robustness.
 Overall, the presented work provides a very efficient way of robustness certification.
 
@@ -713,8 +713,8 @@ Finally, they evaluate their approach on various benchmark instances for node an
 
 In this paper, a concise overview of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness 
 of the models was provided. As seen throughout the sections, GNNs can be applied very successfully to a wide range of practical tasks.
-What has prevented its frequent use in practice so far is the fact that GNNs are highly non-robust to adversarial perturbations of the graph structure
-and node attributes, which has been proven by numerous publications discussed in section \ref{sec:literature}.
+What has prevented its frequent use in practice so far is the fact that GNNs are not at all robust against adversarial perturbations of the graph structure
+and the node attributes, which has been proven by numerous publications discussed in section \ref{sec:literature}.
 As long as it is possible that small changes to the input data cause entirely different results, it is not reasonable to
 apply the models in any kind of safety-critical application or in areas where legal certainty must prevail.\newline
 Three main lines of research in the domain of robust GNNs have been identified in this work. In the first phase, it was shown that GNNs are prone to adversarial attacks.
