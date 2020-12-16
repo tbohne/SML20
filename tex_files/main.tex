@@ -714,28 +714,31 @@ Finally, they evaluate their approach on various benchmark instances for node an
 In this paper, a concise overview of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness 
 of the models was provided. As seen throughout the sections, GNNs can be applied very successfully to a wide range of practical tasks.
 What has prevented its frequent use in practice so far is the fact that GNNs are highly non-robust to adversarial perturbations of the graph structure
-and node attributes. As long as it is possible that small changes to the input data cause entirely different results, it is not reasonable to
+and node attributes, which has been proven by numerous publications discussed in section \ref{sec:literature}.
+As long as it is possible that small changes to the input data cause entirely different results, it is not reasonable to
 apply the models in any kind of safety-critical application or in areas where legal certainty must prevail.\newline
 Three main lines of research in the domain of robust GNNs have been identified in this work. In the first phase, it was shown that GNNs are prone to adversarial attacks.
 The second phase introduced defense mechanisms against such attacks or training procedures to strengthen the robustness. However, these approaches
 are generally just providing mitigations for certain scenarios and not guaranteeing robustness in any case.
-The third phase, which was the main consideration of this work, only recently started to tackle this problem. 
+The third phase, which was the main consideration of this work, discussed in section \ref{sec:main_section}, only recently started to tackle this problem. 
 Approaches appeared that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about 
 the (non-)robustness of a GNN with regard to an attack model, which is crucial to use them in real-world applications.\newline
 Although this phase only started recently, there have already been quite effective approaches for certified robustness presented in section \ref{sec:main_section}.
 Nevertheless, there is of course a lot of room for improvement and generalization.
-Zügner et al. \cite{10.1145/3394486.3403217} for example suggest that future work could explore training methods making direct use of the robustness goal.
-Another interesting future prospect is given by Wang et al. \cite{trivedi2017knowevolve} who suggest to extend their method briefly described in 
-section \ref{sec:paper_four} to certify robustness of GNNs against both node attributes and structural perturbations.
-Moreover, they plan to incorporate the information of a given GNN to further improve the certified robustness guarantee.\newline
+Zügner et al. \cite{10.1145/3394486.3403217} for example suggest that it might be worthwhile to study training methods in which 
+robustness is explicitly treated as the goal to be achieved.
+Another promising future prospect is given by Wang et al. \cite{Wang_2020} who suggest to extend their method briefly described in 
+section \ref{sec:paper_four} to not only certify robustness of GNNs against structural perturbations, but to also include perturbations
+of the node attributes.
+In addition, they plan to optimize the method by including and exploiting certain information about a GNN during the process.
 On a less concrete level, it would also be interesting to find out what makes perturbations harmful and therefore
-truly develop an understanding of the underlying patterns.
+truly develop an understanding of the fundamental structure of the problem.
 The approach of Jin et al. \cite{Jin_2020_Graph} goes in this direction in a way, although they are not considering certifiable robustness.
-Their work is rather belonging to the second phase, dealing with mitigations, as the proposed framework, which learns a structural graph and 
-a robust GNN model from a perturbed graph, enables a reasonable defense method in some scenarios.
-Nonetheless, they highlight an important observation which is that real-world graphs share some intrinsic properties and that adversarial 
-attacks are very likely to violate these properties.
-The approaches of the third phase outlined in this work assume a certain attack model under which robustness guarantees are provided.
+Their work is rather belonging to the second phase, dealing with mitigations, as the proposed framework
+\textit{Pro-GNN} enables a reasonable defense method in some scenarios.
+Nonetheless, they highlight an important observation which is that graph structures representing problems from the real-world often
+share some intrinsic properties that are likely to be violated by adversarially perturbed graphs.
+Eventually, the approaches of the third phase outlined in this work assume a certain attack model under which robustness guarantees are provided.
 If a general understanding of the underlying mechanisms of harmful perturbations can be established, there could be even more room
 for generalizations of attack models to guarantee robustness for.
 
