@@ -537,18 +537,13 @@ The authors summarize the idea of their certificates as follows:
 
 There are three major challenges identified in the work:
 
-\begin{figure}[h]
-    \centering
-    \begin{enumerate}
-        \item The search for optimal perturbations is not efficient due to the general nonconvexity of neural networks.
-        \item Enumerating the set of feasible perturbations is of course not efficiently possible as well, because the cardinality of the
-        set is growing exponentially with the perturbation budget.
-        \item In contrast to the certificates of the approach in section \ref{sec:paper_two}, here the changed structure could change 
-        the propagation of embeddings.
-    \end{enumerate}
-    \caption{Major challenges to be solved.}
-    \label{fig:challenges}
-\end{figure}
+\begin{enumerate}
+    \item The search for optimal perturbations is not efficient due to the general nonconvexity of neural networks. \label{enum:challenge_one}
+    \item Enumerating the set of feasible perturbations is of course not efficiently possible as well, because the cardinality of the
+    set is growing exponentially with the perturbation budget. \label{enum:challenge_two}
+    \item In contrast to the certificates of the approach in section \ref{sec:paper_two}, here the changed structure could change 
+    the propagation of embeddings. \label{enum:challenge_three}
+\end{enumerate}
 
 The first challenge is also a problem for traditional neural networks and the approach already used
 in section \ref{sec:paper_two}, which relaxes the ReLU activation function, is applied again. \cite{10.1145/3394486.3403217}
@@ -600,7 +595,7 @@ The GNN is claimed to be robust under the set of feasible attacks for the node $
 if $m^t (y^{\ast}, y) > 0 \thinspace \forall \thinspace y \neq y^{\ast}$.
 Therefore, just as for the optimization problem in section \ref{sec:paper_two}, if the minimum in \ref{eq:4} is positive, 
 there is no feasible perturbation to the graph structure that would cause a prediction change of node $t$. \cite{10.1145/3394486.3403217}\newline
-Now we get back to the previously mentioned challenges (cf. \ref{fig:challenges}) that prevent an easy and efficient optimization 
+Now we get back to the previously mentioned challenges that prevent an easy and efficient optimization 
 of the problem in \ref{eq:4}.
 The authors are able to bypass the hard, or inefficient part of the problem by again computing lower bounds instead of optimal values.
 More precisely, they perform the following three steps to compute lower bounds on the original problem that
@@ -614,7 +609,7 @@ A positive lower bound indicates robustness under the defined attack model. \cit
 
 \textbf{Optimization over the graph structure}\newline
 
-In order to be able to cope with the second challenge mentioned in fig. \ref{fig:challenges}, the set of feasible perturbations
+In order to be able to cope with the second challenge (cf. \ref{enum:challenge_two}), the set of feasible perturbations
 is restricted in such a way that on the one hand the sheer size of the set is limited and on the other hand
 it reflects perturbations that could actually occur in practical applications. \cite{10.1145/3394486.3403217}
 The authors again use the $L_0$ norm, in this case to measure the number of perturbed elements in $A$.
@@ -650,7 +645,7 @@ Finally, a positive value of \ref{eq:5} indicates a certificate. \cite{10.1145/3
 
 \textbf{Relaxation of the neural network}\newline
 
-As stated in the first challenge in fig. \ref{fig:challenges}, the objective function of the GNN is hard due to the non-convexity.
+As stated in the first challenge (cf. \ref{enum:challenge_one}), the objective function of the GNN is hard due to the non-convexity.
 Therefore, the authors again apply a relaxation approach from their previous paper \cite{Zuegner_2019}, which causes the output $H$ 
 of the ReLU activation function to no longer be deterministic, but considered to be a variable and combine it with ideas
 of another approach from the literature.\newline
