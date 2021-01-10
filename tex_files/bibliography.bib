@@ -4,14 +4,26 @@
       booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \&\#38; Data Mining},
       year={2019},
       publisher = {ACM},
+      address = {New York, NY, USA},
+      location = {Anchorage, United States},
 }
 
 @inproceedings{Zuegner_2018,
       author = {Z\"{u}gner, Daniel and Akbarnejad, Amir and G\"{u}nnemann, Stephan},
       title = {Adversarial Attacks on Neural Networks for Graph Data},
       year = {2018},
+      isbn = {9781450355520},
       publisher = {Association for Computing Machinery},
-      booktitle = {Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3219819.3220078},
+      doi = {10.1145/3219819.3220078},
+      abstract = {Deep learning models for graphs have achieved strong performance for the task of node classification. Despite their proliferation, currently there is no study of their robustness to adversarial attacks. Yet, in domains where they are likely to be used, e.g. the web, adversaries are common. Can deep learning models for graphs be easily fooled? In this work, we introduce the first study of adversarial attacks on attributed graphs, specifically focusing on models exploiting ideas of graph convolutions. In addition to attacks at test time, we tackle the more challenging class of poisoning/causative attacks, which focus on the training phase of a machine learning model.We generate adversarial perturbations targeting the node's features and the graph structure, thus, taking the dependencies between instances in account. Moreover, we ensure that the perturbations remain unnoticeable by preserving important data characteristics. To cope with the underlying discrete domain we propose an efficient algorithm Nettack exploiting incremental computations. Our experimental study shows that accuracy of node classification significantly drops even when performing only few perturbations. Even more, our attacks are transferable: the learned attacks generalize to other state-of-the-art node classification models and unsupervised approaches, and likewise are successful even when only limited knowledge about the graph is given.},
+      booktitle = {Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining},
+      pages = {2847–2856},
+      numpages = {10},
+      keywords = {graph convolutional networks, network mining, graph mining, semi-supervised learning, adversarial machine learning},
+      location = {London, United Kingdom},
+      series = {KDD '18}
 }
 
 @inproceedings{zuegner2019adversarial,
@@ -19,37 +31,58 @@
       author={Daniel Zügner and Stephan Günnemann},
       booktitle={International Conference on Learning Representations},
       year={2019},
+      url={https://openreview.net/forum?id=Bylnx209YX},
 }
 
 @inproceedings{bojchevski2019certifiable,
-      author = {Bojchevski, Aleksandar and G\"{u}nnemann, Stephan},
-      booktitle = {Advances in Neural Information Processing Systems},
-      publisher = {Curran Associates, Inc.},
-      title = {Certifiable Robustness to Graph Perturbations},
-      year = {2019}
+      title =      {Certifiable Robustness to Graph Perturbations},
+      author =     {Aleksandar Bojchevski and Stephan G{\"{u}}nnemann},
+      booktitle =  {Neural Information Processing Systems, {NeurIPS}},
+      year =       {2019},
 }
 
 @inproceedings{10.1145/3394486.3403217,
       author = {Z\"{u}gner, Daniel and G\"{u}nnemann, Stephan},
       title = {Certifiable Robustness of Graph Convolutional Networks under Structure Perturbations},
       year = {2020},
+      isbn = {9781450379984},
       publisher = {Association for Computing Machinery},
-      booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      address = {New York, NY, USA},
+      url = {https://doi.org/10.1145/3394486.3403217},
+      doi = {10.1145/3394486.3403217},
+      abstract = {Recent works show that message-passing neural networks (MPNNs) can be fooled by adversarial attacks on both the node attributes and the graph structure. Since MPNNs are currently being rapidly adopted in real-world applications, it is thus crucial to improve their reliablility and robustness. While there has been progress on robustness certification of MPNNs under perturbation of the node attributes, no existing method can handle structural perturbations. These perturbations are especially challenging because they alter the message passing scheme itself. In this work we close this gap and propose the first method to certify robustness of Graph Convolutional Networks (GCNs) under perturbations of the graph structure. We show how this problem can be expressed as a jointly constrained bilinear program - a challenging, yet well-studied class of problems - and propose a novel branch-and-bound algorithm to obtain lower bounds on the global optimum. These lower bounds are significantly tighter and can certify up to twice as many nodes compared to a standard linear relaxation.},
+      booktitle = {Proceedings of the 26th ACM SIGKDD International Conference on Knowledge Discovery &amp; Data Mining},
+      pages = {1656–1665},
+      numpages = {10},
+      keywords = {deep learning, graph neural networks, adversarial robustness, adversarial attacks, semi-supervised learning},
+      location = {Virtual Event, CA, USA},
+      series = {KDD '20}
 }
 
 @inproceedings{Kipf_2016,
-      author    = {Thomas N. Kipf and Max Welling},
-      title     = {Semi-Supervised Classification with Graph Convolutional Networks},
-      booktitle = {5th International Conference on Learning Representations, {ICLR} 2017,
-            Toulon, France, April 24-26, 2017, Conference Track Proceedings},
-      publisher = {OpenReview.net},
-      year      = {2017},
+      title={Semi-Supervised Classification with Graph Convolutional Networks},
+      author={Kipf, Thomas N. and Welling, Max},
+      booktitle={International Conference on Learning Representations (ICLR)},
+      year={2017}
 }
 
-@misc{Zhou_2019,
-      title={Graph Neural Networks: A Review of Methods and Applications}, 
-      author={Jie Zhou and Ganqu Cui and Zhengyan Zhang and Cheng Yang and Zhiyuan Liu and Lifeng Wang and Changcheng Li and Maosong Sun},
-      year={2019},
+@article{Zhou_2019,
+      author    = {Jie Zhou and
+                  Ganqu Cui and
+                  Zhengyan Zhang and
+                  Cheng Yang and
+                  Zhiyuan Liu and
+                  Maosong Sun},
+      title     = {Graph Neural Networks: {A} Review of Methods and Applications},
+      journal   = {CoRR},
+      volume    = {abs/1812.08434},
+      year      = {2018},
+      url       = {http://arxiv.org/abs/1812.08434},
+      archivePrefix = {arXiv},
+      eprint    = {1812.08434},
+      timestamp = {Tue, 01 Dec 2020 13:54:50 +0100},
+      biburl    = {https://dblp.org/rec/journals/corr/abs-1812-08434.bib},
+      bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
 @ARTICLE{Scarselli_2009,
@@ -58,22 +91,28 @@
       title={The Graph Neural Network Model}, 
       year={2009},
       volume={20},
+      number={1},
+      pages={61-80},
+      doi={10.1109/TNN.2008.2005605}
 }
 
 @article{Liu_2020,
       author = {Liu, Zhiyuan and Zhou, Jie},
       year = {2020},
+      month = {03},
+      pages = {1-127},
       title = {Introduction to Graph Neural Networks},
       volume = {14},
       journal = {Synthesis Lectures on Artificial Intelligence and Machine Learning},
+      doi = {10.2200/S00980ED1V01Y202001AIM045}
 }
 
-@article{Goodfellow_2015,
-      title={Explaining and Harnessing Adversarial Examples},
-      author={Ian J. Goodfellow and Jonathon Shlens and Christian Szegedy},
-      journal={CoRR},
-      year={2015},
-      volume={abs/1412.6572}
+@inproceedings{Goodfellow_2015,
+      title	= {Explaining and Harnessing Adversarial Examples},
+      author	= {Ian Goodfellow and Jonathon Shlens and Christian Szegedy},
+      year	= {2015},
+      URL	= {http://arxiv.org/abs/1412.6572},
+      booktitle	= {International Conference on Learning Representations}
 }
 
 @article{Wang_2020,
@@ -81,8 +120,7 @@
                   Jinyuan Jia and
                   Xiaoyu Cao and
                   Neil Zhenqiang Gong},
-      title     = {Certified Robustness of Graph Neural Networks against Adversarial
-                  Structural Perturbation},
+      title     = {Certified Robustness of Graph Neural Networks against Adversarial Structural Perturbation},
       journal   = {CoRR},
       volume    = {abs/2008.10715},
       year      = {2020},
@@ -105,7 +143,10 @@
 @inproceedings{Jin_2020_Graph,
       author = {Jin, Wei and Ma, Yao and Liu, Xiaorui and Tang, Xianfeng and Wang, Suhang and Tang, Jiliang},
       year = {2020},
+      month = {08},
+      pages = {66-74},
       title = {Graph Structure Learning for Robust Graph Neural Networks},
+      doi = {10.1145/3394486.3403049}
 }
 
 @article{Wang_2019,
@@ -119,43 +160,61 @@
 }
 
 @InProceedings{Dai_2018,
-      title = 	 {Adversarial Attack on Graph Structured Data},
-      author =       {Dai, Hanjun and Li, Hui and Tian, Tian and Huang, Xin and Wang, Lin and Zhu, Jun and Song, Le},
-      booktitle = 	 {Proceedings of the 35th International Conference on Machine Learning},
-      year = 	 {2018},
-      volume = 	 {80},
-      series = 	 {Proceedings of Machine Learning Research},
-      publisher =    {PMLR},
+      title = {Adversarial Attack on Graph Structured Data}, 
+      author = {Dai, Hanjun and Li, Hui and Tian, Tian and Huang, Xin and Wang, Lin and Zhu, Jun and Song, Le}, 
+      booktitle = {Proceedings of the 35th International Conference on Machine Learning}, 
+      pages = {1115--1124}, 
+      year = {2018}, 
+      editor = {Jennifer Dy and Andreas Krause}, 
+      volume = {80}, 
+      series = {Proceedings of Machine Learning Research}, 
+      address = {Stockholmsmässan, Stockholm Sweden},
+      month = {10--15 Jul}, 
+      publisher = {PMLR}, 
+      pdf = {http://proceedings.mlr.press/v80/dai18b/dai18b.pdf}, 
+      url = {http://proceedings.mlr.press/v80/dai18b.html}, 
+      abstract = {Deep learning on graph structures has shown exciting results in various applications. However, few attentions have been paid to the robustness of such models, in contrast to numerous research work for image or text adversarial attack and defense. In this paper, we focus on the adversarial attacks that fool deep learning models by modifying the combinatorial structure of data. We first propose a reinforcement learning based attack method that learns the generalizable attack policy, while only requiring prediction labels from the target classifier. We further propose attack methods based on genetic algorithms and gradient descent in the scenario where additional prediction confidence or gradients are available. We use both synthetic and real-world data to show that, a family of Graph Neural Network models are vulnerable to these attacks, in both graph-level and node-level classification tasks. We also show such attacks can be used to diagnose the learned classifiers.} 
 }
 
 @inproceedings{xu2019topology,
       author = {Xu, Kaidi and Chen, Hongge and Liu, Sijia and Chen, Pin-Yu and Weng, Tsui-Wei and Hong, Mingyi and Lin, Xue},
       year = {2019},
+      month = {08},
+      pages = {3961-3967},
       title = {Topology Attack and Defense for Graph Neural Networks: An Optimization Perspective},
+      doi = {10.24963/ijcai.2019/550}
 }
 
 @article{Ying_2018,
       title={Graph Convolutional Neural Networks for Web-Scale Recommender Systems},
-      journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
+      ISBN={9781450355520},
+      url={http://dx.doi.org/10.1145/3219819.3219890},
+      DOI={10.1145/3219819.3219890},
+      journal={Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining},
       publisher={ACM},
       author={Ying, Rex and He, Ruining and Chen, Kaifeng and Eksombatchai, Pong and Hamilton, William L. and Leskovec, Jure},
       year={2018},
+      month={Jul}
 }
 
 @inproceedings{10.1145/3292500.3330851,
       author = {Zhu, Dingyuan and Zhang, Ziwei and Cui, Peng and Zhu, Wenwu},
-      title = {Robust Graph Convolutional Networks Against Adversarial Attacks},
       year = {2019},
-      publisher = {Association for Computing Machinery},
-      booktitle = {Proceedings of the 25th ACM SIGKDD International Conference on Knowledge Discovery \& Data Mining},
-      series = {KDD '19}
+      month = {07},
+      pages = {1399-1407},
+      title = {Robust Graph Convolutional Networks Against Adversarial Attacks},
+      isbn = {978-1-4503-6201-6},
+      doi = {10.1145/3292500.3330851}
 }
 
 @inproceedings{NIPS2015_f9be311e,
       author = {Duvenaud, David K and Maclaurin, Dougal and Iparraguirre, Jorge and Bombarell, Rafael and Hirzel, Timothy and Aspuru-Guzik, Alan and Adams, Ryan P},
       booktitle = {Advances in Neural Information Processing Systems},
+      editor = {C. Cortes and N. Lawrence and D. Lee and M. Sugiyama and R. Garnett},
+      pages = {2224--2232},
       publisher = {Curran Associates, Inc.},
       title = {Convolutional Networks on Graphs for Learning Molecular Fingerprints},
+      url = {https://proceedings.neurips.cc/paper/2015/file/f9be311e65d81a9ad8150a60844bb94c-Paper.pdf},
       volume = {28},
       year = {2015}
 }
@@ -164,8 +223,14 @@
       author = {Hamilton, William L. and Ying, Rex and Leskovec, Jure},
       title = {Inductive Representation Learning on Large Graphs},
       year = {2017},
+      isbn = {9781510860964},
       publisher = {Curran Associates Inc.},
+      address = {Red Hook, NY, USA},
+      abstract = {Low-dimensional embeddings of nodes in large graphs have proved extremely useful in a variety of prediction tasks, from content recommendation to identifying protein functions. However, most existing approaches require that all nodes in the graph are present during training of the embeddings; these previous approaches are inherently transductive and do not naturally generalize to unseen nodes. Here we present GraphSAGE, a general inductive framework that leverages node feature information (e.g., text attributes) to efficiently generate node embeddings for previously unseen data. Instead of training individual embeddings for each node, we learn a function that generates embeddings by sampling and aggregating features from a node's local neighborhood. Our algorithm outperforms strong baselines on three inductive node-classification benchmarks: we classify the category of unseen nodes in evolving information graphs based on citation and Reddit post data, and we show that our algorithm generalizes to completely unseen graphs using a multi-graph dataset of protein-protein interactions.},
       booktitle = {Proceedings of the 31st International Conference on Neural Information Processing Systems},
+      pages = {1025–1035},
+      numpages = {11},
+      location = {Long Beach, California, USA},
       series = {NIPS'17}
 }
 
@@ -174,6 +239,10 @@
       title = {Know-Evolve: Deep Temporal Reasoning for Dynamic Knowledge Graphs},
       year = {2017},
       publisher = {JMLR.org},
+      abstract = {The availability of large scale event data with time stamps has given rise to dynamically evolving knowledge graphs that contain temporal information for each edge. Reasoning over time in such dynamic knowledge graphs is not yet well understood. To this end, we present Know-Evolve, a novel deep evolutionary knowledge network that learns non-linearly evolving entity representations over time. The occurrence of a fact (edge) is modeled as a multivariate point process whose intensity function is modulated by the score for that fact computed based on the learned entity embed-dings. We demonstrate significantly improved performance over various relational learning approaches on two large scale real-world datasets. Further, our method effectively predicts occurrence or recurrence time of a fact which is novel compared to prior reasoning approaches in multi-relational setting.},
       booktitle = {Proceedings of the 34th International Conference on Machine Learning - Volume 70},
+      pages = {3462–3471},
+      numpages = {10},
+      location = {Sydney, NSW, Australia},
       series = {ICML'17}
 }
