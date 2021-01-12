@@ -104,24 +104,17 @@ Let $x$ be the input feature and $h$ the hidden state:
     \item \textbf{node embedding:} $h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
     \item \textbf{output embedding:} $o_v = g(h_v, x_v)$
 \end{itemize}
-
 Therefore, $f$ takes as input the features of the node ($x_v$), the features of its edges ($x_{co[v]}$), the states ($h_{ne[v]}$),
 and the features of the nodes in its neighborhood ($x_{ne[v]}$). The node embedding $h_v$ is then used in $g$ to compute the output of $v$.
 Usually, $h_v$ and $o_v$ are described in a more compact form as matrices of stacked states $H$,
 outputs $O$, and features $X$ (and node features $X_N$) with $F$ and $G$ being the stacked versions of $f$ and $g$:
-
 \begin{itemize}
     \item $H = F(H, X)$
     \item $O = G(H, X_N)$
 \end{itemize}
-
 The $(t + 1)$-th iteration of $H$ is described as $H^{t + 1} = F(H^t, X)$.
 Using the target information $t_v$ for node $v$ and the number of supervised nodes $p$, 
 the loss term is described as $\sum_{i=1}^p (t_i - o_i)$ and a gradient-descent algorithm is proposed as learning technique.\newline
-
-\vfill
-\pagebreak
-
 This basic GNN model is still rather limited, but nevertheless an important milestone on the way to making
 neural networks applicable in the graph domain. \cite{Liu_2020}
 The restrictions give rise to numerous flavors of GNNs, such as graph convolutional networks (GCNs),
@@ -203,9 +196,6 @@ that are able to not only provide mitigations to adversarial attacks in some sce
 of a model, which is crucial to use them in safety-critical applications in the real world (cf. \ref{sec:rev3}). Because of the relevance of the last phase, 
 which is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
 will be on publications from that phase.
-
-\vfill
-\pagebreak
 
 \subsection{Vulnerability of GNNs to adversarial perturbations}
 \label{sec:rev1}
@@ -326,7 +316,6 @@ a significant degree of robustness. The main question of the work can be subsume
 \begin{quote}
     \emph{"How to make sure that small changes to the input data do not have a dramatic effect to a GNN?"} \cite{Zuegner_2019}
 \end{quote}
-
 Because of their great importance for the rest of the work, the following two major concepts of \cite{Zuegner_2019} are briefly 
 outlined again.\newline
 
@@ -343,9 +332,6 @@ outlined again.\newline
     \emph{"We proposes a learning principle that improves the robustness of the GNN (i.e. making it less sensitive to perturbations) 
     while still ensuring high accuracy for node classification."} \cite{Zuegner_2019}
 \end{quote}
-
-\vfill
-\pagebreak
 
 \subsubsection{Certifying the robustness of a given GNN}
 \label{subsec:robustness_certification}
@@ -390,11 +376,11 @@ Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and a pos
     \label{fig:before_pert}
 \end{figure}
 
-Fig. \ref{fig:after_pert}, on the other hand, introduces two perturbations to the node attributes that lead to a negative
-classification margin and therefore not to certifiable robustness.
-
 \vfill
 \pagebreak
+
+Fig. \ref{fig:after_pert}, on the other hand, introduces two perturbations to the node attributes that lead to a negative
+classification margin and therefore not to certifiable robustness.
 
 \begin{figure}[h]
     \centering
@@ -419,7 +405,6 @@ the dual of the LP is considered. \cite{Zuegner_2019} The authors summarize the 
     \emph{"[...] if we find any dual-feasible solution for which the objective function of the dual is positive, we know that the minimum of 
     the primal problem has to be positive as well, guaranteeing robustness of the GNN w.r.t. any perturbation in the set."} \cite{Zuegner_2019}
 \end{quote}
-
 Since it is not necessary to obtain an optimal solution for the dual problem (it suffices to find a feasible solution), the robustness certificates
 can be computed in a very efficient manner. As seen, the robustness of a node can be certified by positive dual values for each $y \neq y^{\ast}$.
 In contrast, to provide certificates for non-robustness, one has to consider the primal values that have to be negative for one $y \neq y^*$. \cite{Zuegner_2019}
@@ -532,10 +517,9 @@ The authors summarize the idea of their certificates as follows:
     \emph{"A certificate issued by our method states that a node's prediction could not have been altered by edges potentially
     inserted by an attacker."} \cite{10.1145/3394486.3403217}
 \end{quote}
-
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.5\textwidth]{img/high_level_graph_pert.png}
+    \includegraphics[width=0.45\textwidth]{img/high_level_graph_pert.png}
     \caption{High-level idea of Zügner et al. \cite{10.1145/3394486.3403217}}
     \label{fig:high_level}
 \end{figure}
