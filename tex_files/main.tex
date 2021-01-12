@@ -34,12 +34,19 @@
     Graph neural networks enable the use of machine learning approaches for graph structured data.
     However, the models have proven to be prone to adversarial attacks, which questions their use in practical applications
     and leads to an increased focus on methods to strengthen their robustness. The intent of this paper is to provide a concise overview
-    of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness of these models. 
+    of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness of the models. 
     \end{quote}
 \end{abstract}
 
 \section{Introduction}
 
+A currently very active research area inside the field of machine learning, or more precisely deep learning, considers models to learn
+from graph inputs. Those models are called graph neural networks (GNNs). 
+Many real-life applications can be represented by a graph as data structure, e.g. \textit{"modeling physical systems, learning molecular fingerprints,
+controlling traffic networks, and recommending friends in social networks"} \cite{Liu_2020}. 
+Therefore, it is reasonable to think about combining graphs as data structures with state-of-the-art machine learning models.
+Unfortunately, in its non-Euclidean nature, graph data is not suitable for traditional deep learning models that are typically designed 
+to work with Euclidean data such as images in computer vision or text in natural language processing. \cite{Liu_2020}
 One of the most successful types of models in the field of deep learning is the convolutional neural network (CNN).
 Hence, the idea is to generalize CNNs, which are designed to operate on Euclidean data with a spatial relation like 
 images and text, to graph structured data. \cite{Liu_2020}
@@ -49,6 +56,7 @@ Liu et al. also highlight that traditional machine learning methods for graph an
 which causes them to be rather inflexible and expensive.
 These considerations, along with the performance of GNNs in practical applications mentioned in section \ref{sec:background}, 
 indicate that the study of GNNs and their robustness is worthwhile.
+In particular, the robustness of the models is of great relevance when considering practical applications.
 In the following sections, a concise overview of the current state of robustness focused research in the domain of GNNs is provided.\newline
 
 After presenting some background for graph neural networks (GNNs) and particularly graph convolutional networks (GCNs)
@@ -57,22 +65,21 @@ an overview of the current state of the literature is provided in section \ref{s
 methods, and results of the first works on certifiable robustness of GNNs are introduced in section \ref{sec:main_section}.
 Finally, there is a conclusion and a brief outlook on possible future research in section \ref{sec:conclusion}.
 
+\vfill
+\pagebreak
+
 \section{Background}
 \label{sec:background}
 
-A currently very active research area inside the field of machine learning, or more precisely deep learning, considers models to learn
-from graph inputs. Those models are called graph neural networks (GNNs). 
-Many real-life applications can be represented by a graph as data structure, e.g. \textit{"modeling physical systems, learning molecular fingerprints,
-controlling traffic networks, and recommending friends in social networks"} \cite{Liu_2020}. 
-Therefore, it is reasonable to think about combining graphs as data structures with state-of-the-art machine learning models.
-Unfortunately, in its non-Euclidean nature, graph data is not suitable for traditional deep learning models that are typically designed 
-to work with Euclidean data such as images in computer vision or text in natural language processing. \cite{Liu_2020}
+In general, GNNs are models to conduct deep learning with graph data.
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. \cite{NIPS2015_f9be311e},
 \cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification. \cite{xu2019topology}
 Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering. \cite{Zhou_2019}
-In summary, GNNs are models to conduct deep learning with graph data.\newline
+Section \ref{subsec:bg1} provides a brief introduction into the basic structure and ideas of GNNs (and GCNs). Afterwards, in secion
+\ref{subsec:bg2}, the concepts of robustness and adversarial attacks in machine learning in general, as well as applied to GNNs, are introduced.\newline
 
 \subsection{Graph Neural Networks}
+\label{subsec:bg1}
 
 In this section, the basic graph neural network model proposed by Scarselli et al. \cite{Scarselli_2009} gets introduced
 based on the description in \textit{'Introduction to graph neural networks'}\cite{Liu_2020}.
@@ -139,6 +146,7 @@ that is sequentially processed through the hidden layers and finally results in 
 \end{figure}
 
 \subsection{Robustness}
+\label{subsec:bg2}
 
 Besides the repeatedly demonstrated good performance, there is one major issue that is subject to a rather new branch of 
 research inside the field of GNNs, which is the robustness of such models. There are several publications that analyze 
