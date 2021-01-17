@@ -74,7 +74,7 @@ Finally, there is a conclusion and a brief outlook on possible future research i
 In general, GNNs are models to conduct deep learning with graph data.
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. \cite{NIPS2015_f9be311e},
 \cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification. \cite{xu2019topology}
-Further typical applications for graphs as non-Euclidean data structure in machine learning are link prediction and clustering. \cite{Zhou_2019}
+Further typical applications for graphs as non-Euclidean data structures in machine learning are link prediction and clustering. \cite{Zhou_2019}
 Section \ref{subsec:bg1} provides a brief introduction into the basic structure and ideas of GNNs (and GCNs). Afterwards, in secion
 \ref{subsec:bg2}, the concepts of robustness and adversarial attacks in machine learning in general, as well as applied to GNNs, are introduced.\newline
 
@@ -170,7 +170,7 @@ Goodfellow et al. \cite{Goodfellow_2015} face that problem by adversarial traini
 perturbed examples into the training process in order to strengthen the robustness of the models. Furthermore, they introduce 
 efficient ways of generating adversarial examples, as shown in fig. \ref{fig:adversarial_example}.
 Although the added vector in fig. \ref{fig:adversarial_example} is imperceptibly small, it suffices to change the classification
-of the image by the well-known GoogleNet. \cite{Goodfellow_2015}\newline
+of the image by the well-known \textit{GoogleNet}. \cite{Goodfellow_2015}\newline
 Adversarial perturbations are not only a problem for classical machine learning models, but also for GNNs.
 Numerous publications confirm the non-robustness of graph neural networks by showing that the models are prone to
 adversarial attacks on the node attributes as well as on the graph structure. \cite{Zuegner_2019}
@@ -210,7 +210,7 @@ and distinguish between adversarial attacks on the node's features and the graph
 The results suggest that even slight perturbations significantly deteriorate the classification accuracy, which clearly motivates reflections
 on the robustness of such models, especially when considering practical applications.\newline
 So far, adversarial attacks were introduced as a quite vague concept. Zügner et al. \cite{zuegner2019adversarial}
-define them as \textquote{small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker}
+define them as \textquote{\textit{small deliberate perturbations of data samples in order to achieve the outcome desired by the attacker}}
 and propose different categories to be considered in the attack model. Furthermore, they confirm previous claims that 
 even slight perturbations of the graph structure or the node attributes consistently decrease the performance of GCN models.
 
@@ -450,7 +450,7 @@ In the final objective function in \ref{eq:2}, the authors merge their \textit{r
 \end{gather}
 The advantage compared to the \textit{robust cross entropy loss} is that the cross entropy function works with the exact
 version of the GNN. \cite{Zuegner_2019}
-Therefore, the authors only use the relaxed version to assure robustness while keeping with the exact version for node prediction.
+Therefore, the authors only use the relaxed version to assure robustness while keeping the exact version for node prediction.
 In case every node is robust, $\mathcal{\hat{L}}_M = 0$ holds and the whole objective reduces to the simple cross entropy loss
 on the original version of the GNN. \cite{Zuegner_2019}
 So far, only the labeled nodes $\mathcal{V}_L$ are considered in \ref{eq:2}. To bridge the gap to the semi-supervised setting,
