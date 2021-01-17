@@ -197,7 +197,7 @@ of a model, which is crucial to use them in safety-critical applications in the 
 which is an important step in the process of bringing the convincingly performing GNN models into the real world, the main focus of the following sections
 will be on publications from that phase.
 
-\subsection{Vulnerability of GNNs to adversarial perturbations}
+\subsection{Vulnerability of GNNs to Adversarial Perturbations}
 \label{sec:rev1}
 
 Dai et al. \cite{Dai_2018} address adversarial attacks on graph structured data, in which the combinatorial structure of 
@@ -214,7 +214,7 @@ define them as \textquote{small deliberate perturbations of data samples in orde
 and propose different categories to be considered in the attack model. Furthermore, they confirm previous claims that 
 even slight perturbations of the graph structure or the node attributes consistently decrease the performance of GCN models.
 
-\subsection{Defense mechanisms}
+\subsection{Defense Mechanisms}
 \label{sec:rev2}
 
 Since the fact that GNNs are vulnerable to adversarial perturbations was confirmed by many publications, the next natural question to ask
@@ -333,7 +333,7 @@ outlined again.\newline
     while still ensuring high accuracy for node classification."} \cite{Zuegner_2019}
 \end{quote}
 
-\subsubsection{Certifying the robustness of a given GNN}
+\subsubsection{Certifying the Robustness of a given GNN}
 \label{subsec:robustness_certification}
 
 The main part of \cite{Zuegner_2019} starts with the search for an efficient way of robustness certification.
@@ -599,7 +599,7 @@ allow to answer the question of robustness:
 \end{itemize}
 A positive lower bound indicates robustness under the defined attack model. \cite{10.1145/3394486.3403217}\newline
 
-\textbf{Optimization over the graph structure}\newline
+\textbf{Optimization over the Graph Structure}\newline
 
 In order to be able to cope with the second challenge (cf. \ref{enum:challenge_two}), the set of feasible perturbations
 is restricted in such a way that on the one hand the sheer size of the set is limited and on the other hand
@@ -635,14 +635,14 @@ The authors are able to derive constraints to generate message passing matrices 
 that are valid, tight, and convex to enable efficient optimization.
 Finally, a positive value of \ref{eq:5} indicates a certificate. \cite{10.1145/3394486.3403217} \newline
 
-\textbf{Relaxation of the neural network}\newline
+\textbf{Relaxation of the Neural Network}\newline
 
 As stated in the first challenge (cf. \ref{enum:challenge_one}), the objective function of the GNN is hard due to the non-convexity.
 Therefore, the authors again apply a relaxation approach from their previous paper \cite{Zuegner_2019}, which causes the output $H$ 
 of the ReLU activation function to no longer be deterministic, but considered to be a variable and combine it with ideas
 of another approach from the literature.\newline
 
-\textbf{Jointly constrained bilinear program}\newline
+\textbf{Jointly Constrained Bilinear Program}\newline
 
 Combining the relaxed GNN with the constraints on the message-passing-matrix, the objective function in \ref{eq:5} 
 can be reformulated as a bilinear objective function. \cite{10.1145/3394486.3403217}
@@ -677,7 +677,7 @@ method. The branch-and-bound method recursively divides the problem into linear 
 For a large fraction of the nodes, the authors are able to provide a clear decision of robustness / non-robustness.
 Overall, the presented work provides a very efficient way of robustness certification.
 
-\subsection{Robustness guarantee of arbitrary GNNs for node and graph classification}
+\subsection{Robustness Guarantee of Arbitrary GNNs for Node and Graph Classification}
 \label{sec:paper_four}
 
 The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}
