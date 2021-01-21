@@ -74,9 +74,12 @@ Finally, there is a conclusion and a brief outlook on possible future research i
 In general, GNNs are models to conduct deep learning with graph data.
 There are numerous reports of convincing performance of GNNs in practical applications (e.g. \cite{NIPS2015_f9be311e},
 \cite{hamilton2018inductive}, \cite{trivedi2017knowevolve}), especially in the task of semi-supervised node classification. \cite{xu2019topology}
+In node classification tasks, one is usually presented with a graph in which a certain ratio of the nodes is labeled and the aim is to
+reasonably assign labels to the unlabeled ones. \cite{Zuegner_2020_Patterns} Therefore, the given information in the graph has to be used
+to predict labels for the unlabeled nodes. An example would be to train a classifier with the labeled nodes and apply it to the unlabeled ones.
 Further typical applications for graphs as non-Euclidean data structures in machine learning are link prediction and clustering. \cite{Zhou_2019}
 Section \ref{subsec:bg1} provides a brief introduction into the basic structure and ideas of GNNs (and GCNs). Afterwards, in secion
-\ref{subsec:bg2}, the concepts of robustness and adversarial attacks in machine learning in general, as well as applied to GNNs, are introduced.\newline
+\ref{subsec:bg2}, the concepts of robustness and adversarial attacks in machine learning in general, as well as applied to GNNs, are introduced.
 
 \subsection{Graph Neural Networks}
 \label{subsec:bg1}
