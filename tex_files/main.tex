@@ -698,7 +698,7 @@ To summarize, they extend the \textit{randomized smoothing} approach to discrete
 and thereby enable robustness certification for arbitrary graph neural networks against structural perturbations.
 Finally, they evaluate their approach on various benchmark instances for node and graph classification tasks.
 
-\section{Conclusion}
+\section{Conclusion and Outlook}
 \label{sec:conclusion}
 
 In this paper, a concise overview of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness 
@@ -710,7 +710,7 @@ apply the models in any kind of safety-critical application or in areas where le
 Three main lines of research in the domain of robust GNNs have been identified in this work. In the first phase, it was shown that GNNs are prone to adversarial attacks.
 The second phase introduced defense mechanisms against such attacks or training procedures to strengthen the robustness. However, these approaches
 are generally just providing mitigations for certain scenarios and not guaranteeing robustness in any case.
-The third phase, which was the main consideration of this work, discussed in section \ref{sec:main_section}, only recently started to tackle this problem. 
+The third phase, which is the main consideration of this work, discussed in section \ref{sec:main_section}, only recently started to tackle this problem. 
 Approaches appeared that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about 
 the (non-)robustness of a GNN with regard to an attack model, which is crucial to use them in real-world applications.\newline
 Although this phase only started recently, there have already been quite effective approaches for certified robustness presented in section \ref{sec:main_section}.
@@ -721,19 +721,19 @@ Another promising future prospect is given by Wang et al. \cite{Wang_2020} who s
 section \ref{sec:paper_four} to not only certify robustness of GNNs against structural perturbations, but to also include perturbations
 of the node attributes.
 In addition, they plan to optimize the method by including and exploiting certain information about a GNN during the process.\newline
-On a less concrete level, it would also be interesting to find out which aspects of perturbations are relevant for their harmfulness
+On a less concrete level, it would also be interesting to find out which aspects of perturbations are relevant for their harmfulness \cite{Zuegner_2020_Patterns}
 and therefore truly develop an understanding of the fundamental structure of the problem.
 The approach of Jin et al. \cite{Jin_2020_Graph} goes in this direction in a way, although they are not considering certifiable robustness.
 Their work is rather belonging to the second phase, dealing with mitigations, as the proposed framework
 \textit{Pro-GNN} enables a reasonable defense method in some scenarios.
-Nonetheless, they highlight an important observation which is that graph structures representing problems from the real-world often
-share some intrinsic properties that are likely to be violated by adversarially perturbed graphs.
+Nonetheless, they highlight an important observation, namely that graph structures representing problems from the real world often
+have certain common properties that are presumably not shared by adversarially perturbed graphs.
 Eventually, the approaches of the third phase outlined in this work assume a certain attack model under which robustness guarantees are provided.
 If a general understanding of the underlying mechanisms of harmful perturbations can be established, there could be
 room for generalizations of attack models to guarantee robustness for.\newline
 Lately, Zügner et al. \cite{Zuegner_2020_Patterns} provide a first attempt of recognizing adversarial attacks against graph neural networks
 by their structural properties. The authors study statistically significant structural properties in perturbations against GNN models.
-Based on these properties, they develop an algorithm that is able to generate perturbations not only harmful against specific examples,
+Based on these properties, they develop an algorithm that is able to generate perturbations that are not only harmful against specific examples,
 but in general. The authors interpret their results as a crucial milestone towards the goal of being able to identify and
 hinder adversarial perturbations and thereby increasing the robustness of GNN models.
 Besides the approach of statistically significant properties of harmful perturbations, they also rank the harmfullness of given perturbations
