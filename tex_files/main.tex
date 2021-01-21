@@ -101,16 +101,15 @@ $ne[l_1]$ contains the nodes $\{l_2, l_3, l_4, l_6\}$.
     \label{fig:graph}
 \end{figure}
 
+\vfill
+\pagebreak
+
 There are two important functions, $f$ updates the node state based on the input neighborhood and $g$ computes the output of a node.
 Let $x$ be the input feature and $h$ the hidden state:
 \begin{itemize}
     \item \textbf{node embedding:} $h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
     \item \textbf{output embedding:} $o_v = g(h_v, x_v)$
 \end{itemize}
-
-\vfill
-\pagebreak
-
 Therefore, $f$ takes as input the features of the node ($x_v$), the features of its edges ($x_{co[v]}$), the states ($h_{ne[v]}$),
 and the features of the nodes in its neighborhood ($x_{ne[v]}$). The node embedding $h_v$ is then used in $g$ to compute the output of $v$.
 Usually, $h_v$ and $o_v$ are described in a more compact form as matrices of stacked states $H$,
@@ -190,6 +189,9 @@ cause a misclassification of the target node as depicted in fig. \ref{fig:advers
     \caption{Small perturbations of the graph structure or node attributes cause a misclassification of the target. \cite{Zuegner_2018}}
     \label{fig:adversarial_GNN}
 \end{figure}
+
+\vfill
+\pagebreak
 
 \section{Literature Review}
 \label{sec:literature}
@@ -281,9 +283,6 @@ sub-problems.
 Finally, Wang et al.\cite{Wang_2020} extend the so-called \textit{randomized smoothing} technique to provide robustness guarantees for any
 GNN for node classification as well as graph classification problems. As Zügner et al. \cite{10.1145/3394486.3403217}, they consider
 perturbations of the graph structure.
-
-\vfill
-\pagebreak
 
 \section{Certifiable robustness of graph neural networks}
 \label{sec:main_section}
