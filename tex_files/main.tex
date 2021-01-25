@@ -97,7 +97,7 @@ $ne[l_1]$ contains the nodes $\{l_2, l_3, l_4, l_6\}$.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/graph.png}
-    \caption{Example of the graph based on Scarselli et al. \cite{Liu_2020}}
+    \caption{Structure example based on Scarselli et al. \cite{Liu_2020}}
     \label{fig:graph}
 \end{figure}
 
@@ -168,7 +168,7 @@ cause an entirely different output of the model and therefore often misclassific
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/adversarial_example.png}
-    \caption{Demonstration of a fast adversarial example. \cite{Goodfellow_2015}}
+    \caption{Example for a simple adversarial perturbation. \cite{Goodfellow_2015}}
     \label{fig:adversarial_example}
 \end{figure}
 
@@ -180,13 +180,14 @@ of the image by the well-known \textit{GoogleNet}. \cite{Goodfellow_2015}\newlin
 Adversarial perturbations are not only a problem for classical machine learning models, but also for GNNs.
 Numerous publications confirm the non-robustness of graph neural networks by showing that the models are prone to
 adversarial attacks on the node attributes as well as on the graph structure. \cite{Zuegner_2019}
-Similarly to the example in fig. \ref{fig:adversarial_example}, small perturbations to the graph structure or node features 
-cause a misclassification of the target node as depicted in fig. \ref{fig:adversarial_GNN}.
+Similarly to the example in fig. \ref{fig:adversarial_example}, simple perturbations to GNN models lead to misclassification.
+As depicted in fig. \ref{fig:adversarial_GNN}, there are two types of perturbations that can cause misclassification, 
+namely perturbations of the graph structure and perturbations of the node attributes.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.35\textwidth]{img/adversarial_GNN.png}
-    \caption{Small perturbations of the graph structure or node attributes cause a misclassification of the target. \cite{Zuegner_2018}}
+    \includegraphics[width=0.325\textwidth]{img/adversarial_GNN.png}
+    \caption{Simple structure / node attribute perturbations lead to misclassification. \cite{Zuegner_2018}}
     \label{fig:adversarial_GNN}
 \end{figure}
 
@@ -249,8 +250,8 @@ random, sparse and deformed subgraphs are used by a removal of certain edges. Ex
 mitigating the sensitivity to adversarial attacks and thereby increasing the robustness.
 The idea, the approach of Jin et al \cite{Jin_2020_Graph} is based on, is that a reasonable defense method against graph perturbations lets
 the perturbed version of the graph undergo some kind of cleaning procedure. The authors state that graph structures representing problems
-from the real-world often share some intrinsic properties such as low-rankedness, sparsity, and a certain similarity between neighboring
-nodes and that those features can be used to identify adversarial attacks, which seem to be likely to violate such properties.
+from the real world often have particular common properties such as low-rankedness, sparsity, and a certain similarity between neighboring
+nodes that are presumably not shared by adversarially perturbed graphs. Therefore, such properties could be used to identify adversarial attacks.
 Based on that idea, they propose the framework \textit{Pro-GNN}, which leads to a robust GNN model with remarkable performance in experiments
 with real-world data and extensive perturbations.
 Finally, Wang et al. \cite{Wang_2019} present with \textit{GraphDefense} an algorithm to improve the robustness of graph convolutional 
@@ -271,8 +272,8 @@ However, the approaches are restricted in the sense that they are not applicable
 based on \textit{PageRank}. \cite{10.1145/3394486.3403217}
 Zügner et al. \cite{Zuegner_2019} develop a first method that deals with certifiable (non-)robustness of GCNs against perturbations
 of the node attributes. The robustness certificates are always given under the assumption of a certain attack model and do not hold in general.
-Hence, a node that is certified as being robust by their method is guaranteed to be robust under every possible perturbation that is part of the
-defined attack model. Analogously, they are able to provide non-robustness certificates.
+Hence, a node that is certified as being (non-)robust by their method is guaranteed to be (non-)robust under every possible perturbation that is part of the
+defined attack model.
 Adhering to the aforementioned requirement of not, or at least only minimally affecting the predictive accuracy,
 the authors present a robust, semi-supervised training method.
 Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the related problem of GCNs against perturbation of the graph structure
@@ -308,7 +309,7 @@ In this section, the approach of Zügner et al. \cite{Zuegner_2019} will be desc
 in which the authors develop a first method that deals with certifiable (non-)robustness of GCNs against perturbations of
 the node attributes. Since the robustness certificates are always given under the assumption of a certain attack model,
 a node that is certified as being robust by their method is guaranteed to not change its prediction after every perturbation that is
-part of that attack model. Analogously, they are able to provide non-robustness certificates.
+part of that attack model. Moreover, they are able to provide non-robustness certificates.
 As mentioned in section \ref{sec:rev3}, it is always a major concern to not negatively affect the predictive accuracy 
 while establishing a strengthened robustness of the model. With the presented semi-supervised training procedure, the authors achieve that goal.
 As a general issue when considering the robustness of GNNs, the work identifies the large space of possible perturbations
@@ -556,7 +557,7 @@ As mentioned, the authors reformulate the problem as a jointly-constrained bilin
 to provide lower bounds on the optimal solution value.
 The lower bounds can be seen as worst-case change for the prediction of a node and are therefore used as 
 robustness certificates where a positive value indicates that the prediction of a node will not
-change when being exposed to a feasible attack . \cite{10.1145/3394486.3403217}
+change when being exposed to a feasible attack. \cite{10.1145/3394486.3403217}
 
 \subsubsection{Robustness Certification Technique}
 
@@ -628,7 +629,7 @@ since the message-passing-matrix $\hat{A}$ is now directly passed to $f_{\theta}
 \vfill
 \pagebreak
 
-It is crucial to define the set $\mathcal{\hat{A}}(A)$ of possible message passing matrices in a way that it contains
+The set $\mathcal{\hat{A}}(A)$ of possible message passing matrices has to be defined in a way that it contains
 every possible matrix that could result from first performing discrete perturbations to $A$ and afterwards 
 degree-normalizing the resulting binary matrix $\tilde{A}$, only then it holds that $\hat{m}^t (y^{\ast}, y) \leq m^t (y^{\ast}, y)$, 
 i.e. the result of \ref{eq:5} provides a lower bound on the optimal solution of the optimization problem in \ref{eq:4}. \cite{10.1145/3394486.3403217}
@@ -648,9 +649,10 @@ of another approach from the literature.\newline
 Combining the relaxed GNN with the constraints on the message-passing-matrix, the objective function in \ref{eq:5} 
 can be reformulated as a bilinear objective function. \cite{10.1145/3394486.3403217}
 Afterwards, they add another artificial constraint that does not change the solution, but enables them to use 
-a principle proposed in the literature which allows them to solve the jointly constrained bilinear optimization problem.
-The convex envelope of the objective function is used to compute lower bounds and additionally, a branch-and-bound procedure is used
-to recursively divide the problem into sub-problems. In each iteration, the upper and lower bounds become more and more precise
+a principle proposed in the literature, which allows them to solve the jointly constrained bilinear optimization problem.
+A concept, referred to as \textquote{convex envelope} of the objective function, is used to compute lower bounds and additionally, 
+a branch-and-bound procedure is used to recursively divide the problem into sub-problems. 
+In each iteration, the upper and lower bounds become more and more precise
 and the idea is to stop as soon as possible. It is important to note that it is not necessary to find the optimal solution of 
 the bilinear problem, only its sign is of relevance. \cite{10.1145/3394486.3403217}
 Consequently, there are two possible outcomes: A positive lower bound indicates successfully certified robustness, while a negative
@@ -659,7 +661,7 @@ lower bound only states that no robustness certificate can be given and not non-
 \subsubsection{Experimental Evaluation and Conclusion}
 
 As in the previous paper presented in section \ref{sec:paper_two}, an experimental evaluation of the approaches on the benchmark data sets 
-\textsc{Cora-ML}, \textsc{Citeseer}, and \textsc{PubMed}. is provided.
+\textsc{Cora-ML}, \textsc{Citeseer}, and \textsc{PubMed} is provided.
 The authors evaluate the proposed robustness certification technique against attacks on the graph structure
 based on three different local $q$ and global $Q$ perturbation budgets with which they perform gradient-based attacks.
 This approach enables them to estimate the number of non-robust nodes, although the computation of the precise number would be intractable. \cite{10.1145/3394486.3403217}
@@ -667,36 +669,46 @@ As one would expect, higher perturbation budgets cause fewer nodes that can be c
 more non-robust nodes. \cite{10.1145/3394486.3403217}
 Another hint to the general non-robustness of GCN models is given by the fact that it suffices to remove one edge from the graph
 to cause predictive changes in a significant portion of the nodes. \cite{10.1145/3394486.3403217}
-A further crucial observation is that 'classical' adversarial training procedures based on the idea of adding adversarially
+A further crucial observation is that \textquote{classical} adversarial training procedures based on the idea of adding adversarially
 perturbed examples to the training data, such as the perturbed graph in fig. \ref{fig:high_level}, are not leading to a higher robustness
 of the model \cite{10.1145/3394486.3403217}, which confirms the relevance of the work.
-Only the training for robustness against perturbations of the node attributes that is considered in section \ref{sec:paper_two} is able to do so.\newline
+Only the training for robustness against perturbations of the node attributes, that is considered in section \ref{sec:paper_two}, is able to do so.\newline
 
 In summary, the authors introduce first approaches for certifiable robustness against structural perturbations for graph convolutional networks.
 The main idea is to reformulate the problem as a jointly constrained bilinear program and to efficiently solve that using a branch-and-bound
 method. The branch-and-bound method recursively divides the problem into linear sub-problems that can be solved by specially optimized LP-solvers (e.g. CPLEX).
-For a large fraction of the nodes, the authors are able to provide a clear decision of robustness / non-robustness.
+For a large fraction of the nodes, the authors are able to provide a clear statement of robustness / non-robustness.
 Overall, the presented work provides a very efficient way of robustness certification.
 
 \subsection{Robustness Guarantee of Arbitrary GNNs for Node and Graph Classification}
 \label{sec:paper_four}
 
-The latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}
-who consider robustness guarantees for arbitrary graph neural network models. The studied task is again a classification task,
-but this time classification on the node- as well as on the graph-level.
+The presumably latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}
+who consider robustness guarantees for arbitrary graph neural network models. The studied task is again a classification task.
+In this case, however, not only classification on node level, but also on graph level.
+Opposed to node classification, which labels a subset of unlabeled nodes based on a classifier trained on the graph's subset of labeled nodes,
+the graph level classification assigns a label to the entire graph.
+Therefore, the classifier has to be trained on a set of labeled graphs. \cite{Wang_2020} 
+An example where such a classification scheme could apply is to assign labels to graphs based on their specific topology
+(e.g. circular graphs).
 Like the approaches of Zügner et al. \cite{10.1145/3394486.3403217} and Bojchevski et al. \cite{bojchevski2019certifiable},
 they address certifiable robustness of GNNs against perturbations of the graph structure. 
 In contrast to to the previous papers described in section \ref{sec:paper_two}
-and \ref{sec:paper_three}, which deal with specific GNN models, they provide robustness guarantees for arbitrary GNNs.
+and \ref{sec:paper_three}, which deal with specific GNN models, the work provides robustness guarantees for arbitrary GNNs.
 To achieve that, they make use of an extended version of the \textit{randomized smoothing} method, which essentially adds noise 
 to the elements of the training data set in order to establish robustness. \cite{Wang_2020}
 The authors extend the basic \textit{randomized smoothing} such that they are able to handle non-continuous data structures, i.e. graphs.
-A certain \textit{certified perturbation size} $K$ is defined with the intention of setting a limit onto the number of adversarial edge additions
-or removals such that a GNN is considered to be robust if there is no change of prediction when the number of perturbations is $\leq K$. \cite{Wang_2020}\newline
+A certain \textit{certified perturbation size} $K$ is theoretically determined with the intention of setting a limit onto the number of adversarial edge additions
+or removals such that a GNN is considered to be robust if there is no change of prediction when the number of perturbations is $\leq K$. \cite{Wang_2020}
+Subsequently, the problem of practically computing the \textit{certified perturbation size} $K$ is formulated as an optimization problem 
+and an algorithm that solves it in an efficient manner is introduced.
+The merits of the proposed approach are its scalability and the fact that it can be used with arbitrary classifiers. \cite{Wang_2020} \newline
 
-To summarize, they extend the \textit{randomized smoothing} approach to discrete (binary) data structures such as graphs 
+To summarize, Wang et al. extend the \textit{randomized smoothing} approach to discrete (binary) data structures such as graphs 
 and thereby enable robustness certification for arbitrary graph neural networks against structural perturbations.
 Finally, they evaluate their approach on various benchmark instances for node and graph classification tasks.
+For the evaluation of node classification, they use the benchmark data sets \textsc{Cora-ML}, \textsc{Citeseer}, and \textsc{PubMed},
+just as Zügner et al. in the sections \ref{sec:paper_two} and \ref{sec:paper_three}.
 
 \section{Conclusion and Outlook}
 \label{sec:conclusion}
