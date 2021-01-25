@@ -680,20 +680,20 @@ method. The branch-and-bound method recursively divides the problem into linear 
 For a large fraction of the nodes, the authors are able to provide a clear statement of robustness / non-robustness.
 Overall, the presented work provides a very efficient way of robustness certification.
 
-\subsection{Robustness Guarantee of Arbitrary GNNs for Node and Graph Classification}
+\subsection{Robustness Guarantee for Arbitrary GNNs for Node and Graph Classification}
 \label{sec:paper_four}
 
 The presumably latest work on certifiable robustness of GNNs against adversarial perturbations is provided by Wang et al. \cite{Wang_2020}
 who consider robustness guarantees for arbitrary graph neural network models. The studied task is again a classification task.
-In this case, however, not only classification on node level, but also on graph level.
+In this case, however, not only classification on the node level, but also on the graph level.
 Opposed to node classification, which labels a subset of unlabeled nodes based on a classifier trained on the graph's subset of labeled nodes,
-the graph level classification assigns a label to the entire graph.
-Therefore, the classifier has to be trained on a set of labeled graphs. \cite{Wang_2020} 
-An example where such a classification scheme could apply is to assign labels to graphs based on their specific topology
+graph level classification assigns a label to the entire graph. \cite{Wang_2020} 
+Therefore, the classifier has to be trained on a set of labeled graphs.
+An example where such a classification scheme could be applied is assigning labels to graphs based on their specific topology
 (e.g. circular graphs).
 Like the approaches of Zügner et al. \cite{10.1145/3394486.3403217} and Bojchevski et al. \cite{bojchevski2019certifiable},
 they address certifiable robustness of GNNs against perturbations of the graph structure. 
-In contrast to to the previous papers described in section \ref{sec:paper_two}
+In contrast to the previous papers described in section \ref{sec:paper_two}
 and \ref{sec:paper_three}, which deal with specific GNN models, the work provides robustness guarantees for arbitrary GNNs.
 To achieve that, they make use of an extended version of the \textit{randomized smoothing} method, which essentially adds noise 
 to the elements of the training data set in order to establish robustness. \cite{Wang_2020}
@@ -701,7 +701,7 @@ The authors extend the basic \textit{randomized smoothing} such that they are ab
 A certain \textit{certified perturbation size} $K$ is theoretically determined with the intention of setting a limit onto the number of adversarial edge additions
 or removals such that a GNN is considered to be robust if there is no change of prediction when the number of perturbations is $\leq K$. \cite{Wang_2020}
 Subsequently, the problem of practically computing the \textit{certified perturbation size} $K$ is formulated as an optimization problem 
-and an algorithm that solves it in an efficient manner is introduced.
+and an algorithm is introduced that solves it in an efficient manner.
 The merits of the proposed approach are its scalability and the fact that it can be used with arbitrary classifiers. \cite{Wang_2020} \newline
 
 To summarize, Wang et al. extend the \textit{randomized smoothing} approach to discrete (binary) data structures such as graphs 
