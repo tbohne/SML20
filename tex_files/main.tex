@@ -713,25 +713,26 @@ just as Zügner et al. in the sections \ref{sec:paper_two} and \ref{sec:paper_th
 \section{Conclusion and Outlook}
 \label{sec:conclusion}
 
-In this paper, a concise overview of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness 
-of the models was provided. As seen throughout the sections, GNNs can be applied very successfully to a wide range of practical tasks.
+This paper gave a concise overview of the current state of research in the domain of graph (convolutional) neural networks with a focus on the robustness 
+of the models. As seen throughout the sections, GNNs can be applied very successfully to a wide range of practical tasks.
 What has prevented its frequent use in practice so far is the fact that GNNs are not at all robust against adversarial perturbations of the graph structure
 and the node attributes, which has been proven by numerous publications discussed in section \ref{sec:literature}.
 As long as it is possible that small changes to the input data cause entirely different results, it is not reasonable to
 apply the models in any kind of safety-critical application or in areas where legal certainty must prevail.\newline
-Three main lines of research in the domain of robust GNNs have been identified in this work. In the first phase, it was shown that GNNs are prone to adversarial attacks.
+Three main lines of research in the domain of robust GNNs have been identified in this work. In the first phase it was shown that GNNs are prone to adversarial attacks.
 The second phase introduced defense mechanisms against such attacks or training procedures to strengthen the robustness. However, these approaches
 are generally just providing mitigations for certain scenarios and not guaranteeing robustness in any case.
 The third phase, which is the main consideration of this work, discussed in section \ref{sec:main_section}, only recently started to tackle this problem. 
 Approaches appeared that are able to not only provide mitigations to adversarial attacks in some scenarios, but to give provable guarantees about 
 the (non-)robustness of a GNN with regard to an attack model, which is crucial to use them in real-world applications.\newline
-Although this phase only started recently, there have already been quite effective approaches for certified robustness presented in section \ref{sec:main_section}.
+Although the third phase only started recently, there have already been quite effective approaches for certified robustness presented in section \ref{sec:main_section}.
 Nevertheless, there is of course a lot of room for improvement and generalization.
 Zügner et al. \cite{10.1145/3394486.3403217} for example suggest that it might be worthwhile to study training methods in which 
 robustness is explicitly treated as the goal to be achieved.
 Another promising future prospect is given by Wang et al. \cite{Wang_2020} who suggest to extend their method briefly described in 
 section \ref{sec:paper_four} to not only certify robustness of GNNs against structural attacks, but to also include perturbations
-of the node attributes.
+of the node attributes. This could be particularly promising for practical applications when considered in combination with the
+advantage of their algorithm in terms of scalability.
 In addition, they plan to optimize the method by including and exploiting certain information about a GNN during the process.\newline
 On a less concrete level, it would also be interesting to find out which aspects of perturbations are relevant for their harmfulness \cite{Zuegner_2020_Patterns}
 and therefore truly develop an understanding of the fundamental structure of the problem.
@@ -749,9 +750,9 @@ Based on these, they develop an algorithm that is able to generate perturbations
 but in general. The authors interpret their results as a crucial milestone towards the goal of being able to identify and
 hinder adversarial attacks and thereby increasing the robustness of GNN models.
 Besides the approach that uses statistically significant properties of harmful perturbations, they also establish a ranking scheme
-that provides probabilities for the harmfulness of perturbations. The work is a promising starting point for understanding 
-the underlying mechanisms of adversarial attacks which could ultimately lead to methods using general attack models 
-that are ideally able to recognize incoming attacks based on their specific traits.
+that provides probabilities for the harmfulness of perturbations. The work is an auspicious starting point for understanding 
+the underlying mechanisms of adversarial attacks, which could ultimately lead to methods using general attack models 
+that ideally are able to recognize incoming attacks based on their specific characteristics.
 
 \vfill
 \pagebreak
