@@ -278,7 +278,7 @@ Adhering to the aforementioned requirement of not, or at least only minimally af
 the authors present a robust, semi-supervised training method.
 Recently, Zügner et al. \cite{10.1145/3394486.3403217} tackle the related problem of GCNs against perturbation of the graph structure
 and introduce a method for certifying their robustness. The authors reformulate the problem in a way that enables them to use specially 
-optimized LP-solvers such as CPLEX to solve it. To achieve that, they express the problem as a jointly-constrained bilinear program, 
+optimized LP-solvers such as CPLEX to solve it. To achieve that, they express the problem as a jointly constrained bilinear program, 
 develop a branch-and-bound procedure to obtain lower bounds on the optimal solution value and are able to divide the problem into linear 
 sub-problems.
 Finally, Wang et al.\cite{Wang_2020} extend the so-called \textit{randomized smoothing} technique to provide robustness guarantees for any
@@ -388,7 +388,7 @@ Fig. \ref{fig:before_pert} shows a situation with an unperturbed graph and a pos
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/before_pert.png}
-    \caption{Classification margin before perturbation \cite{Zuegner_2019}}
+    \caption{Classification margin before perturbation. \cite{Zuegner_2019}}
     \label{fig:before_pert}
 \end{figure}
 Fig. \ref{fig:after_pert}, on the other hand, introduces two perturbations to the node attributes that lead to a negative
@@ -396,7 +396,7 @@ classification margin and therefore not to certifiable robustness.
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.5\textwidth]{img/after_pert.png}
-    \caption{Classification margin after perturbation \cite{Zuegner_2019}}
+    \caption{Classification margin after perturbation. \cite{Zuegner_2019}}
     \label{fig:after_pert}
 \end{figure}
 
@@ -517,7 +517,7 @@ which means that the graph structure itself can be modified by an attacker.
 In this section, the approaches of Zügner et al. \cite{10.1145/3394486.3403217} will be described, in which the
 problem of certifiable robustness of GCNs against structural perturbations is tackled. 
 Since these kind of perturbations attack, and thus modify, the message passing scheme, they are considered to be particularly challenging. \cite{10.1145/3394486.3403217} 
-The authors reformulate the problem as a jointly-constrained bilinear program and develop a branch-and-bound procedure 
+The authors reformulate the problem as a jointly constrained bilinear program and develop a branch-and-bound procedure 
 to provide lower bounds on the optimal solution value. The attack model that is used in the work is based on the idea that an attacker 
 is able to insert new edges to the graph. Such a scenario could for example occur in web-based applications where edges represent friends, 
 likes or follows in social media. \cite{10.1145/3394486.3403217}
@@ -553,7 +553,7 @@ Another unstudied question is posed by the third challenge that requires a way t
 The authors see the problem in the fact that the message passing scheme, i.e. the matrix, in contrast to the input features considered
 in section \ref{sec:paper_two}, are used in every layer of the network and not only in the input layer.
 That causes nonconvex constraints after the ReLU relaxations. \cite{10.1145/3394486.3403217}
-As mentioned, the authors reformulate the problem as a jointly-constrained bilinear program and develop a branch-and-bound procedure 
+As mentioned, the authors reformulate the problem as a jointly constrained bilinear program and develop a branch-and-bound procedure 
 to provide lower bounds on the optimal solution value.
 The lower bounds can be seen as worst-case change for the prediction of a node and are therefore used as 
 robustness certificates where a positive value indicates that the prediction of a node will not
@@ -595,9 +595,9 @@ The authors are able to bypass the hard, or inefficient part of the problem by a
 More precisely, they perform the following three steps to compute lower bounds on the original problem that
 allow to answer the question of robustness:
 \begin{itemize}
-    \item Replace the binary adjacency matrix $A$ by the continuous message-passing-matrix $\mathcal{T}(A)$.
+    \item Replace the binary adjacency matrix $A$ by the continuous message passing matrix $\mathcal{T}(A)$.
     \item Relax the activation function of the GNN.
-    \item Rephrase the problem as jointly-constrained bilinear program and solve it with branch-and-bound.
+    \item Rephrase the problem as jointly constrained bilinear program and solve it with branch-and-bound.
 \end{itemize}
 A positive lower bound indicates robustness under the defined attack model. \cite{10.1145/3394486.3403217}\newline
 
@@ -615,10 +615,10 @@ This approach refers to the high-level idea visualized in fig. \ref{fig:high_lev
 differs from the original (clean) structure by a certain set of inserted adversarial edges.\newline
 Continuous relaxation would be the common way of dealing with intractable discrete optimization problems,
 but in this case, due to the minimization over $\tilde{A}$ in the objective function, this is not an option. \cite{10.1145/3394486.3403217}
-Instead, the authors propose to use the degree normalized message-passing-matrix $\hat{A}$ in its continuous nature.
+Instead, the authors propose to use the degree-normalized message passing matrix $\hat{A}$ in its continuous nature.
 As a result, the optimization problem in \ref{eq:4} is replaced by the following problem, which not only avoids 
 the intractable optimization over a discrete variable, but also the nonconvex degree normalization process
-since the message-passing-matrix $\hat{A}$ is now directly passed to $f_{\theta}^t$ as input. \cite{10.1145/3394486.3403217}
+since the message passing matrix $\hat{A}$ is now directly passed to $f_{\theta}^t$ as input. \cite{10.1145/3394486.3403217}
 \begin{gather}
 \label{eq:5}
     \hat{m}^t (y^{\ast}, y) := \min_{\hat{A}} f_{\theta}^t (X, \hat{A})_y^{\ast}
@@ -646,7 +646,7 @@ of another approach from the literature.\newline
 
 \textbf{Jointly Constrained Bilinear Program}\newline
 
-Combining the relaxed GNN with the constraints on the message-passing-matrix, the objective function in \ref{eq:5} 
+Combining the relaxed GNN with the constraints on the message passing matrix, the objective function in \ref{eq:5} 
 can be reformulated as a bilinear objective function. \cite{10.1145/3394486.3403217}
 Afterwards, they add another artificial constraint that does not change the solution, but enables them to use 
 a principle proposed in the literature, which allows them to solve the jointly constrained bilinear optimization problem.
