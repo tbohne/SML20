@@ -3,5 +3,8 @@
 *.blg
 *.bbl
 *.out
-tex_files/main.pdf
+*.toc
+*.snm
+*.pdf
+*.nav
 tex_files/main.tex.bak
