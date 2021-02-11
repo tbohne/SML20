@@ -173,12 +173,172 @@
 \end{frame}
 
 %------------------------------------------------
-\section{TODO}
+\section{Graph Neural Networks (GNNs)}
 %------------------------------------------------
 
+\begin{frame}
+  \frametitle{Convolutional Neural Networks (CNNs)}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/CNN.png}
+    \caption*{Convolutional Neural Network \cite{}}
+  \end{figure}
+  \begin{itemize}
+    \item Feature-Learning: Sequenz aus convolutional und pooling Layers
+    \item Classification: Sequenz von dichten Layern
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Convolutional Neural Networks (CNNs)}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/imagenet.png}
+    \caption*{ \cite{}}
+  \end{figure}
+  Hier sind CNNs sehr erfolgreich!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Convolutional Neural Networks (CNNs)}
+  \textbf{Problem}: CNNs funktionieren nur mit Euklidischen Datenstrukturen (Bilder, Text), nicht mit Graphen!
+  
+    \begin{figure}[H]
+      \centering
+      \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/mario.png}
+        \caption*{Pixelmatrix \cite{}}
+      \end{subfigure}
+      \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/social_graph.png}
+        \caption*{Social Graph \cite{}}
+      \end{subfigure}
+    \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Graph Neural Networks (GNNs)}
+  Ermöglichen Machine Learning auf Graphen, z.B.:
+  \begin{itemize}
+    \item Modellierung physikalischer Systeme
+    \item Lernen molekularer Fingerabdrücke
+    \item Kontrollierung von Verkehrsnetzen
+    \item Freunde in sozialen Netzwerken empfehlen
+  \end{itemize}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{img/social_graph.png}
+    \caption*{Facebook Friend Network \cite{}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Graph Neural Networks (GNNs)}
+  Typische Aufgaben für GNNs:
+  \begin{itemize}
+    \item semi-supervised node classification
+    \item link prediction
+    \item clustering
+  \end{itemize}
+
+\end{frame}
+
 %------------------------------------------------
-\subsection{TODO}
+\section{Robustheit}
 %------------------------------------------------
+
+\begin{frame}
+  \frametitle{Robustheit von Machine Learning Modellen}
+
+  Machine Learning Modelle sind i.A. anfällig für \textquote{Adversarial Attacks}!
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/adversarial.png}
+    \caption*{Convolutional Neural Network \cite{}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Robustheit von GNNs}
+  Dies gilt auch für GNNs, wobei sich zwei Arten von Angriffen unterscheiden lassen:
+
+  \begin{itemize}
+    \item Manipulation der Knoten-Attribute
+    \item Manipulation der Graph-Struktur
+  \end{itemize}
+
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/adversarial_GNN.png}
+    \caption*{ \cite{}}
+  \end{figure}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Robustheit von GNNs}
+  3 Phasen in der Literatur:
+  \begin{enumerate}
+    \item GNNs anfällig für \textquote{Adversarial Attacks}
+    \item Verteidigungsmechanismen für bestimmte Szenarien
+    \item Beweisbare Garantien für die Robustneit bestimmter Modelle
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Robustheit von GNNs}
+  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Knoten-Attribute:}\newline
+  Wie lässt sich sicherstellen, dass kleine Änderungen am Input keine dramatischen Auswirkungen auf den Output haben?
+\end{frame}
+
+\begin{frame}
+  \frametitle{Zertifizierung der Robustheit bereits trainierter GNNs}
+
+  geg.: Graph $G = (A, X)$, Zielknoten $t$ und Parameter $\theta$\newline
+  $A$: Adjazentmatrix, $X$: Knoten-Features\newline
+
+  \textbf{Ziel}: Zertifikat für Knoten $t$ bedeutet, dass die Vorhersage für $t$ sich nach zulässigen Manipulationen nicht ändert.\newline
+  $\rightarrow$ definiertes Angriffsmodell\newline
+
+  \textquote{\textbf{Worst-Case-Margin}} $m^t$ für Knoten $t$ zwischen den Klassen $y$ und $y^{\ast}$ basierend auf einem definierten Angriffsmodell:
+
+  \begin{gather} 
+        m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \nonumber \\
+        s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X}) \nonumber
+    \end{gather}
+\end{frame}
+
+\begin{frame}
+  \frametitle{High-Level Idee}
+
+  \begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{1\textwidth}
+      \centering
+      \includegraphics[width=0.75\textwidth]{img/before_pert.png}
+      \caption*{\cite{}}
+    \end{subfigure}
+    \begin{subfigure}[b]{1\textwidth}
+      \centering
+      \includegraphics[width=0.75\textwidth]{img/after_pert.png}
+      \caption*{\cite{}}
+    \end{subfigure}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Lösung des Optimierungsproblems}
+
+  \begin{itemize}
+    \item Diskrete Domäne + Nicht-konvexe Aktivierungsfunktion
+    \item Lösung: Mehrere Relaxationen + Berechnung unterer Schranken für das Minimum
+  \end{itemize}
+
+\end{frame}
 
 %------------------------------------------------
 \subsection{TODO}
