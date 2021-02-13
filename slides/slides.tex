@@ -78,7 +78,7 @@
 % \definecolor{tert}{RGB}{109, 155, 168}
 % \definecolor{quat}{RGB}{9, 59, 68}
 
-\definecolor{pale}{RGB}{232, 236, 237}
+\definecolor{pale}{RGB}{255, 255, 255}
 % \definecolor{prim}{RGB}{153, 194, 173}
 % good: \definecolor{prim}{RGB}{27, 33, 42}
 \definecolor{prim}{RGB}{32, 43, 50}
@@ -290,6 +290,26 @@
 \end{frame}
 
 \begin{frame}
+  \frametitle{Semi-Supervised Node Classification}
+
+  Graph $\boldsymbol{G} = (\boldsymbol{A}, \boldsymbol{X})$ $\quad$ Zielknoten $\boldsymbol{t}$ $\quad$ trainierbare Parameter $\boldsymbol{\theta}$\newline
+  $\boldsymbol{A}$: Adjazenzmatrix, $\boldsymbol{X}$: Knoten-Features\newline
+
+  $V$: Knotenmenge
+
+  $V_L \subseteq V$: Teilmenge der gelabelten Knoten mit Labels $C = \{1, 2, ..., K\}$
+
+  $\theta$ kann gelernt werden, indem $V_L$ genutzt werden und die Cross-Entropy minimiert wird.
+
+  Die \textquote{Message-Passing-Matrix} definiert, wie Aktivierungen durch das GNN propagiert werden und kann durch eine
+  definierte Transformation der Adjazenzmatrix erhalten werden: $\mathcal{T}(A)$
+
+  Ziel: Den Knoten Label zuweisen
+
+\end{frame}
+
+
+\begin{frame}
   \frametitle{Robustheit von GNNs}
   \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Knoten-Attribute:}\newline
   Wie lässt sich sicherstellen, dass kleine Änderungen am Input keine dramatischen Auswirkungen auf den Output haben?
@@ -298,13 +318,14 @@
 \begin{frame}
   \frametitle{Zertifizierung der Robustheit bereits trainierter GNNs}
 
-  geg.: Graph $G = (A, X)$, Zielknoten $t$ und Parameter $\theta$\newline
-  $A$: Adjazentmatrix, $X$: Knoten-Features\newline
+  Graph $\boldsymbol{G} = (\boldsymbol{A}, \boldsymbol{X})$ $\quad$ Zielknoten $\boldsymbol{t}$ $\quad$ Parameter $\boldsymbol{\theta}$\newline
+  $\boldsymbol{A}$: Adjazenzmatrix, $\boldsymbol{X}$: Knoten-Features\newline
 
-  \textbf{Ziel}: Zertifikat für Knoten $t$ bedeutet, dass die Vorhersage für $t$ sich nach zulässigen Manipulationen nicht ändert.\newline
+  \textbf{Ziel}: Zertifikat für Knoten $\boldsymbol{t}$ bedeutet, dass die Vorhersage für $\boldsymbol{t}$ sich nach zulässigen Manipulationen nicht ändert.\newline
   $\rightarrow$ definiertes Angriffsmodell\newline
 
-  \textquote{\textbf{Worst-Case-Margin}} $m^t$ für Knoten $t$ zwischen den Klassen $y$ und $y^{\ast}$ basierend auf einem definierten Angriffsmodell:
+  \textquote{\textbf{Worst-Case-Margin}} $\boldsymbol{m^t}$ für Knoten $\boldsymbol{t}$ zwischen den Klassen $\boldsymbol{y}$ und $\boldsymbol{y^{\ast}}$ 
+  basierend auf Angriffsmodell:
 
   \begin{gather} 
         m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \nonumber \\
@@ -320,24 +341,80 @@
     \begin{subfigure}[b]{1\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{img/before_pert.png}
-      \caption*{\cite{}}
+      \caption*{Vor der Manipulation \cite{}}
     \end{subfigure}
     \begin{subfigure}[b]{1\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{img/after_pert.png}
-      \caption*{\cite{}}
+      \caption*{Nach der Manipulation \cite{}}
     \end{subfigure}
   \end{figure}
 \end{frame}
 
 \begin{frame}
   \frametitle{Lösung des Optimierungsproblems}
+  Optimierungsproblem \textbf{nicht effizient lösbar}: Diskrete Domäne + Nicht-konvexe Aktivierungsfunktion\newline
 
+  \textbf{Lösung}: Mehrere Relaxationen (des Modells und der Daten) um Schranken für den worst-case Fall für das definierte Angriffsmodell zu berechnen
+\end{frame}
+
+\begin{frame}
+  \frametitle{Training mit dem Ziel der Robustheit}
+
+  \textbf{Ziel}: Erreiche beweisbare Robustheit durch Training\newline
+  $\rightarrow$ Optimiere bezüglich Robustheit
+
+  \textbf{Robust Hinge Loss}
   \begin{itemize}
-    \item Diskrete Domäne + Nicht-konvexe Aktivierungsfunktion
-    \item Lösung: Mehrere Relaxationen + Berechnung unterer Schranken für das Minimum
-  \end{itemize}
+    \item nutzt \textquote{unlabeled nodes} um \textquote{over-confidence} zu vermeiden
+    \item Zielfunktion für Training verwendet:
+    \begin{itemize}
+      \item relaxierte Version des GNN um Robustheit sicherzustellen
+      \item exakte Version für die \textquote{Classification}
+    \end{itemize}
+  \end{itemize}  
 
+  Der Ansatz liefert die Möglichkeit, mit Standardsoftware robuste GNNs zu trainieren!
+
+  Die Qualität der \textquote{Classification}-Ergebnisse ist davon nicht betroffen!
+\end{frame}
+
+\begin{frame}
+  \frametitle{Training mit dem Ziel der Robustheit}
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/robust_training.png}
+    \caption*{ \cite{}}
+  \end{figure}
+  \begin{itemize}
+    \item Nur wenige Knoten nicht zertifizierbar
+    \item Traditionell trainierte GNNs nur robust bei sehr wenigen Manipulationen
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Robustheit von GNNs}
+  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Graph-Struktur:}\newline
+  Besonders problematisch, weil das \textquote{Message Passing Scheme} verändert wird
+
+  Das Problem wird als \textquote{Jointly constrained bilinear Program} formuliert und es wird ein Branch-and-Bound-Ansatz vorgestellt, der
+  untere Schranken für den optimalen Zielfunktionswert liefert.
+\end{frame}
+
+\begin{frame}
+  \frametitle{Angriffsmodell}
+  Angreifer können neue Kanten in den Graphen einfügen, z.B. Likes in Social Media!
+  \begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{img/high_level_graph_pert.png}
+    \caption*{ \cite{}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Idee}
+
+  Ein Zertifikat bedeutet, dass sich die Prediction für einen Knoten nicht ändert, wenn ein Angreifer Kanten hinzufügt.
 \end{frame}
 
 %------------------------------------------------
