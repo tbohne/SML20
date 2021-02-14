@@ -295,16 +295,16 @@
   Graph $\boldsymbol{G} = (\boldsymbol{A}, \boldsymbol{X})$ $\quad$ Zielknoten $\boldsymbol{t}$ $\quad$ trainierbare Parameter $\boldsymbol{\theta}$\newline
   $\boldsymbol{A}$: Adjazenzmatrix, $\boldsymbol{X}$: Knoten-Features\newline
 
-  $V$: Knotenmenge
+  $\boldsymbol{V}$: Knotenmenge\newline
+  $\boldsymbol{V_L} \subseteq \boldsymbol{V}$: Teilmenge der gelabelten Knoten\newline
 
-  $V_L \subseteq V$: Teilmenge der gelabelten Knoten mit Labels $C = \{1, 2, ..., K\}$
+  $\boldsymbol{\mathcal{T}(A)}$: \textquote{Message-Passing-Matrix} - wie Aktivierungen durch das GNN propagiert werden
+  $\rightarrow$ Transformation der Adjazenzmatrix\newline
 
-  $\theta$ kann gelernt werden, indem $V_L$ genutzt werden und die Cross-Entropy minimiert wird.
+  \textbf{Cross-Entropy-Loss Minimierung}:\newline
+  Lerne $\boldsymbol{\theta}$ unter Verwendung der $\boldsymbol{V_L}$\newline
 
-  Die \textquote{Message-Passing-Matrix} definiert, wie Aktivierungen durch das GNN propagiert werden und kann durch eine
-  definierte Transformation der Adjazenzmatrix erhalten werden: $\mathcal{T}(A)$
-
-  Ziel: Den Knoten Label zuweisen
+  \textbf{Ziel}: Den Knoten Labels zuweisen
 
 \end{frame}
 
@@ -318,9 +318,6 @@
 \begin{frame}
   \frametitle{Zertifizierung der Robustheit bereits trainierter GNNs}
 
-  Graph $\boldsymbol{G} = (\boldsymbol{A}, \boldsymbol{X})$ $\quad$ Zielknoten $\boldsymbol{t}$ $\quad$ Parameter $\boldsymbol{\theta}$\newline
-  $\boldsymbol{A}$: Adjazenzmatrix, $\boldsymbol{X}$: Knoten-Features\newline
-
   \textbf{Ziel}: Zertifikat für Knoten $\boldsymbol{t}$ bedeutet, dass die Vorhersage für $\boldsymbol{t}$ sich nach zulässigen Manipulationen nicht ändert.\newline
   $\rightarrow$ definiertes Angriffsmodell\newline
 
@@ -328,8 +325,8 @@
   basierend auf Angriffsmodell:
 
   \begin{gather} 
-        m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, \dot{A})_{y^*} - f_{\theta}^t(\tilde{X}, \dot{A})_y \nonumber \\
-        s.t. \quad \tilde{X} \in X_{q, Q} (\dot{X}) \nonumber
+        m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, A)_{y^*} - f_{\theta}^t(\tilde{X}, A)_y \nonumber \\
+        s.t. \quad \tilde{X} \in zul. Manipulationen \nonumber
     \end{gather}
 \end{frame}
 
@@ -343,6 +340,7 @@
       \includegraphics[width=0.75\textwidth]{img/before_pert.png}
       \caption*{Vor der Manipulation \cite{}}
     \end{subfigure}
+    \par\bigskip
     \begin{subfigure}[b]{1\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{img/after_pert.png}
@@ -413,9 +411,95 @@
 
 \begin{frame}
   \frametitle{Idee}
-
   Ein Zertifikat bedeutet, dass sich die Prediction für einen Knoten nicht ändert, wenn ein Angreifer Kanten hinzufügt.
 \end{frame}
+
+\begin{frame}
+  \frametitle{Optimierungsproblem}
+
+  \begin{itemize}
+    \item bereits trainiertes GNN mit Parametern $\theta$
+    \item Input-Graph repräsentiert durch Matrix $A$ möglicherweise manipuliert
+    \item $A$ ist von der \textquote{sauberen} Variante $A^{\ast}$ durch eine Menge zulässiger Manipulationen der Graph-Struktur erreichbar
+  \end{itemize}
+
+  \begin{gather} 
+    m^t (y^*, y) := \min_{\tilde{A}} f_{\theta}^t(X, \mathcal{T}(\tilde{A})_{y^*} - f_{\theta}^t(X, \mathcal{T}(\tilde{A}))_y \nonumber \\
+    s.t. \quad \tilde{A} \in zul. Manipulationen \nonumber
+\end{gather}
+  GNN robust bzgl. des Angriffsmodells für den Knoten $t$, wenn $m^t (y^*, y) > 0 \forall y \neq y^{\ast}$
+\end{frame}
+
+\begin{frame}
+  \frametitle{Optimierungsproblem}
+  \textbf{Problem}: Erneut nicht effizient lösbar!\newline
+  $\rightarrow$ berechne erneut untere Schranken statt optimaler Zielfunktionswerte!\newline
+
+  $3$ Schritte:
+  \begin{enumerate}
+    \item Binäre Adjazenzmatrix durch kontinuierliche Message-Passing-Matrix ersetzen
+    \item Relaxation der Aktivierungsfuntion des GNN
+    \item Formulierung als Jointly-Constrained-Bilinear-Program und Lösung durch Branch-and-Bound
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ergebnis}
+  \begin{figure}
+    \centering
+    \includegraphics[width=0.65\textwidth]{img/graph_struct_pert_res.png}
+    \caption*{ \cite{}}
+  \end{figure}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Zusammenfassung}
+
+  \begin{itemize}
+    \item GNNs sind sehr erfolgreich in einer Vielzahl von praktischen Anwendungen einsetzbar
+    \item GNNs sind nicht robust - anfällig für Manipulationen
+    \begin{itemize}
+      \item der Knoten-Attribute
+      \item der Graph-Struktur
+    \end{itemize}
+    \item Um GNNs in (sicherheitskritischen) praktischen Anwendungen nutzen zu können, ist ein bestimmtes Maß an Robustheit nötig
+    \item Beweisbare Garantien für die (Nicht-)Robustheit von GNNs sind möglich und nötig - erste Ansätze gesehen
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Ausblick}
+
+  \begin{itemize}
+    \item Viel Spielraum für Generalisierungen
+    \item Trainingmethoden, die Robustheit explizit als Optimierungsziel enthalten
+    \item Robustheitsgarantien für Attribut- und Struktur-Manipulationen
+    \item Grundsätzliches Verständnis - was macht Manipulationen schädlich?
+    \item Allgemeinere Angriffsmodelle
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Was macht Manipulationen schädlich?}
+
+  Mehrere Ideen / Ansätze
+
+  \begin{itemize}
+    \item Graphen, die reale Probleme repräsentieren besitzen bestimmte strukturelle Gemeinsamkeiten, die manipulierte Graphen verletzen
+    \item Statistisch signifikante strukturelle Attribute in Manipulationen entdecken
+    \item Wahrscheinlichkeit dafür, dass bestimmte gegebene Manipulationen tatsächlich schädlich sind
+  \end{itemize}
+
+  Was hätten wir davon?
+
+  \begin{itemize}
+    \item Angriffsmodelle verallgemeinern
+    \item Manipulationen anhand ihrer Eigenschaften erkennen und damit verhindern $\rightarrow$ Robustheit
+  \end{itemize}
+
+\end{frame}
+
+
 
 %------------------------------------------------
 \subsection{TODO}
