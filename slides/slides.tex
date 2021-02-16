@@ -214,7 +214,6 @@
         \caption*{Convolution \cite{Convolution}}
       \end{subfigure}
     \end{figure}
-
 \end{frame}
 
 %------------------------------------------------
@@ -250,7 +249,7 @@
 \begin{frame}
   \frametitle{Graph Neural Networks (GNNs)}
   Graph $\boldsymbol{G = (X, A)}$\newline
-  $\boldsymbol{X}:$ Knoten - Person in sozialem Netzwerk\newline
+  $\boldsymbol{X}:$ Knoten - Personen in sozialem Netzwerk\newline
   $\boldsymbol{A}:$ Kanten - Beziehungen zwischen Personen
   \begin{figure}
     \centering
@@ -273,6 +272,20 @@
   \textbf{Loss Term:} $\sum_{i=1}^p (t_i - o_i)$
 
   \textbf{Lernmethode}: Gradient Descent
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Graph Convolution}
+
+  Standard Convolution-Operation kann nicht für Graphen definiert werden!
+
+  Lösung: Embeddings
+
+  Approximierte Graph-Convolution (Kipf et al.):
+
+  -> GCN: $H^{(l+1)} = \sigma [\hat{D}^{- \frac{1}{2}} \hat{A} \hat{D}^{- \frac{1}{2}} H^{(l)} W^{(l)}]$
 
 \end{frame}
 
