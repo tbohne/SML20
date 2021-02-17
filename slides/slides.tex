@@ -380,7 +380,7 @@
   \textbf{Cross-Entropy-Loss Minimierung}:\newline
   Lerne $\boldsymbol{\theta}$ unter Verwendung der $\boldsymbol{V_L}$\newline
 
-  \textbf{Ziel}: Den Knoten Labels zuweisen
+  \textbf{Ziel}: Labels der verbleibenden Knoten ohne Label vorhersagen
 
 \end{frame}
 
@@ -406,33 +406,43 @@
   \begin{gather} 
         m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, A)_{y^*} - f_{\theta}^t(\tilde{X}, A)_y \nonumber \\
         s.t. \quad \tilde{X} \in zul. Manipulationen \nonumber
-    \end{gather}
+  \end{gather}
+
+  $m^t > 0 \thinspace \forall \thinspace y \neq y^{\ast} \rightarrow $ Modell robust bzgl. Knoten $t$
+
 \end{frame}
 
 \begin{frame}
   \frametitle{High-Level Idee}
-
   \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{1\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{img/before_pert.png}
-      \caption*{Vor der Manipulation \cite{}}
+      \caption*{Vor der Manipulation \cite{Zuegner_2019}}
     \end{subfigure}
     \par\bigskip
     \begin{subfigure}[b]{1\textwidth}
       \centering
       \includegraphics[width=0.75\textwidth]{img/after_pert.png}
-      \caption*{Nach der Manipulation \cite{}}
+      \caption*{Nach der Manipulation \cite{Zuegner_2019}}
     \end{subfigure}
   \end{figure}
 \end{frame}
 
 \begin{frame}
   \frametitle{Lösung des Optimierungsproblems}
-  Optimierungsproblem \textbf{nicht effizient lösbar}: Diskrete Domäne + Nicht-konvexe Aktivierungsfunktion\newline
+  Optimierungsproblem \textbf{nicht effizient lösbar}:\newline 
+  Diskrete Daten + nicht-konvexe Aktivierungsfunktion\newline
 
-  \textbf{Lösung}: Mehrere Relaxationen (des Modells und der Daten) um Schranken für den worst-case Fall für das definierte Angriffsmodell zu berechnen
+  \textbf{Lösung}:
+  \begin{itemize}
+    \item Konvexe ReLU Relaxation: Transformiert das GNN in ein effizient lösbares LP
+    \item Kontinuierliche Relaxation der ganzzahligen Knotenattribute
+  \end{itemize}
+
+  $\rightarrow$ Relaxationen liefern Schranken für den worst-case Fall und sind effizient berechenbar\newline
+  $\rightarrow$ Es kann zu \textquote{false negatives} kommen, jedoch nicht zu \textquote{false positives}
 \end{frame}
 
 \begin{frame}
@@ -442,18 +452,18 @@
   $\rightarrow$ Optimiere bezüglich Robustheit
 
   \textbf{Robust Hinge Loss}
+  \[
+  \min_{\theta} \sum_{v \in V_L} \mathcal{L}(p_v, y_v) + \sum_{v \in V_L} \mathcal{\hat{L}}_{M_L} (-m^{\ast}_v, y_v)
+  + \sum_{v \in V \backslash V_L} \mathcal{\hat{L}}_{M_U} (-m^{\ast}_v, \hat{y}_v)
+  \]
+
   \begin{itemize}
-    \item nutzt \textquote{unlabeled nodes} um \textquote{over-confidence} zu vermeiden
-    \item Zielfunktion für Training verwendet:
-    \begin{itemize}
-      \item relaxierte Version des GNN um Robustheit sicherzustellen
-      \item exakte Version für die \textquote{Classification}
-    \end{itemize}
+    \item Relaxierte Version des GNN um Robustheit sicherzustellen
+    \item Exakte Version für die \textquote{Classification}
   \end{itemize}  
 
-  Der Ansatz liefert die Möglichkeit, mit Standardsoftware robuste GNNs zu trainieren!
-
-  Die Qualität der \textquote{Classification}-Ergebnisse ist davon nicht betroffen!
+  $\rightarrow$ Mit Standardsoftware robuste GNNs zu trainieren\newline
+  $\rightarrow$ Qualität der \textquote{Classification}-Ergebnisse nicht schlechter
 \end{frame}
 
 \begin{frame}
@@ -461,11 +471,11 @@
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{img/robust_training.png}
-    \caption*{ \cite{}}
+    \caption*{\textquote{Robustheits-Training} vs. Standard-Training \cite{Zuegner_2019}}
   \end{figure}
   \begin{itemize}
     \item Nur wenige Knoten nicht zertifizierbar
-    \item Traditionell trainierte GNNs nur robust bei sehr wenigen Manipulationen
+    \item Standard-Training führt zu GNNs, die nur robust bzgl. sehr weniger Manipulationen sind
   \end{itemize}
 \end{frame}
 
