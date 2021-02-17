@@ -201,14 +201,14 @@
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{img/imagenet.png}
-    \caption*{ \cite{Giro-o-Nieto}}
+    \caption*{ImageNet Challenge \cite{Giro-o-Nieto}}
   \end{figure}
   Hier sind CNNs sehr erfolgreich!
 \end{frame}
 
 \begin{frame}
   \frametitle{Convolutional Neural Networks (CNNs)}
-  \textbf{Problem}: CNNs funktionieren nur mit Euklidischen Datenstrukturen (Bilder, Text), nicht mit Graphen!
+  \textbf{Problem}: CNNs funktionieren lediglich mit Euklidischen Datenstrukturen (Bilder, Text), nicht mit Graphen!
   
     \begin{figure}[H]
       \centering
@@ -227,15 +227,12 @@
 
 \begin{frame}
   \frametitle{Graph Embedding}
-
-  Übersetze Graph-Struktur in niedrigdimensionalen Vektor
-
+  Übersetze Graph-Struktur in niedrigdimensionalen Vektor:
   \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{img/graph_embedding.png}
     \caption*{ \cite{}}
   \end{figure}
-
 \end{frame}
 
 %------------------------------------------------
@@ -248,13 +245,13 @@
   \begin{itemize}
     \item Modellierung physikalischer Systeme
     \item Lernen molekularer Fingerabdrücke
-    \item Kontrollierung von Verkehrsnetzen
+    \item Kontrolle von Verkehrsnetzen
     \item Freunde in sozialen Netzwerken empfehlen
   \end{itemize}
   \begin{figure}
     \centering
     \includegraphics[width=0.4\textwidth]{img/social_graph.png}
-    \caption*{Soziales Netzwerk \cite{Facebook}}
+    \caption*{Freunde Netzwerk einer Person \cite{Facebook}}
   \end{figure}
 \end{frame}
 
@@ -276,7 +273,7 @@
   \begin{figure}
     \centering
     \includegraphics[width=0.575\textwidth]{img/graph.png}
-    \caption*{ \cite{}}
+    \caption*{Graph basierend auf Scarselli et al. \cite{Liu_2020}}
   \end{figure}
   \textbf{Ziel}: Lerne node embedding $\boldsymbol{h_v}$ für jeden Knoten $\boldsymbol{v} \in \boldsymbol{X}$ um 
   einem Output $\boldsymbol{o_v}$ zu generieren, z.B. das vorhergesagte Label
@@ -287,17 +284,20 @@
 
   $2$ wichtige Funktionen ($x$: Input Feature, $h$: Hidden State):
   \begin{enumerate}
-    \item \textbf{node embedding:} $\quad\quad h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
-    \item \textbf{output embedding:} $\quad\thinspace o_v = g(h_v, x_v)$
+    \item \textbf{Node Embedding:} $\quad\quad h_v = f(x_v, x_{co[v]}, h_{ne[v]}, x_{ne[v]})$
+    \item \textbf{Output Embedding:} $\quad\thinspace o_v = g(h_v, x_v)$
   \end{enumerate}
 
-  Iteratives State-Update: $H^{t+1} = F(H^t, X)$
-
-  Lerne Parameter von $f$ und $g$:
+  \underline{Lerne Parameter von $f$ und $g$:}
 
   \textbf{Loss Term:} $\sum_{i=1}^p (t_i - o_i)$
 
   \textbf{Lernmethode}: Gradient Descent
+  \begin{itemize}
+    \item Iteratives State-Update: $H^{t+1} = F(H^t, X)$
+    \item Gradient der Gewichte $W$ wird basierend auf Loss berechnet
+    \item Gewichte $W$ werden basierend auf dem Gradienten adaptiert
+  \end{itemize}
 \end{frame}
 
 \begin{frame}
@@ -308,7 +308,7 @@
   \begin{figure}
     \centering
     \includegraphics[width=0.75\textwidth]{img/GCN.png}
-    \caption*{ \cite{}}
+    \caption*{Multi-layer GCN \cite{Kipf_2016}}
   \end{figure}
   Anschließend Node-Classification basierend auf den Output-Features
 \end{frame}
@@ -316,14 +316,13 @@
 \begin{frame}
   \frametitle{Graph Convolutional Networks (GCNs)}
 
-  Standard Convolution kann nicht für Graphen definiert werden!
+  Standard Convolution kann nicht für Graphen definiert werden!\newline
+  \textbf{Lösung}: Embeddings (spectral / spatial)\newline
 
-  Lösung: Embeddings (spectral / spatial)
+  Approximierte \textquote{Graph-Convolution} (Kipf et al.):\newline
+  $\boldsymbol{H^{(l+1)}} = \sigma [\boldsymbol{\hat{D}}^{- \frac{1}{2}} \boldsymbol{\hat{A}} \boldsymbol{\hat{D}}^{- \frac{1}{2}} \boldsymbol{H^{(l)}} \boldsymbol{W^{(l)}}]$\newline
 
-  Approximierte \textquote{Graph-Convolution} (Kipf et al.):
-
-  $\boldsymbol{H^{(l+1)}} = \sigma [\boldsymbol{\hat{D}}^{- \frac{1}{2}} \boldsymbol{\hat{A}} \boldsymbol{\hat{D}}^{- \frac{1}{2}} \boldsymbol{H^{(l)}} \boldsymbol{W^{(l)}}]$
-
+  Sehr erfolgreich in praktischen Anwendungen eingesetzt!
 \end{frame}
 
 %------------------------------------------------
@@ -333,30 +332,27 @@
 \begin{frame}
   \frametitle{Robustheit von Machine Learning Modellen}
 
-  Machine Learning Modelle sind i.A. anfällig für \textquote{Adversarial Attacks}!
+  \textbf{Machine Learning Modelle sind i.A. anfällig für \textquote{Adversarial Attacks}}
 
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{img/adversarial.png}
-    \caption*{Convolutional Neural Network \cite{}}
+    \caption*{Adaptiert aus Goodfellow et al. \cite{Goodfellow_2015}}
   \end{figure}
 \end{frame}
 
 \begin{frame}
   \frametitle{Robustheit von GNNs}
   Dies gilt auch für GNNs, wobei sich zwei Arten von Angriffen unterscheiden lassen:
-
   \begin{itemize}
-    \item Manipulation der Knoten-Attribute
-    \item Manipulation der Graph-Struktur
+    \item \textbf{Manipulation der Knoten-Attribute}
+    \item \textbf{Manipulation der Graph-Struktur}
   \end{itemize}
-
   \begin{figure}
     \centering
     \includegraphics[width=0.7\textwidth]{img/adversarial_GNN.png}
-    \caption*{ \cite{}}
+    \caption*{ \cite{Zuegner_2018}}
   \end{figure}
-
 \end{frame}
 
 \begin{frame}
@@ -395,18 +391,18 @@
 \begin{frame}
   \frametitle{Robustheit von GNNs}
   \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Knoten-Attribute:}\newline
-  Wie lässt sich sicherstellen, dass kleine Änderungen am Input keine dramatischen Auswirkungen auf den Output haben?
+  Wie lässt sich sicherstellen, dass kleine Änderungen an den Knoten-Features keine dramatischen Auswirkungen auf den Output haben?
 \end{frame}
 
 \begin{frame}
   \frametitle{Zertifizierung der Robustheit bereits trainierter GNNs}
 
-  \textbf{Ziel}: Zertifikat für Knoten $\boldsymbol{t}$ bedeutet, dass die Vorhersage für $\boldsymbol{t}$ sich nach zulässigen Manipulationen nicht ändert.\newline
-  $\rightarrow$ definiertes Angriffsmodell\newline
+  \textbf{Ziel}: Zertifikat für Knoten $\boldsymbol{t}$ bedeutet, dass die Vorhersage für $\boldsymbol{t}$ sich nach zulässigen Manipulationen nicht ändert\newline
+  $\rightarrow$ Definiertes Angriffsmodell\newline
 
+  \textbf{Idee:}
   \textquote{\textbf{Worst-Case-Margin}} $\boldsymbol{m^t}$ für Knoten $\boldsymbol{t}$ zwischen den Klassen $\boldsymbol{y}$ und $\boldsymbol{y^{\ast}}$ 
-  basierend auf Angriffsmodell:
-
+  bzgl. zulässiger Manipulationen:
   \begin{gather} 
         m^t (y^*, y) := \min_{\tilde{X}} f_{\theta}^t(\tilde{X}, A)_{y^*} - f_{\theta}^t(\tilde{X}, A)_y \nonumber \\
         s.t. \quad \tilde{X} \in zul. Manipulationen \nonumber
