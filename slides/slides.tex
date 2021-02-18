@@ -390,8 +390,9 @@
 
 \begin{frame}
   \frametitle{Robustheit von GNNs}
-  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Knoten-Attribute:}\newline
-  Wie lässt sich sicherstellen, dass kleine Änderungen an den Knoten-Features keine dramatischen Auswirkungen auf den Output haben?
+  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Knoten-Attribute}\newline
+
+  Wie lässt sich sicherstellen, dass kleine Änderungen an den Attributen keine dramatischen Auswirkungen auf den Output haben?
 \end{frame}
 
 \begin{frame}
@@ -485,48 +486,48 @@
 
 \begin{frame}
   \frametitle{Robustheit von GNNs}
-  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Graph-Struktur:}\newline
-  Besonders problematisch, weil das \textquote{Message Passing Scheme} verändert wird
+  \textbf{Zertifizierte Robustheit gegenüber Manipulationen der Graph-Struktur}\newline
 
-  Das Problem wird als \textquote{Jointly constrained bilinear Program} formuliert und es wird ein Branch-and-Bound-Ansatz vorgestellt, der
-  untere Schranken für den optimalen Zielfunktionswert liefert.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Angriffsmodell}
-  Angreifer können neue Kanten in den Graphen einfügen, z.B. Likes in Social Media!
+  Angreifer können neue Kanten in den Graph einfügen, z.B. Likes in Social Media:
   \begin{figure}
     \centering
     \includegraphics[width=\textwidth]{img/high_level_graph_pert.png}
-    \caption*{ \cite{}}
+    \caption*{High-level Idee aus Zügner et al. \cite{10.1145/3394486.3403217}}
   \end{figure}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Idee}
-  Ein Zertifikat bedeutet, dass sich die Prediction für einen Knoten nicht ändert, wenn ein Angreifer Kanten hinzufügt.
+  \frametitle{Robustheit von GNNs}
+
+  \textbf{Einfügen neuer Kanten kann die Vorhersagen des Modells ändern!}
+
+  \textbf{Ziel:} Ein Zertifikat bedeutet, dass sich die Vorhersage für einen Knoten
+  nicht ändert, wenn ein Angreifer Kanten hinzufügt.
+
+  \textbf{Idee:} Prüfe, ob es einen Graph gibt, der durch Entfernen von Kanten erreichbar ist und die Vorhersage ändert.
+
+  \textbf{Angriffsmodell:} Praktisch unmöglich, alle Graphen zu enumerieren $\rightarrow$ Limitiere Anzahl an \textquote{Adversarial Edges}  
 \end{frame}
 
 \begin{frame}
   \frametitle{Optimierungsproblem}
-
   \begin{itemize}
-    \item bereits trainiertes GNN mit Parametern $\theta$
+    \item Bereits trainiertes GNN mit Parametern $\theta$
     \item Input-Graph repräsentiert durch Matrix $A$ möglicherweise manipuliert
     \item $A$ ist von der \textquote{sauberen} Variante $A^{\ast}$ durch eine Menge zulässiger Manipulationen der Graph-Struktur erreichbar
   \end{itemize}
-
-  \begin{gather} 
+  \textbf{Worst-Case Manipulation:}
+  \begin{gather}
     m^t (y^*, y) := \min_{\tilde{A}} f_{\theta}^t(X, \mathcal{T}(\tilde{A})_{y^*} - f_{\theta}^t(X, \mathcal{T}(\tilde{A}))_y \nonumber \\
     s.t. \quad \tilde{A} \in zul. Manipulationen \nonumber
 \end{gather}
-  GNN robust bzgl. des Angriffsmodells für den Knoten $t$, wenn $m^t (y^*, y) > 0 \forall y \neq y^{\ast}$
+  GNN robust bzgl. des Angriffsmodells für den Knoten $t$, wenn $m^t (y^*, y) > 0 \thinspace \forall \thinspace y \neq y^{\ast}$
 \end{frame}
 
 \begin{frame}
   \frametitle{Optimierungsproblem}
   \textbf{Problem}: Erneut nicht effizient lösbar!\newline
-  $\rightarrow$ berechne erneut untere Schranken statt optimaler Zielfunktionswerte!\newline
+  $\rightarrow$ Berechne erneut LBs statt optimaler Zielfunktionswerte\newline
 
   $3$ Schritte:
   \begin{enumerate}
@@ -538,10 +539,14 @@
 
 \begin{frame}
   \frametitle{Ergebnis}
+  \begin{itemize}
+    \item Effiziente Zertifizierung der Robustheit gegenüber Manipulationen der Graph-Struktur
+    \item Bereits wenige Manipulationen führen zu einem Label-Wechsel eines beträchtlichen Anteils der Knoten
+  \end{itemize}
   \begin{figure}
     \centering
-    \includegraphics[width=0.65\textwidth]{img/graph_struct_pert_res.png}
-    \caption*{ \cite{}}
+    \includegraphics[width=0.5\textwidth]{img/graph_struct_pert_res.png}
+    \caption*{B\&B vs. Lineare Relaxation \cite{10.1145/3394486.3403217}}
   \end{figure}
 \end{frame}
 
@@ -568,31 +573,26 @@
   \frametitle{Ausblick}
 
   \begin{itemize}
-    \item Viel Spielraum für Generalisierungen
+    \item Spielraum für Generalisierungen (z.B. Angriffsmodelle)
     \item Trainingmethoden, die Robustheit explizit als Optimierungsziel enthalten
-    \item Robustheitsgarantien für Attribut- und Struktur-Manipulationen
+    \item Robustheitsgarantien für Attribut- \textbf{und} Struktur-Manipulationen
     \item Grundsätzliches Verständnis - was macht Manipulationen schädlich?
-    \item Allgemeinere Angriffsmodelle
   \end{itemize}
 \end{frame}
 
 \begin{frame}
   \frametitle{Was macht Manipulationen schädlich?}
 
-  Mehrere Ideen / Ansätze
-
+  \textbf{Ideen / Ansätze}
   \begin{itemize}
     \item Graphen, die reale Probleme repräsentieren besitzen bestimmte strukturelle Gemeinsamkeiten, die manipulierte Graphen verletzen
     \item Statistisch signifikante strukturelle Attribute in Manipulationen entdecken
     \item Wahrscheinlichkeit dafür, dass bestimmte gegebene Manipulationen tatsächlich schädlich sind
   \end{itemize}
 
-  Was hätten wir davon?
-
-  \begin{itemize}
-    \item Angriffsmodelle verallgemeinern
-    \item Manipulationen anhand ihrer Eigenschaften erkennen und damit verhindern $\rightarrow$ Robustheit
-  \end{itemize}
+  $\rightarrow$ \textbf{Allgemeinere Angriffsmodelle}\newline
+  $\rightarrow$ \textbf{Manipulationen erkennen + verhindern}\newline
+  $\rightarrow$ \textbf{Robustheit}\newline
 
 \end{frame}
 
