@@ -518,7 +518,7 @@
   \end{itemize}
   \textbf{Worst-Case Manipulation:}
   \begin{gather}
-    m^t (y^*, y) := \min_{\tilde{A}} f_{\theta}^t(X, \mathcal{T}(\tilde{A})_{y^*} - f_{\theta}^t(X, \mathcal{T}(\tilde{A}))_y \nonumber \\
+    m^t (y^*, y) := \min_{\tilde{A}} f_{\theta}^t(X, \tilde{A})_{y^*} - f_{\theta}^t(X, \tilde{A})_y \nonumber \\
     s.t. \quad \tilde{A} \in zul. Manipulationen \nonumber
 \end{gather}
   GNN robust bzgl. des Angriffsmodells für den Knoten $t$, wenn $m^t (y^*, y) > 0 \thinspace \forall \thinspace y \neq y^{\ast}$
@@ -533,7 +533,11 @@
   \begin{enumerate}
     \item Binäre Adjazenzmatrix durch kontinuierliche Message-Passing-Matrix ersetzen
     \item Relaxation der Aktivierungsfuntion des GNN
-    \item Formulierung als Jointly-Constrained-Bilinear-Program und Lösung durch Branch-and-Bound
+    \item Formulierung als \textquote{Jointly Constrained Bilinear Program} und Lösung durch Branch-and-Bound
+    \begin{itemize}
+      \item $LB > 0 \rightarrow$ robust
+      \item $UB < 0 \rightarrow$ nicht entscheidbar
+    \end{itemize}
   \end{enumerate}
 \end{frame}
 
