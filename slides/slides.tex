@@ -525,22 +525,22 @@
   $\boldsymbol{m^t > 0 \thinspace \forall \thinspace y \neq y^{\ast}} \rightarrow $ Modell robust bzgl. Knoten $\boldsymbol{t}$
 \end{frame}
 
-\begin{frame}
-  \frametitle{Optimierungsproblem}
-  \textbf{Erneut nicht effizient lösbar!}\newline
-  $\rightarrow$ Berechne LBs statt optimaler Zielfunktionswerte\newline
+% \begin{frame}
+%   \frametitle{Optimierungsproblem}
+%   \textbf{Erneut nicht effizient lösbar!}\newline
+%   $\rightarrow$ Berechne LBs statt optimaler Zielfunktionswerte\newline
 
-  \textbf{$3$ Schritte:}
-  \begin{enumerate}
-    \item Ersetzen der binären Adjazenzmatrix durch kontinuierliche Message-Passing-Matrix
-    \item Relaxation der Aktivierungsfuntion des GNN
-    \item Formulierung als \textquote{Jointly Constrained Bilinear Program} und Lösung durch Branch-and-Bound
-    \begin{itemize}
-      \item $LB > 0 \rightarrow$ robust
-      \item $UB < 0 \rightarrow$ nicht entscheidbar
-    \end{itemize}
-  \end{enumerate}
-\end{frame}
+%   \textbf{$3$ Schritte:}
+%   \begin{enumerate}
+%     \item Ersetzen der binären Adjazenzmatrix durch kontinuierliche Message-Passing-Matrix
+%     \item Relaxation der Aktivierungsfuntion des GNN
+%     \item Formulierung als \textquote{Jointly Constrained Bilinear Program} und Lösung durch Branch-and-Bound
+%     \begin{itemize}
+%       \item $LB > 0 \rightarrow$ robust
+%       \item $UB < 0 \rightarrow$ nicht entscheidbar
+%     \end{itemize}
+%   \end{enumerate}
+% \end{frame}
 
 \begin{frame}
   \frametitle{Ergebnis}
