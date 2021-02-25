@@ -276,7 +276,7 @@
     \includegraphics[width=0.575\textwidth]{img/graph.png}
     \caption*{Graph basierend auf Scarselli et al. \cite{Liu_2020}}
   \end{figure}
-  \textbf{Ziel}: Lerne Node Embedding $\boldsymbol{h_v}$ für jeden Knoten $\boldsymbol{v} \in \boldsymbol{X}$ um 
+  \textbf{Ziel}: Lerne \textquote{Node Embedding} $\boldsymbol{h_v}$ für jeden Knoten $\boldsymbol{v} \in \boldsymbol{X}$ um 
   einen Output $\boldsymbol{o_v}$ zu generieren, z.B. das vorhergesagte Label
 \end{frame}
 
@@ -295,8 +295,8 @@
 
   \textbf{Lernmethode}: Gradient Descent
   \begin{itemize}
-    \item Iteratives State-Update: $H^{t+1} = F(H^t, X)$
-    \item Gradient der Gewichte $W$ wird basierend auf Loss berechnet
+    \item Iteratives Update: $H^{t+1} = F(H^t, X)$
+    \item Gradient wird basierend auf dem Loss berechnet
     \item Gewichte $W$ werden basierend auf dem Gradienten adaptiert
   \end{itemize}
 \end{frame}
@@ -311,13 +311,13 @@
     \includegraphics[width=0.75\textwidth]{img/GCN.png}
     \caption*{Multi-Layer GCN \cite{Kipf_2016}}
   \end{figure}
-  \textbf{Anschließend Node Classification basierend auf den Output-Features}
+  \textbf{Anschließend \textquote{Node Classification} basierend auf den Output-Features}
 \end{frame}
 
 \begin{frame}
   \frametitle{Graph Convolutional Networks (GCNs)}
 
-  Standard Convolution kann nicht für Graphen definiert werden!\newline
+  Standard-Convolution kann nicht für Graphen definiert werden!\newline
   \textbf{Lösung}: Embeddings (spectral / spatial)\newline
 
   \textbf{Approximierte \textquote{Graph-Convolution}} (Kipf et al. \cite{Kipf_2016}):\newline
@@ -443,7 +443,7 @@
     \item Kontinuierliche Relaxation der ganzzahligen Knotenattribute
   \end{itemize}
 
-  $\rightarrow$ Effizient berechenbare Schranken für den Worst-Case-Margin\newline
+  $\rightarrow$ Effizient berechenbare Schranken für den \textquote{Worst-Case-Margin}\newline
   $\rightarrow$ Ggf. \textquote{false negatives}, jedoch keine \textquote{false positives}
 \end{frame}
 
@@ -465,7 +465,7 @@
   \end{itemize}  
 
   $\rightarrow$ \textbf{Mit Standardsoftware robuste GNNs trainieren}\newline
-  $\rightarrow$ \textbf{Qualität der \textquote{Classification}-Ergebnisse nicht schlechter}
+  $\rightarrow$ \textbf{Qualität der Klassifizierungsergebnisse nicht schlechter}
 \end{frame}
 
 \begin{frame}
@@ -503,9 +503,9 @@
   \textbf{Einfügen neuer Kanten kann die Vorhersagen des Modells ändern!}
 
   \textbf{Ziel:} Ein Zertifikat bedeutet, dass sich die Vorhersage für einen Knoten
-  nicht ändert, wenn ein Angreifer Kanten hinzufügt.
+  nicht ändert, wenn ein Angreifer Kanten hinzufügt
 
-  \textbf{Idee:} Prüfe, ob es einen Graphen gibt, der durch Entfernen von Kanten erreichbar ist und die Vorhersage ändert.
+  \textbf{Idee:} Prüfe, ob es einen Graphen gibt, der durch Entfernen von Kanten erreichbar ist und die Vorhersage ändert
 
   \textbf{Angriffsmodell:} Praktisch unmöglich, alle Graphen zu enumerieren $\rightarrow$ Limitiere Anzahl an \textquote{Adversarial Edges}  
 \end{frame}
@@ -514,8 +514,8 @@
   \frametitle{Optimierungsproblem}
   \begin{itemize}
     \item Bereits trainiertes GNN mit Parametern $\boldsymbol{\theta}$
-    \item Input-Graph repräsentiert durch Matrix $\boldsymbol{A}$ möglicherweise manipuliert
-    \item $\boldsymbol{A}$ ist von der \textquote{sauberen} Variante $\boldsymbol{A^{\ast}}$ durch eine Menge zulässiger Manipulationen der Graph-Struktur erreichbar
+    \item Input-Graph ($\boldsymbol{A}$) möglicherweise manipuliert
+    \item $\boldsymbol{A}$ ist von der \textquote{sauberen} Variante $\boldsymbol{A^{\ast}}$ durch eine Menge zulässiger Manipulationen erreichbar
   \end{itemize}
   \textbf{Worst-Case-Margin:}
   \begin{gather}
