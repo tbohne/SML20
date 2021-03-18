@@ -1,2 +1,3 @@
-# SML20
-Machine Learning – Selected Topics (Seminar) WS 20/21
+# Machine Learning Seminar 20/21
+
+## Robustness & Graph (Convolutional) Neural Networks
