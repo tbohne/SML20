@@ -5,6 +5,5 @@
 *.out
 *.toc
 *.snm
-*.pdf
 *.nav
 tex_files/main.tex.bak
